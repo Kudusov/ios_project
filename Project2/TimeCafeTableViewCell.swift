@@ -17,6 +17,8 @@ class TimeCafeTableViewCell: UITableViewCell {
     @IBOutlet weak var addressLabel: UILabel!
     @IBOutlet weak var stationLabel: UILabel!
     @IBOutlet weak var priceLabel: UILabel!
+    @IBOutlet var collectionOfFeatureLogos: Array<UIImageView>!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         self.mainImage.layer.cornerRadius = 10
@@ -26,70 +28,92 @@ class TimeCafeTableViewCell: UITableViewCell {
 
         self.ratingLabel.backgroundColor = UIColor.init(displayP3Red: 0.3, green: 0.8, blue: 1, alpha: 1)
         self.ratingLabel.textColor = .black
-        addIconToLabel(label: stationLabel, icon: "kisspng-moscow-metro-rapid-transit-rail-transport-kazan-me-metro-5ac0ae12d624d7.3070506215225769148771")
-        addIconToLabel(label: addressLabel, icon: "icons8-marker-50")
-//        addPlayIcon()
-        // Initialization code
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
-        // Configure the view for the selected state
     }
 
-    func fillCellFromModel(cafe: TimeCafe) {
-//        self.animeImage.image = UIImage(named: titles[id ?? 0].file)
-        self.mainImage.image = UIImage(named: cafe.imageURL)
+    func fillCellFromModel(cafe: TimeCafeJson) {
+//        collectionOfFeatureLogos[0].image = UIImage(named: "ping-pong")
         self.nameLabel.text = cafe.name
-        self.destinationLable.text = String(cafe.distance) + " км от вас"
-        self.priceLabel.text = String(Int(cafe.price)) + " ₽/час"
+        self.destinationLable.text = String(cafe.distance ?? 5.0) + " км от вас"
+        var price_type = " ₽/час"
+        if (cafe.price_type == 1) {
+            price_type = " ₽/мин"
+        }
+
+        var price = String(Int(cafe.price))
+        if (cafe.price.truncatingRemainder(dividingBy: 1.0) > 0.001) {
+            price = String(cafe.price)
+        }
+
+        self.priceLabel.text = price + price_type
         self.ratingLabel.text = String(cafe.rating)
         self.addressLabel.text = cafe.address
         self.stationLabel.text = cafe.station
-        addIconToLabel(label: stationLabel, icon: "kisspng-moscow-metro-rapid-transit-rail-transport-kazan-me-metro-5ac0ae12d624d7.3070506215225769148771")
-        addIconToLabel(label: addressLabel, icon: "icons8-marker-50")
+        addIconToLabel(label: stationLabel, icon: "metro_logo")
+        addIconToLabel(label: addressLabel, icon: "location_logo")
+
+        setUpFeatureLogos(features: cafe.features ?? [])
     }
 
+    func getFeatureLogoPath(featureType: FeatureType) -> String? {
+        switch featureType {
+        case .playstation:
+            return "gamepad"
+        case .ping_pong:
+            return "ping-pong"
+        case .musical_instrument:
+            return "acoustic-guitar"
+        case .rooms:
+            return "rooms"
+        case .board_games:
+            return "board-games"
+        case .hookah:
+            return "hookah"
+        default:
+            return nil
+        }
+    }
+    func setUpFeatureLogos(features: [Feature]) {
+
+        var feature_count = 0
+        for feature in featureOrder {
+            if feature_count == collectionOfFeatureLogos.count {
+                break
+            }
+            if features.contains(where: {$0.feature==feature.feature}) {
+
+                guard let path = getFeatureLogoPath(featureType: feature.feature) else {
+                    continue
+                }
+                collectionOfFeatureLogos[feature_count].image = UIImage(named: path)
+                feature_count += 1
+            }
+        }
+
+        if feature_count != collectionOfFeatureLogos.count {
+            for i in feature_count...(collectionOfFeatureLogos.count - 1) {
+                collectionOfFeatureLogos[i].isHidden = true
+            }
+        }
+
+    }
     func addIconToLabel(label: UILabel, icon: String){
         let imageAttachment =  NSTextAttachment()
         imageAttachment.image = UIImage(named:icon)
 
-        //Set bound to reposition
         let imageOffsetY:CGFloat = -5.0;
         imageAttachment.bounds = CGRect(x: 0, y: imageOffsetY, width: 20, height: 18)
-        //Create string with attachment
         let attachmentString = NSAttributedString(attachment: imageAttachment)
-        //Initialize mutable string
         let completeText = NSMutableAttributedString(string: "")
-        //Add image to mutable string
         completeText.append(attachmentString)
-        //Add your text to mutable string
         let  textAfterIcon = NSMutableAttributedString(string: label.text ?? "")
         completeText.append(textAfterIcon)
-//        label.textAlignment = .center
         label.attributedText = completeText;
 
-    }
-
-    func addSomth() {
-
-        //Create Attachment
-        let imageAttachment =  NSTextAttachment()
-        imageAttachment.image = UIImage(named:"icons8-marker-50")
-
-        //Set bound to reposition
-        let imageOffsetY:CGFloat = -5.0;
-        imageAttachment.bounds = CGRect(x: 0, y: imageOffsetY, width: 20, height: 20)
-        //Create string with attachment
-        let attachmentString = NSAttributedString(attachment: imageAttachment)
-        //Initialize mutable string
-        let completeText = NSMutableAttributedString(string: "")
-        //Add image to mutable string
-        completeText.append(attachmentString)
-        //Add your text to mutable string
-        let  textAfterIcon = NSMutableAttributedString(string: "Измайловский пр-т 75а")
-        completeText.append(textAfterIcon)
     }
     
 }

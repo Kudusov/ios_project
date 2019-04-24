@@ -140,8 +140,13 @@
                 <outlet property="priceLabel" destination="H2m-KU-bg6" id="2UU-hf-CMg"/>
                 <outlet property="ratingLabel" destination="JXE-aO-DGQ" id="3sB-Bt-hYB"/>
                 <outlet property="stationLabel" destination="N6Q-28-zO0" id="3MQ-YQ-YhN"/>
+                <outletCollection property="collectionOfFeatureLogos" destination="07U-di-f0p" collectionClass="NSMutableArray" id="34L-HE-Rq9"/>
+                <outletCollection property="collectionOfFeatureLogos" destination="pkb-fv-OO9" collectionClass="NSMutableArray" id="tBW-p8-TTS"/>
+                <outletCollection property="collectionOfFeatureLogos" destination="IUb-Za-fe8" collectionClass="NSMutableArray" id="PG5-3N-Kml"/>
+                <outletCollection property="collectionOfFeatureLogos" destination="pJz-Qc-IRH" collectionClass="NSMutableArray" id="ICy-9Y-33r"/>
+                <outletCollection property="collectionOfFeatureLogos" destination="deF-6K-AKC" collectionClass="NSMutableArray" id="VfF-pR-Rdc"/>
             </connections>
-            <point key="canvasLocation" x="205.59999999999999" y="188.00599700149925"/>
+            <point key="canvasLocation" x="-303.19999999999999" y="154.72263868065968"/>
         </tableViewCell>
     </objects>
     <resources>

@@ -7,25 +7,76 @@
 //
 
 import UIKit
+import SDWebImage
 
+var baseUrl: String = "http://localhost:5000"
 class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     @IBOutlet weak var tableView: UITableView!
+    private var all_cafes: [TimeCafeJson] = []
+    let cellIdentifier = "TimeCafeTableViewCell"
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.register(UINib.init(nibName: "TimeCafeTableViewCell", bundle: nil), forCellReuseIdentifier: "TimeCafeTableViewCell")
-        // Do any additional setup after loading the view, typically from a nib.
+        tableView.register(UINib.init(nibName: cellIdentifier, bundle: nil), forCellReuseIdentifier: cellIdentifier)
+        uploadCafes()
+    }
+
+    private func uploadCafes() {
+        let session = URLSession.shared
+        session.dataTask(with: URL(string: baseUrl + "/api/cafes/")!) { (data, response, error) in
+            guard let data = data else {
+                print("no data, error: \(error?.localizedDescription ?? "unknown error")")
+
+                return
+            }
+
+            let decoder = JSONDecoder()
+            guard let timecafes: [TimeCafeJson] = try? decoder.decode([TimeCafeJson].self, from: data) else {
+                print("error")
+
+                return
+            }
+
+            DispatchQueue.main.async { [weak self] in
+                self?.all_cafes = timecafes
+                self?.tableView.reloadData()
+            }
+
+        }.resume()
+ 
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return cafes.count
+        return all_cafes.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "TimeCafeTableViewCell", for: indexPath) as! TimeCafeTableViewCell
-        cell.fillCellFromModel(cafe: cafes[indexPath.row])
+        let wrapped_cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath)
+        guard let cell = wrapped_cell as? TimeCafeTableViewCell else {
+            return wrapped_cell
+        }
+        cell.fillCellFromModel(cafe: all_cafes[indexPath.row])
+//        for feature in all_cafes[indexPath.row].features ?? [] {
+//            if feature.feature == FeatureType.rooms {
+//                print(feature)
+//            }
+//        }
+        let session = URLSession(configuration: URLSessionConfiguration.default)
+        let url = URL(string: baseUrl + all_cafes[indexPath.row].main_image_url)!
+        session.dataTask(with: url) { [weak cell] data, res, err in
+            guard err == nil else {
+                return
+            }
+            guard let data = data, let image = UIImage(data: data) else {
+                return
+            }
+            DispatchQueue.main.async {
+                cell?.mainImage?.image = image
+
+            }
+            }.resume()
         return cell
     }
 
