@@ -1,0 +1,4 @@
+Podfile
+flask-server/venv
+flask-server/flaskr/__pycache__
+*.DS_Store
