@@ -58,32 +58,28 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             return wrapped_cell
         }
         cell.fillCellFromModel(cafe: all_cafes[indexPath.row])
-//        for feature in all_cafes[indexPath.row].features ?? [] {
-//            if feature.feature == FeatureType.rooms {
-//                print(feature)
-//            }
-//        }
-        let session = URLSession(configuration: URLSessionConfiguration.default)
-        let url = URL(string: baseUrl + all_cafes[indexPath.row].main_image_url)!
-        session.dataTask(with: url) { [weak cell] data, res, err in
-            guard err == nil else {
-                return
-            }
-            guard let data = data, let image = UIImage(data: data) else {
-                return
-            }
-            DispatchQueue.main.async {
-                cell?.mainImage?.image = image
 
-            }
-            }.resume()
+        let url = URL(string: baseUrl + all_cafes[indexPath.row].main_image_url)!
+
+        cell.mainImage.sd_setImage(with: url, completed: nil)
+//        let session = URLSession(configuration: URLSessionConfiguration.default)
+//        session.dataTask(with: url) { [weak cell] data, res, err in
+//            guard err == nil else {
+//                return
+//            }
+//            guard let data = data, let image = UIImage(data: data) else {
+//                return
+//            }
+//            DispatchQueue.main.async {
+//                cell?.mainImage?.image = image
+//
+//            }
+//            }.resume()
         return cell
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 140
     }
-
-
 }
 

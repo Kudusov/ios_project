@@ -7,7 +7,7 @@
 //
 
 import Foundation
-
+// associated value 
 enum FeatureType: String, Codable {
     case playstation = "playstation"
     case board_games = "board_games"
@@ -16,7 +16,6 @@ enum FeatureType: String, Codable {
     case hookah = "hookah"
     case musical_instrument = "musical_instrument"
 };
-
 
 
 struct Feature: Codable {

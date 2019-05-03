@@ -36,7 +36,6 @@ class TimeCafeTableViewCell: UITableViewCell {
     }
 
     func fillCellFromModel(cafe: TimeCafeJson) {
-//        collectionOfFeatureLogos[0].image = UIImage(named: "ping-pong")
         self.nameLabel.text = cafe.name
         self.destinationLable.text = String(cafe.distance ?? 5.0) + " км от вас"
         var price_type = " ₽/час"
