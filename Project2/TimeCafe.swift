@@ -30,9 +30,9 @@ struct TimeCafeJson: Codable {
     let main_image_url: String
     let name: String
     let rating: Float
-    let latitude: Float
-    let longtitude: Float
-    let distance: Float?
+    let latitude: Double
+    let longtitude: Double
+    let distance: Double?
     let price: Float
     let price_type: Int
     let address: String

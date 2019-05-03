@@ -86,7 +86,6 @@
 				71B45E303A815124C67B92E1 /* Pods-Project2.debug.xcconfig */,
 				A476B8FC0A572A8A2455C437 /* Pods-Project2.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};

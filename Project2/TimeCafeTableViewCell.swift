@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreLocation
 
 class TimeCafeTableViewCell: UITableViewCell {
 
@@ -35,13 +36,31 @@ class TimeCafeTableViewCell: UITableViewCell {
 
     }
 
-    func fillCellFromModel(cafe: TimeCafeJson) {
+    func fillCellFromModel(cafe: TimeCafeJson, currentLocation: CLLocation) {
         self.nameLabel.text = cafe.name
         self.destinationLable.text = String(cafe.distance ?? 5.0) + " км от вас"
+        let cafeLocation = CLLocation(latitude: cafe.latitude, longitude: cafe.longtitude)
+        let distance: Double = currentLocation.distance(from: cafeLocation)
         var price_type = " ₽/час"
         if (cafe.price_type == 1) {
             price_type = " ₽/мин"
         }
+        print(cafeLocation)
+        print(currentLocation)
+        print("distance")
+        print(distance)
+
+        var destinationType = " км"
+        var destination = String(format: "%.1f", distance / 1000.0)
+        if (distance > 10000) {
+            destination = String(format: "%.0f", distance / 1000.0)
+        }
+        if (distance < 1000) {
+            destination = String(format: "%.0f", floor(distance))
+            destinationType = " м"
+        }
+
+        self.destinationLable.text = "~" + destination + destinationType
 
         var price = String(Int(cafe.price))
         if (cafe.price.truncatingRemainder(dividingBy: 1.0) > 0.001) {
