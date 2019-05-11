@@ -1,0 +1,46 @@
+//
+//  LocationManager.swift
+//  Project2
+//
+//  Created by Kudusov Mahmud on 5/12/19.
+//  Copyright © 2019 Mahmud. All rights reserved.
+//
+
+import UIKit
+import CoreLocation
+
+class LocationManager: NSObject,  CLLocationManagerDelegate {
+
+    typealias MethodHandler1 = (_ location: CLLocation) -> Void;
+    let manager = CLLocationManager()
+    var currentLocation: CLLocation = CLLocation(latitude: +55.75578600, longitude: +37.61763300)
+    let handler: MethodHandler1
+    init(handler: @escaping MethodHandler1) {
+        self.handler = handler
+        super.init()
+        manager.requestWhenInUseAuthorization()
+        manager.distanceFilter = 100
+        if CLLocationManager.locationServicesEnabled() {
+            manager.delegate = self
+            manager.desiredAccuracy = kCLLocationAccuracyHundredMeters
+            manager.startUpdatingLocation()
+        }
+    }
+
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        if let location = locations.first {
+            self.currentLocation = location
+            print("Found user's location: \(location)")
+            self.handler(currentLocation)
+        }
+    }
+
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print("Failed to find user's location: \(error.localizedDescription)")
+    }
+
+    func getCurrentLocation() -> CLLocation {
+        return self.currentLocation
+    }
+
+}
