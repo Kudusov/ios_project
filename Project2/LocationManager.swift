@@ -15,14 +15,22 @@ class LocationManager: NSObject,  CLLocationManagerDelegate {
     let manager = CLLocationManager()
     var currentLocation: CLLocation = CLLocation(latitude: +55.75578600, longitude: +37.61763300)
     let handler: MethodHandler1
-    init(handler: @escaping MethodHandler1) {
+
+
+
+    init(handler: @escaping MethodHandler1, distanceFilter: Int = 100) {
         self.handler = handler
         super.init()
         manager.requestWhenInUseAuthorization()
-        manager.distanceFilter = 100
+        manager.distanceFilter = CLLocationDistance(distanceFilter)
+
         if CLLocationManager.locationServicesEnabled() {
             manager.delegate = self
-            manager.desiredAccuracy = kCLLocationAccuracyHundredMeters
+            if (distanceFilter == 100) {
+                manager.desiredAccuracy = kCLLocationAccuracyHundredMeters
+            } else {
+                manager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
+            }
             manager.startUpdatingLocation()
         }
     }

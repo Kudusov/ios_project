@@ -7,7 +7,8 @@
 //
 
 import UIKit
-import SDWebImage
+//import SDWebImage
+
 import CoreLocation
 var baseUrl: String = "http://localhost:5000"
 class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
@@ -15,7 +16,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     @IBOutlet weak var tableView: UITableView!
     private var all_cafes: [TimeCafeJson] = []
     let cellIdentifier = "TimeCafeTableViewCell"
-    let manager = CLLocationManager()
+//    let manager = CLLocationManager()
     var newManager = LocationManager(handler: {(location: CLLocation) -> Void in })
     // Координаты центра Москвы
     var currentLocation: CLLocation = CLLocation(latitude: +55.75578600, longitude: +37.61763300)
@@ -32,7 +33,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         uploadCafes()
     }
 
-
+    // TODO: Повторяющаяся функция в двух контроллерах. Выделить в отдельный класс
     private func uploadCafes() {
         let session = URLSession.shared
         session.dataTask(with: URL(string: baseUrl + "/api/cafes/")!) { (data, response, error) in

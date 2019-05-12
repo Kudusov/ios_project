@@ -31,6 +31,10 @@ class TimeCafeTableViewCell: UITableViewCell {
         self.ratingLabel.textColor = .black
     }
 
+    class func instanceFromNib() -> UIView {
+        return UINib(nibName: "MapInfoWindowView", bundle: nil).instantiate(withOwner: self, options: nil).first as! UIView
+    }
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 

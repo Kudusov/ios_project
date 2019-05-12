@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		04446C64228774EB00018809 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04446C63228774EB00018809 /* LocationManager.swift */; };
+		04446C6622878CD900018809 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04446C6522878CD900018809 /* SearchViewController.swift */; };
 		04B28CEA226CDEF8005CB922 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B28CE9226CDEF8005CB922 /* AppDelegate.swift */; };
 		04B28CEC226CDEF8005CB922 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B28CEB226CDEF8005CB922 /* ViewController.swift */; };
 		04B28CEF226CDEF8005CB922 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 04B28CED226CDEF8005CB922 /* Main.storyboard */; };
@@ -16,11 +17,14 @@
 		04B28D05226CE1F4005CB922 /* TimeCafeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B28D03226CE1F4005CB922 /* TimeCafeTableViewCell.swift */; };
 		04B28D06226CE1F4005CB922 /* TimeCafeTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04B28D04226CE1F4005CB922 /* TimeCafeTableViewCell.xib */; };
 		04B28D08226D137E005CB922 /* TimeCafe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B28D07226D137E005CB922 /* TimeCafe.swift */; };
-		D4A6EBAF2DB9D479FCDF079D /* Pods_Project2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A29D775282B42DF14128774 /* Pods_Project2.framework */; };
+		07531C7324BEFFDB240CB4BF /* libPods-Project2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0148033AB35D30E7580E9AB4 /* libPods-Project2.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0148033AB35D30E7580E9AB4 /* libPods-Project2.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Project2.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		0401AC902287AA50009FE8D8 /* Project2-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Project2-Bridging-Header.h"; sourceTree = "<group>"; };
 		04446C63228774EB00018809 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
+		04446C6522878CD900018809 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		04B28CE6226CDEF8005CB922 /* Project2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Project2.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		04B28CE9226CDEF8005CB922 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		04B28CEB226CDEF8005CB922 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -31,7 +35,6 @@
 		04B28D03226CE1F4005CB922 /* TimeCafeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeCafeTableViewCell.swift; sourceTree = "<group>"; };
 		04B28D04226CE1F4005CB922 /* TimeCafeTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TimeCafeTableViewCell.xib; sourceTree = "<group>"; };
 		04B28D07226D137E005CB922 /* TimeCafe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeCafe.swift; sourceTree = "<group>"; };
-		3A29D775282B42DF14128774 /* Pods_Project2.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Project2.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		71B45E303A815124C67B92E1 /* Pods-Project2.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Project2.debug.xcconfig"; path = "Target Support Files/Pods-Project2/Pods-Project2.debug.xcconfig"; sourceTree = "<group>"; };
 		A476B8FC0A572A8A2455C437 /* Pods-Project2.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Project2.release.xcconfig"; path = "Target Support Files/Pods-Project2/Pods-Project2.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -41,7 +44,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D4A6EBAF2DB9D479FCDF079D /* Pods_Project2.framework in Frameworks */,
+				07531C7324BEFFDB240CB4BF /* libPods-Project2.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -79,6 +82,8 @@
 				04B28D04226CE1F4005CB922 /* TimeCafeTableViewCell.xib */,
 				04B28D07226D137E005CB922 /* TimeCafe.swift */,
 				04446C63228774EB00018809 /* LocationManager.swift */,
+				04446C6522878CD900018809 /* SearchViewController.swift */,
+				0401AC902287AA50009FE8D8 /* Project2-Bridging-Header.h */,
 			);
 			path = Project2;
 			sourceTree = "<group>";
@@ -95,7 +100,7 @@
 		DE717BC5F3EDF4218EF7C32A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				3A29D775282B42DF14128774 /* Pods_Project2.framework */,
+				0148033AB35D30E7580E9AB4 /* libPods-Project2.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -111,7 +116,7 @@
 				04B28CE2226CDEF8005CB922 /* Sources */,
 				04B28CE3226CDEF8005CB922 /* Frameworks */,
 				04B28CE4226CDEF8005CB922 /* Resources */,
-				2E9618A2AC6188001B4139BC /* [CP] Embed Pods Frameworks */,
+				A09382CFE4ABF7AAF749CE23 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -134,6 +139,7 @@
 				TargetAttributes = {
 					04B28CE5226CDEF8005CB922 = {
 						CreatedOnToolsVersion = 10.0;
+						LastSwiftMigration = 1000;
 					};
 				};
 			};
@@ -170,28 +176,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		2E9618A2AC6188001B4139BC /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Project2/Pods-Project2-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Project2/Pods-Project2-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		9D0B797DB8E8286BCBAFCD59 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -214,6 +198,30 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		A09382CFE4ABF7AAF749CE23 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Project2/Pods-Project2-resources.sh",
+				"${PODS_ROOT}/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Resources/GoogleMaps.bundle",
+				"${PODS_ROOT}/GooglePlaces/Frameworks/GooglePlaces.framework/Resources/GooglePlaces.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleMaps.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GooglePlaces.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Project2/Pods-Project2-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -221,6 +229,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				04446C6622878CD900018809 /* SearchViewController.swift in Sources */,
 				04B28D05226CE1F4005CB922 /* TimeCafeTableViewCell.swift in Sources */,
 				04B28CEC226CDEF8005CB922 /* ViewController.swift in Sources */,
 				04446C64228774EB00018809 /* LocationManager.swift in Sources */,
@@ -372,6 +381,7 @@
 			baseConfigurationReference = 71B45E303A815124C67B92E1 /* Pods-Project2.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Z93T4NM54V;
 				INFOPLIST_FILE = Project2/Info.plist;
@@ -381,6 +391,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = Mahmud.Project2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Project2/Project2-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -391,6 +403,7 @@
 			baseConfigurationReference = A476B8FC0A572A8A2455C437 /* Pods-Project2.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Z93T4NM54V;
 				INFOPLIST_FILE = Project2/Info.plist;
@@ -400,6 +413,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = Mahmud.Project2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Project2/Project2-Bridging-Header.h";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
