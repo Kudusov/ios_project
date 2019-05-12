@@ -62,14 +62,19 @@ class SearchViewController: UIViewController, GMUClusterManagerDelegate, GMSMapV
     func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
         if let poiItem = marker.userData as? POIItem {
 //            print("Did tap marker for cluster item \(poiItem.name)")
+            timeCafeMapInfoLauncher.closeSettings()
             timeCafeMapInfoLauncher.showSettings(timeCafeInfo: self.all_cafes[Int(poiItem.name) ?? 0])
         } else {
+            timeCafeMapInfoLauncher.closeSettings()
             print("Did tap a normal marker")
         }
 
         return false
     }
 
+    func mapView(_ mapView: GMSMapView, didTapAt coordinate: CLLocationCoordinate2D) {
+        timeCafeMapInfoLauncher.closeSettings()
+    }
     func updateTableAfterLocationChanging(_ location: CLLocation) -> Void {
         self.currentLocation = location
         print("update map")
@@ -140,7 +145,7 @@ class TimeCafeMapInfoLauncher: NSObject {
         return view
      }()
 
-    var myView = MyView(frame: CGRect(x: 40, y: 40, width: 350, height: 200))
+    var myView = MyView(frame: CGRect(x: 40, y: 40, width: 350, height: 300))
 
     func showSettings(timeCafeInfo: TimeCafeJson) {
         if let window = UIApplication.shared.keyWindow {
@@ -148,13 +153,18 @@ class TimeCafeMapInfoLauncher: NSObject {
             myView.nameLabel.text = timeCafeInfo.name
             myView.nameLabel.textColor = .black
             myView.distanceLabel.text = "~10 km"
-            myView.ratingLabel.text = "4.7"
+            myView.ratingLabel.text = "Рейтинг 4.7 из 5"
             myView.stationLabel.text = timeCafeInfo.station
             myView.addressLabel.text = timeCafeInfo.address
             myView.timeLabel.text = "10:00 - 22:00"
             myView.phoneNumber.text = timeCafeInfo.phone_number
             window.addSubview(myView)
-            let height: CGFloat = 200
+            myView.addFeatureIcon(feature: FeatureType.playstation)
+            myView.addFeatureIcon(feature: FeatureType.board_games)
+            myView.addFeatureIcon(feature: FeatureType.rooms)
+            myView.addFeatureIcon(feature: FeatureType.musical_instrument)
+            myView.addFeatureIcon(feature: FeatureType.hookah)
+            let height: CGFloat = 300
             let y = window.frame.height - height
             myView.frame = CGRect(x: 0, y: window.frame.height, width: window.frame.width, height: height)
 
@@ -198,6 +208,16 @@ class TimeCafeMapInfoLauncher: NSObject {
 
             }, completion: nil)
         }
+    }
+
+    func closeSettings() {
+        UIView.animate(withDuration: 0.5) {
+
+            if let window = UIApplication.shared.keyWindow {
+                self.myView.frame = CGRect(x: 0, y: window.frame.height, width: self.myView.frame.width, height: self.myView.frame.height)
+            }
+        }
+        myView = MyView(frame: CGRect(x: 40, y: 40, width: 350, height: 300))
     }
 
     @objc func handleDismiss() {
