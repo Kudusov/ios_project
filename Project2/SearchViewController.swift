@@ -58,11 +58,11 @@ class SearchViewController: UIViewController, GMUClusterManagerDelegate, GMSMapV
         return false
     }
 
-    let settings = SettingsLauncher()
+    let timeCafeMapInfoLauncher = TimeCafeMapInfoLauncher()
     func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
         if let poiItem = marker.userData as? POIItem {
-            print("Did tap marker for cluster item \(poiItem.name)")
-            settings.showSettings()
+//            print("Did tap marker for cluster item \(poiItem.name)")
+            timeCafeMapInfoLauncher.showSettings(timeCafeInfo: self.all_cafes[Int(poiItem.name) ?? 0])
         } else {
             print("Did tap a normal marker")
         }
@@ -103,8 +103,9 @@ class SearchViewController: UIViewController, GMUClusterManagerDelegate, GMSMapV
 
     private func generateClusterItems() {
 
-        for cafe in all_cafes{
-            let item = POIItem(position: CLLocationCoordinate2DMake(cafe.latitude, cafe.longtitude), name: String(cafe.id))
+
+        for (id, cafe) in all_cafes.enumerated(){
+            let item = POIItem(position: CLLocationCoordinate2DMake(cafe.latitude, cafe.longtitude), name: String(id))
             clusterManager.add(item)
 
         }
@@ -117,84 +118,13 @@ class SearchViewController: UIViewController, GMUClusterManagerDelegate, GMSMapV
         self.currentLocationMarker.position.longitude = currentLocation.coordinate.longitude
     }
 
-    func next() {
-        print("\n\n        next func called            \n\n")
-        let nextLocation = CLLocationCoordinate2D(latitude: 37.792871, longitude: -122.397055)
-        mapView?.animate(to: GMSCameraPosition.camera(withLatitude: nextLocation.latitude, longitude: nextLocation.longitude, zoom: 12))
-
-        let marker = GMSMarker(position: CLLocationCoordinate2D(latitude: nextLocation.latitude, longitude: nextLocation.longitude))
-        marker.title = "SFO Airport"
-        marker.snippet = "Some snippet hahahah"
-        marker.map = mapView
-
-    }
-
 
 }
 
 
-class MyView: UIView {
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        setupViews()
-    }
-
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-
-    func setupViews() {
-        self.addSubview(nameLabel)
-        self.addSubview(distanceLabel)
-        self.addSubview(ratingLabel)
-        self.addSubview(addressLabel)
-        self.addSubview(stationLabel)
-        self.addSubview(timeLabel)
-        self.addSubview(priceLabel)
-    }
-
-    var nameLabel: UILabel = {
-        let label = UILabel()
-        return label
-    }()
-
-    var distanceLabel: UILabel = {
-        let label = UILabel()
-        return label
-    }()
-
-    var ratingLabel: UILabel = {
-        let label = UILabel()
-        return label
-    }()
-
-    var addressLabel: UILabel = {
-        let label = UILabel()
-        return label
-    }()
-
-    var stationLabel: UILabel = {
-        let label = UILabel()
-        return label
-    }()
 
 
-    var timeLabel: UILabel = {
-        let label = UILabel()
-        return label
-    }()
-
-    var phoneNumber: UILabel = {
-        let label = UILabel()
-        return label
-    }()
-
-    var priceLabel: UILabel = {
-        let label = UILabel()
-        return label
-    }()
-}
-class SettingsLauncher: NSObject {
+class TimeCafeMapInfoLauncher: NSObject {
 
     let blackView = UIView()
 
@@ -210,25 +140,35 @@ class SettingsLauncher: NSObject {
         return view
      }()
 
-    var nameLabel: UILabel = {
-        let label = UILabel()
-        return label
-    }()
+    var myView = MyView(frame: CGRect(x: 40, y: 40, width: 350, height: 200))
 
-    var distanceLabel: UILabel = {
-        let label = UILabel()
-        return label
-    }()
+    func showSettings(timeCafeInfo: TimeCafeJson) {
+        if let window = UIApplication.shared.keyWindow {
+            myView.backgroundColor = .white
+            myView.nameLabel.text = timeCafeInfo.name
+            myView.nameLabel.textColor = .black
+            myView.distanceLabel.text = "~10 km"
+            myView.ratingLabel.text = "4.7"
+            myView.stationLabel.text = timeCafeInfo.station
+            myView.addressLabel.text = timeCafeInfo.address
+            myView.timeLabel.text = "10:00 - 22:00"
+            myView.phoneNumber.text = timeCafeInfo.phone_number
+            window.addSubview(myView)
+            let height: CGFloat = 200
+            let y = window.frame.height - height
+            myView.frame = CGRect(x: 0, y: window.frame.height, width: window.frame.width, height: height)
 
-    var ratingLabel: UILabel = {
-        let label = UILabel()
-        return label
-    }()
+            UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+                self.myView.frame = CGRect(x: 0, y: y, width: self.myView.frame.width, height: self.myView.frame.height)
+
+            }, completion: nil)
+
+        }
+    }
 
 
-    func showSettings() {
+    func showSettings2() {
         //show menu
-
         if let window = UIApplication.shared.keyWindow {
 
             blackView.backgroundColor = UIColor(white: 0, alpha: 0.5)
@@ -237,6 +177,7 @@ class SettingsLauncher: NSObject {
 
             window.addSubview(blackView)
 
+//            myView.backgroundColor = .white
             window.addSubview(collectionView)
             let swipeUp = UISwipeGestureRecognizer(target: self, action: #selector(handleDismiss2))
             swipeUp.direction = UISwipeGestureRecognizer.Direction.up
@@ -253,7 +194,7 @@ class SettingsLauncher: NSObject {
 
                 self.blackView.alpha = 1
 
-                self.collectionView.frame = CGRect(x: 0, y: y, width: self.collectionView.frame.width, height: self.collectionView.frame.height)
+                self.collectionView.frame = CGRect(x: 0, y: y, width: self.collectionView.frame.width, height: self.myView.frame.height)
 
             }, completion: nil)
         }

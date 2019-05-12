@@ -123,6 +123,7 @@ class TimeCafeTableViewCell: UITableViewCell {
         }
 
     }
+    
     func addIconToLabel(label: UILabel, icon: String){
         let imageAttachment =  NSTextAttachment()
         imageAttachment.image = UIImage(named:icon)
