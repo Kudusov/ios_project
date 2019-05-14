@@ -9,17 +9,8 @@
 import UIKit
 import GoogleMaps
 
-class POIItem: NSObject, GMUClusterItem {
-    var position: CLLocationCoordinate2D
-    var name: String!
 
-    init(position: CLLocationCoordinate2D, name: String) {
-        self.position = position
-        self.name = name
-    }
-}
-
-class SearchViewController: UIViewController, GMUClusterManagerDelegate, GMSMapViewDelegate  {
+class SearchViewController: UIViewController, GMSMapViewDelegate{
 
     private var mapView: GMSMapView?
     private var clusterManager: GMUClusterManager!
@@ -34,39 +25,50 @@ class SearchViewController: UIViewController, GMUClusterManagerDelegate, GMSMapV
         newManager = LocationManager(handler: self.updateTableAfterLocationChanging)
         currentLocation = newManager.getCurrentLocation()
 
+
         let camera = GMSCameraPosition.camera(withLatitude: currentLocation.coordinate.latitude, longitude: currentLocation.coordinate.longitude, zoom: 10)
         mapView = GMSMapView.map(withFrame: CGRect.zero, camera: camera)
         view = mapView
 
-        currentLocationMarker.title = "Yoy are here"
-
-        currentLocationMarker.icon = GMSMarker.markerImage(with: .blue)
+        currentLocationMarker.iconView = getUserLocationView()
         currentLocationMarker.map = mapView
         let iconGenerator = GMUDefaultClusterIconGenerator()
         let algorithm = GMUNonHierarchicalDistanceBasedAlgorithm()
         let renderer = GMUDefaultClusterRenderer(mapView: mapView!, clusterIconGenerator: iconGenerator)
+        renderer.delegate = self
+
         clusterManager = GMUClusterManager(map: mapView!, algorithm: algorithm, renderer: renderer)
         clusterManager.setDelegate(self, mapDelegate: self)
         uploadCafes()
     }
 
-    func clusterManager(_ clusterManager: GMUClusterManager, didTap cluster: GMUCluster) -> Bool {
-        let newCamera = GMSCameraPosition.camera(withTarget: cluster.position,
-                                                 zoom: mapView!.camera.zoom + 1)
-        let update = GMSCameraUpdate.setCamera(newCamera)
-        mapView!.moveCamera(update)
-        return false
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: animated)
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.setNavigationBarHidden(false, animated: animated)
+    }
+
+    private func getUserLocationView() -> UIView {
+        let markerView = CustomTimeCafeMarker(frame: CGRect(x: 0, y: 0, width: 50, height: 60))
+        markerView.imageView.image = UIImage(named: "icons8-current-location2-40")
+        markerView.label.text = "You"
+        markerView.label.alpha = 0
+        return markerView
     }
 
     let timeCafeMapInfoLauncher = TimeCafeMapInfoLauncher()
     func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
-        if let poiItem = marker.userData as? POIItem {
-//            print("Did tap marker for cluster item \(poiItem.name)")
+        if let markerModel = marker.userData as? TimeCafeMarkerModel {
             timeCafeMapInfoLauncher.closeSettings()
-            timeCafeMapInfoLauncher.showSettings(timeCafeInfo: self.all_cafes[Int(poiItem.name) ?? 0])
+//            timeCafeMapInfoLauncher.showSettings2()
+            timeCafeMapInfoLauncher.showSettings(timeCafeInfo: self.all_cafes[markerModel.arrayId], userLocation: currentLocation)
         } else {
             timeCafeMapInfoLauncher.closeSettings()
-            print("Did tap a normal marker")
+//            print("Did tap a normal marker")
         }
 
         return false
@@ -75,9 +77,9 @@ class SearchViewController: UIViewController, GMUClusterManagerDelegate, GMSMapV
     func mapView(_ mapView: GMSMapView, didTapAt coordinate: CLLocationCoordinate2D) {
         timeCafeMapInfoLauncher.closeSettings()
     }
+
     func updateTableAfterLocationChanging(_ location: CLLocation) -> Void {
         self.currentLocation = location
-        print("update map")
         updateCurrentLocation()
     }
 
@@ -110,7 +112,7 @@ class SearchViewController: UIViewController, GMUClusterManagerDelegate, GMSMapV
 
 
         for (id, cafe) in all_cafes.enumerated(){
-            let item = POIItem(position: CLLocationCoordinate2DMake(cafe.latitude, cafe.longtitude), name: String(id))
+            let item = TimeCafeMarkerModel(position: CLLocationCoordinate2DMake(cafe.latitude, cafe.longtitude), name: cafe.name, arrayId: id, id: cafe.id)
             clusterManager.add(item)
 
         }
@@ -124,6 +126,48 @@ class SearchViewController: UIViewController, GMUClusterManagerDelegate, GMSMapV
     }
 
 
+}
+
+extension SearchViewController: GMUClusterManagerDelegate {
+    func clusterManager(_ clusterManager: GMUClusterManager, didTap cluster: GMUCluster) -> Bool {
+        let newCamera = GMSCameraPosition.camera(withTarget: cluster.position,
+                                                 zoom: mapView!.camera.zoom + 1)
+        let update = GMSCameraUpdate.setCamera(newCamera)
+        mapView!.moveCamera(update)
+        return false
+    }
+}
+extension SearchViewController: GMUClusterRendererDelegate {
+    func renderer(_ renderer: GMUClusterRenderer, markerFor object: Any) -> GMSMarker? {
+        let marker = GMSMarker()
+        if let markerModel = object as? TimeCafeMarkerModel {
+            let timecafe = self.all_cafes[markerModel.arrayId]
+            print(timecafe.name)
+            let mark = CustomTimeCafeMarker(frame: CGRect(x: 0, y: 0, width: 100, height: 60))
+            mark.imageView.image = UIImage(named: "coffee")
+            mark.label.text = markerModel.name
+            print(mapView!.camera.zoom)
+            if mapView!.camera.zoom >= 13 {
+                mark.label.alpha = 1
+            } else {
+                mark.label.alpha = 0
+            }
+            marker.iconView = mark
+
+        }
+
+        return marker
+    }
+
+    //    func renderer(_ renderer: GMUClusterRenderer, didRenderMarker marker: GMSMarker) {
+    //        marker.groundAnchor = CGPoint(x: 0.5, y: 1)
+    //        print("hellooo")
+    //        if  let markerData = (marker.userData as? POIItem) {
+    ////            let icon = markerData.imageURL
+    //            marker.icon = UIImage(named: "icons8-current-location2-40")
+    //            marker.iconView = nil
+    //        }
+    //    }
 }
 
 
@@ -145,25 +189,42 @@ class TimeCafeMapInfoLauncher: NSObject {
         return view
      }()
 
+    var anotherView2: UIView = {
+        let view = UIView()
+        view.backgroundColor = .black
+        return view
+    }()
+
     var myView = MyView(frame: CGRect(x: 40, y: 40, width: 350, height: 300))
 
-    func showSettings(timeCafeInfo: TimeCafeJson) {
+    func showSettings(timeCafeInfo: TimeCafeJson, userLocation: CLLocation) {
         if let window = UIApplication.shared.keyWindow {
             myView.backgroundColor = .white
             myView.nameLabel.text = timeCafeInfo.name
             myView.nameLabel.textColor = .black
-            myView.distanceLabel.text = "~10 km"
+            let distance: Double = userLocation.distance(from: CLLocation(latitude: timeCafeInfo.latitude, longitude: timeCafeInfo.longtitude))
+
+            var destinationType = " км"
+            var destination = String(format: "%.1f", distance / 1000.0)
+            if (distance > 10000) {
+                destination = String(format: "%.0f", distance / 1000.0)
+            }
+            if (distance < 1000) {
+                destination = String(format: "%.0f", floor(distance))
+                destinationType = " м"
+            }
+
+            myView.distanceLabel.text = "~" + destination + destinationType
             myView.ratingLabel.text = "Рейтинг 4.7 из 5"
             myView.stationLabel.text = timeCafeInfo.station
             myView.addressLabel.text = timeCafeInfo.address
             myView.timeLabel.text = "10:00 - 22:00"
             myView.phoneNumber.text = timeCafeInfo.phone_number
+            for feature in timeCafeInfo.features ?? [Feature]() {
+                myView.addFeatureIcon(feature: feature.feature)
+            }
             window.addSubview(myView)
-            myView.addFeatureIcon(feature: FeatureType.playstation)
-            myView.addFeatureIcon(feature: FeatureType.board_games)
-            myView.addFeatureIcon(feature: FeatureType.rooms)
-            myView.addFeatureIcon(feature: FeatureType.musical_instrument)
-            myView.addFeatureIcon(feature: FeatureType.hookah)
+
             let height: CGFloat = 300
             let y = window.frame.height - height
             myView.frame = CGRect(x: 0, y: window.frame.height, width: window.frame.width, height: height)
@@ -173,6 +234,9 @@ class TimeCafeMapInfoLauncher: NSObject {
 
             }, completion: nil)
 
+            let swipeDownGesture = UISwipeGestureRecognizer(target: self, action: #selector(swipeDownView))
+            swipeDownGesture.direction = UISwipeGestureRecognizer.Direction.down
+            myView.addGestureRecognizer(swipeDownGesture)
         }
     }
 
@@ -187,12 +251,19 @@ class TimeCafeMapInfoLauncher: NSObject {
 
             window.addSubview(blackView)
 
-//            myView.backgroundColor = .white
             window.addSubview(collectionView)
+            collectionView.addSubview(anotherView)
+            collectionView.addSubview(anotherView2)
+
+            anotherView.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
+//            anotherView2.frame = CGRect(x: 0, y: 0, width: 50, height: 50)
+            anotherView2.translatesAutoresizingMaskIntoConstraints = false
+            anotherView2.topAnchor.constraint(equalTo: anotherView.bottomAnchor, constant: 10).isActive = true
+            anotherView2.widthAnchor.constraint(equalToConstant: 100).isActive = true
+            anotherView2.heightAnchor.constraint(equalToConstant: 1).isActive = true
             let swipeUp = UISwipeGestureRecognizer(target: self, action: #selector(handleDismiss2))
             swipeUp.direction = UISwipeGestureRecognizer.Direction.up
             collectionView.addGestureRecognizer(swipeUp)
-//            collectionView.addGestureRecognizer(UISwipeGestureRecognizer(target: self, action: #selector(handleDismiss2)))
             let height: CGFloat = 200
             let y = window.frame.height - height
             collectionView.frame = CGRect(x: 0, y: window.frame.height, width: window.frame.width, height: height)
@@ -242,7 +313,10 @@ class TimeCafeMapInfoLauncher: NSObject {
         }
     }
 
-    
+    @objc func swipeDownView() {
+        closeSettings()
+    }
+
     override init() {
         super.init()
         //start doing something here maybe....

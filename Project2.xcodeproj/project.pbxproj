@@ -11,6 +11,8 @@
 		04446C6622878CD900018809 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04446C6522878CD900018809 /* SearchViewController.swift */; };
 		0495999822885752000AD6EA /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0495999722885752000AD6EA /* Extensions.swift */; };
 		0495999A22888186000AD6EA /* TimeCafeMapInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0495999922888186000AD6EA /* TimeCafeMapInfo.swift */; };
+		0495999C228A17A8000AD6EA /* CustomTimeCafeMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0495999B228A17A8000AD6EA /* CustomTimeCafeMarker.swift */; };
+		0495999E228A1800000AD6EA /* TimeCafeMarkerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0495999D228A1800000AD6EA /* TimeCafeMarkerModel.swift */; };
 		04B28CEA226CDEF8005CB922 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B28CE9226CDEF8005CB922 /* AppDelegate.swift */; };
 		04B28CEC226CDEF8005CB922 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B28CEB226CDEF8005CB922 /* ViewController.swift */; };
 		04B28CEF226CDEF8005CB922 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 04B28CED226CDEF8005CB922 /* Main.storyboard */; };
@@ -29,6 +31,8 @@
 		04446C6522878CD900018809 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		0495999722885752000AD6EA /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		0495999922888186000AD6EA /* TimeCafeMapInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeCafeMapInfo.swift; sourceTree = "<group>"; };
+		0495999B228A17A8000AD6EA /* CustomTimeCafeMarker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTimeCafeMarker.swift; sourceTree = "<group>"; };
+		0495999D228A1800000AD6EA /* TimeCafeMarkerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeCafeMarkerModel.swift; sourceTree = "<group>"; };
 		04B28CE6226CDEF8005CB922 /* Project2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Project2.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		04B28CE9226CDEF8005CB922 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		04B28CEB226CDEF8005CB922 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -90,6 +94,8 @@
 				0401AC902287AA50009FE8D8 /* Project2-Bridging-Header.h */,
 				0495999722885752000AD6EA /* Extensions.swift */,
 				0495999922888186000AD6EA /* TimeCafeMapInfo.swift */,
+				0495999B228A17A8000AD6EA /* CustomTimeCafeMarker.swift */,
+				0495999D228A1800000AD6EA /* TimeCafeMarkerModel.swift */,
 			);
 			path = Project2;
 			sourceTree = "<group>";
@@ -236,11 +242,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				0495999A22888186000AD6EA /* TimeCafeMapInfo.swift in Sources */,
+				0495999E228A1800000AD6EA /* TimeCafeMarkerModel.swift in Sources */,
 				04446C6622878CD900018809 /* SearchViewController.swift in Sources */,
 				04B28D05226CE1F4005CB922 /* TimeCafeTableViewCell.swift in Sources */,
 				04B28CEC226CDEF8005CB922 /* ViewController.swift in Sources */,
 				04446C64228774EB00018809 /* LocationManager.swift in Sources */,
 				04B28CEA226CDEF8005CB922 /* AppDelegate.swift in Sources */,
+				0495999C228A17A8000AD6EA /* CustomTimeCafeMarker.swift in Sources */,
 				04B28D08226D137E005CB922 /* TimeCafe.swift in Sources */,
 				0495999822885752000AD6EA /* Extensions.swift in Sources */,
 			);

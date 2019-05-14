@@ -9,10 +9,10 @@
 import UIKit
 //import SDWebImage
 
+
 import CoreLocation
 var baseUrl: String = "http://localhost:5000"
 class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
-
     @IBOutlet weak var tableView: UITableView!
     private var all_cafes: [TimeCafeJson] = []
     let cellIdentifier = "TimeCafeTableViewCell"

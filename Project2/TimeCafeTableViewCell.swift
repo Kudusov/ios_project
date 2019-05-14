@@ -40,6 +40,9 @@ class TimeCafeTableViewCell: UITableViewCell {
 
     }
 
+    func CalculateDistance() -> Double {
+        return 1.0
+    }
     func fillCellFromModel(cafe: TimeCafeJson, currentLocation: CLLocation) {
         self.nameLabel.text = cafe.name
         self.destinationLable.text = String(cafe.distance ?? 5.0) + " км от вас"
