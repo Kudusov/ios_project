@@ -27,15 +27,23 @@ class TimeCafeAPI(MethodView):
     def get(self, cafe_id):
         db_con = db.get_db()
         if cafe_id is None:
-            res = db_con.execute("Select t.id, t.name, t.main_image_url, t.rating, t.latitude, t.longtitude, t.address, \
-                                  t.station, t.price, t.price_type, t.website, t.phone_number, group_concat(f.name) as features \
-                                   from timecafe t join timecafe_feature tf on t.id = tf.timecafe_id join feature f on tf.feature_id = f.id group by t.id")
-            
+            # res = db_con.execute("Select t.id, t.name, t.main_image_url, t.rating, t.latitude, t.longtitude, t.address, \
+            #                       t.station, t.price, t.price_type, t.website, t.phone_number, t.working_time, t.extended_price, group_concat(f.name) as features \
+            #                        from timecafe t join timecafe_feature tf on t.id = tf.timecafe_id join feature f on tf.feature_id = f.id group by t.id")
+            res = db_con.execute("Select t.id, t.name, t.main_image_url, t.rating, t.latitude, t.longtitude, t.address,  \
+                                  t.station, t.price, t.price_type, t.website, t.phone_number, group_concat(ti.image_url) as images, t.working_time, t.extended_price, group_concat(f.name) as features \
+                                  from timecafe t join timecafe_image ti on t.id = ti.timecafe_id \
+                                  join timecafe_feature tf on t.id = tf.timecafe_id join feature f on tf.feature_id = f.id     \
+                                  group by t.id")         
             items = [dict(zip([key[0] for key in res.description], [r for r in row])) for row in res]
             for item in items:
                 features_str = item["features"]
                 features = list(set(features_str.split(',')))
                 item["features"] = [{"feature" : feature} for feature in features]
+
+                images_str = item["images"]
+                images = list(set(images_str.split(',')))
+                item["images"] = [{"image": image} for image in images]
 
             resp = make_response(jsonify(items))
 
@@ -44,7 +52,7 @@ class TimeCafeAPI(MethodView):
         else:
             print('hello')
             res = db_con.execute("Select t.id, t.name, t.main_image_url, t.rating, t.latitude, t.longtitude, t.address,  \
-                                  t.station, t.price, t.price_type, t.website, t.phone_number, group_concat(ti.image_url) as images, group_concat(f.name) as features\
+                                  t.station, t.price, t.price_type, t.website, t.phone_number, group_concat(ti.image_url) as images, t.working_time, t.extended_price, group_concat(f.name) as features \
                                   from timecafe t join timecafe_image ti on t.id = ti.timecafe_id \
                                   join timecafe_feature tf on t.id = tf.timecafe_id join feature f on tf.feature_id = f.id     \
                                   where t.id = ? group by t.id", (cafe_id,))
