@@ -12,7 +12,7 @@ import UIKit
 
 import CoreLocation
 var baseUrl: String = "http://localhost:5000"
-class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class TimeCafesTableViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     @IBOutlet weak var tableView: UITableView!
     private var all_cafes: [TimeCafeJson] = []
     let cellIdentifier = "TimeCafeTableViewCell"
@@ -83,6 +83,13 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 140
+    }
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let destinationVC = TimeCafeDetailController()
+        destinationVC.timeCafeJson = all_cafes[indexPath.row]
+        tableView.deselectRow(at: indexPath, animated: false)
+        navigationController?.pushViewController(destinationVC, animated: true)
     }
 
     func updateTable() {

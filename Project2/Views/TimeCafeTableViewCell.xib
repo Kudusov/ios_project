@@ -146,7 +146,7 @@
                 <outletCollection property="collectionOfFeatureLogos" destination="pJz-Qc-IRH" collectionClass="NSMutableArray" id="ICy-9Y-33r"/>
                 <outletCollection property="collectionOfFeatureLogos" destination="deF-6K-AKC" collectionClass="NSMutableArray" id="VfF-pR-Rdc"/>
             </connections>
-            <point key="canvasLocation" x="-303.19999999999999" y="154.72263868065968"/>
+            <point key="canvasLocation" x="-858" y="155"/>
         </tableViewCell>
     </objects>
     <resources>
