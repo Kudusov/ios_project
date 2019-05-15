@@ -25,10 +25,10 @@
             </objects>
             <point key="canvasLocation" x="1335.2" y="570.76461769115451"/>
         </scene>
-        <!--View Controller-->
+        <!--Time Cafes Table View Controller-->
         <scene sceneID="Q26-UZ-Svk">
             <objects>
-                <viewController id="NYM-dT-QUH" customClass="ViewController" customModule="Project2" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="NYM-dT-QUH" customClass="TimeCafesTableViewController" customModule="Project2" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="MFR-Rp-XcU">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

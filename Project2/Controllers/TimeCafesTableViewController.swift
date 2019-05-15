@@ -16,7 +16,6 @@ class TimeCafesTableViewController: UIViewController, UITableViewDataSource, UIT
     @IBOutlet weak var tableView: UITableView!
     private var all_cafes: [TimeCafeJson] = []
     let cellIdentifier = "TimeCafeTableViewCell"
-//    let manager = CLLocationManager()
     var newManager = LocationManager(handler: {(location: CLLocation) -> Void in })
     // Координаты центра Москвы
     var currentLocation: CLLocation = CLLocation(latitude: +55.75578600, longitude: +37.61763300)
@@ -33,6 +32,7 @@ class TimeCafesTableViewController: UIViewController, UITableViewDataSource, UIT
         uploadCafes()
     }
 
+    
     // TODO: Повторяющаяся функция в двух контроллерах. Выделить в отдельный класс
     private func uploadCafes() {
         let session = URLSession.shared

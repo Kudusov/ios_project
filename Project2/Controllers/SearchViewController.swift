@@ -64,11 +64,9 @@ class SearchViewController: UIViewController, GMSMapViewDelegate{
     func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
         if let markerModel = marker.userData as? TimeCafeMarkerModel {
             timeCafeMapInfoLauncher.closeSettings()
-//            timeCafeMapInfoLauncher.showSettings2()
             timeCafeMapInfoLauncher.showSettings(timeCafeInfo: self.all_cafes[markerModel.arrayId], userLocation: currentLocation)
         } else {
             timeCafeMapInfoLauncher.closeSettings()
-//            print("Did tap a normal marker")
         }
 
         return false
@@ -256,7 +254,6 @@ class TimeCafeMapInfoLauncher: NSObject {
             collectionView.addSubview(anotherView2)
 
             anotherView.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
-//            anotherView2.frame = CGRect(x: 0, y: 0, width: 50, height: 50)
             anotherView2.translatesAutoresizingMaskIntoConstraints = false
             anotherView2.topAnchor.constraint(equalTo: anotherView.bottomAnchor, constant: 10).isActive = true
             anotherView2.widthAnchor.constraint(equalToConstant: 100).isActive = true

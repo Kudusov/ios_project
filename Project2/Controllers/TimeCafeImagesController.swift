@@ -13,7 +13,7 @@ class TimeCafeImagesController: UIViewController {
     var timeCafeJson: TimeCafeJson!
     let cellId = "cellId"
     var currentIndex = 0
-    var imagesCount = 10
+    var imagesCount = 0
     let newCollection: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         let collection = UICollectionView(frame: CGRect(x: 0, y: 0, width: 0, height: 0), collectionViewLayout: layout)
@@ -121,5 +121,4 @@ class CustomeImageCell: UICollectionViewCell {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
 }
