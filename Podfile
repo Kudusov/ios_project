@@ -6,6 +6,7 @@
 #  Pod::Installer::Xcode::TargetValidator.send(:define_method, :verify_no_static_framework_transitive_dependencies) {}
 #end
 
+
 source 'https://github.com/CocoaPods/Specs.git'
 
 project 'Project2.xcodeproj'
