@@ -12,7 +12,27 @@ import UIKit
 
 import CoreLocation
 var baseUrl: String = "http://localhost:5000"
+
 class TimeCafesTableViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+
+    var searchbar: UISearchBar = {
+        let bar = UISearchBar()
+        bar.placeholder = "Search"
+        return bar
+    }()
+
+    var filterBtn: UIButton = {
+        let button: UIButton = UIButton(type: UIButton.ButtonType.custom)
+        //set image for button
+        button.setImage(UIImage(named: "icons8-параметры-сортировки-25"), for: UIControl.State.normal)
+
+        //add function for button
+
+        //set frame
+        //button.frame = CGRect(x: 0, y: 0, width: 53, height: 51)
+        return button
+    }()
+
     @IBOutlet weak var tableView: UITableView!
     private var all_cafes: [TimeCafeJson] = []
     let cellIdentifier = "TimeCafeTableViewCell"
@@ -22,21 +42,38 @@ class TimeCafesTableViewController: UIViewController, UITableViewDataSource, UIT
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        searchbar.delegate = self
         newManager = LocationManager(handler: self.updateTableAfterLocationChanging)
         currentLocation = newManager.getCurrentLocation()
 
+        filterBtn.addTarget(self, action: #selector(filterBtnTapHandler(_:)), for: .touchUpInside)
 
+        let barButton = UIBarButtonItem(customView: filterBtn)
+        navigationItem.titleView = searchbar
+        navigationItem.rightBarButtonItem = barButton
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(UINib.init(nibName: cellIdentifier, bundle: nil), forCellReuseIdentifier: cellIdentifier)
         uploadCafes()
     }
 
-    
+    @objc func filterBtnTapHandler(_ sender: UIButton) {
+        print("hello wrold")
+        let destinationVC = FilterViewController(nibName: "FilterViewController", bundle: nil)
+
+        navigationController?.pushViewController(destinationVC, animated: true)
+    }
+
     // TODO: Повторяющаяся функция в двух контроллерах. Выделить в отдельный класс
-    private func uploadCafes() {
+    private func uploadCafes(searchByName: String = "") {
         let session = URLSession.shared
-        session.dataTask(with: URL(string: baseUrl + "/api/cafes/")!) { (data, response, error) in
+        var urlComponents = URLComponents(string: baseUrl + "/api/cafes")!
+        if searchByName != "" {
+            let searchItem = URLQueryItem(name: "search", value: searchByName)
+            urlComponents.queryItems = [searchItem]
+        }
+        let request = URLRequest(url: urlComponents.url!)
+        session.dataTask(with: request) { (data, response, error) in
             guard let data = data else {
                 print("no data, error: \(error?.localizedDescription ?? "unknown error")")
 
@@ -97,3 +134,10 @@ class TimeCafesTableViewController: UIViewController, UITableViewDataSource, UIT
     }
 }
 
+extension TimeCafesTableViewController: UISearchBarDelegate {
+
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        self.uploadCafes(searchByName: searchText)
+//        print("searchBartextDidChange " + searchText)
+    }
+}

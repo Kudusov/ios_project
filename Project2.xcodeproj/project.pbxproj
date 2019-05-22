@@ -11,6 +11,19 @@
 		043EA5CD228C446400A52834 /* TimeCafeDetailRoundedImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043EA5CC228C446400A52834 /* TimeCafeDetailRoundedImageCell.swift */; };
 		04446C64228774EB00018809 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04446C63228774EB00018809 /* LocationManager.swift */; };
 		04446C6622878CD900018809 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04446C6522878CD900018809 /* SearchViewController.swift */; };
+		04606F2F229492EF0078CF82 /* LoginScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04606F29229492EE0078CF82 /* LoginScreenViewController.swift */; };
+		04606F30229492EF0078CF82 /* LoginScreenViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04606F2A229492EE0078CF82 /* LoginScreenViewController.xib */; };
+		04606F31229492EF0078CF82 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04606F2B229492EE0078CF82 /* SignUpViewController.swift */; };
+		04606F33229492EF0078CF82 /* SignUpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04606F2D229492EF0078CF82 /* SignUpViewController.xib */; };
+		04606F3C229493410078CF82 /* ATCTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04606F36229493410078CF82 /* ATCTextField.swift */; };
+		04606F3D229493410078CF82 /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04606F37229493410078CF82 /* UIColor.swift */; };
+		04606F3F229493410078CF82 /* UITextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04606F39229493410078CF82 /* UITextField.swift */; };
+		04606F40229493410078CF82 /* UIButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04606F3A229493410078CF82 /* UIButton.swift */; };
+		04606F41229493410078CF82 /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04606F3B229493410078CF82 /* UIImage.swift */; };
+		04606F43229498AB0078CF82 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04606F42229498AB0078CF82 /* ProfileViewController.swift */; };
+		04606F45229563E30078CF82 /* UIViewControlle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04606F44229563E30078CF82 /* UIViewControlle.swift */; };
+		04606F482295769F0078CF82 /* FilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04606F462295769F0078CF82 /* FilterViewController.swift */; };
+		04606F492295769F0078CF82 /* FilterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04606F472295769F0078CF82 /* FilterViewController.xib */; };
 		0495999822885752000AD6EA /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0495999722885752000AD6EA /* Extensions.swift */; };
 		0495999A22888186000AD6EA /* TimeCafeMapInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0495999922888186000AD6EA /* TimeCafeMapInfo.swift */; };
 		0495999C228A17A8000AD6EA /* CustomTimeCafeMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0495999B228A17A8000AD6EA /* CustomTimeCafeMarker.swift */; };
@@ -35,6 +48,19 @@
 		043EA5CC228C446400A52834 /* TimeCafeDetailRoundedImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeCafeDetailRoundedImageCell.swift; sourceTree = "<group>"; };
 		04446C63228774EB00018809 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		04446C6522878CD900018809 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
+		04606F29229492EE0078CF82 /* LoginScreenViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginScreenViewController.swift; sourceTree = "<group>"; };
+		04606F2A229492EE0078CF82 /* LoginScreenViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginScreenViewController.xib; sourceTree = "<group>"; };
+		04606F2B229492EE0078CF82 /* SignUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
+		04606F2D229492EF0078CF82 /* SignUpViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SignUpViewController.xib; sourceTree = "<group>"; };
+		04606F36229493410078CF82 /* ATCTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ATCTextField.swift; sourceTree = "<group>"; };
+		04606F37229493410078CF82 /* UIColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
+		04606F39229493410078CF82 /* UITextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UITextField.swift; sourceTree = "<group>"; };
+		04606F3A229493410078CF82 /* UIButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIButton.swift; sourceTree = "<group>"; };
+		04606F3B229493410078CF82 /* UIImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImage.swift; sourceTree = "<group>"; };
+		04606F42229498AB0078CF82 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		04606F44229563E30078CF82 /* UIViewControlle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControlle.swift; sourceTree = "<group>"; };
+		04606F462295769F0078CF82 /* FilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterViewController.swift; sourceTree = "<group>"; };
+		04606F472295769F0078CF82 /* FilterViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FilterViewController.xib; sourceTree = "<group>"; };
 		0495999722885752000AD6EA /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		0495999922888186000AD6EA /* TimeCafeMapInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeCafeMapInfo.swift; sourceTree = "<group>"; };
 		0495999B228A17A8000AD6EA /* CustomTimeCafeMarker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTimeCafeMarker.swift; sourceTree = "<group>"; };
@@ -67,6 +93,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		04606F35229493410078CF82 /* Controls */ = {
+			isa = PBXGroup;
+			children = (
+				04606F36229493410078CF82 /* ATCTextField.swift */,
+				04606F37229493410078CF82 /* UIColor.swift */,
+				04606F39229493410078CF82 /* UITextField.swift */,
+				04606F3A229493410078CF82 /* UIButton.swift */,
+				04606F3B229493410078CF82 /* UIImage.swift */,
+				04606F44229563E30078CF82 /* UIViewControlle.swift */,
+			);
+			path = Controls;
+			sourceTree = "<group>";
+		};
 		049599A3228C41D6000AD6EA /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -122,16 +161,24 @@
 		04B28CE8226CDEF8005CB922 /* Project2 */ = {
 			isa = PBXGroup;
 			children = (
+				04606F35229493410078CF82 /* Controls */,
 				049599A5228C41E2000AD6EA /* Controllers */,
 				049599A4228C41DD000AD6EA /* Views */,
 				049599A3228C41D6000AD6EA /* Models */,
 				04B28CE9226CDEF8005CB922 /* AppDelegate.swift */,
+				04606F29229492EE0078CF82 /* LoginScreenViewController.swift */,
+				04606F2A229492EE0078CF82 /* LoginScreenViewController.xib */,
+				04606F2B229492EE0078CF82 /* SignUpViewController.swift */,
+				04606F2D229492EF0078CF82 /* SignUpViewController.xib */,
 				04B28CED226CDEF8005CB922 /* Main.storyboard */,
 				04B28CF0226CDEFA005CB922 /* Assets.xcassets */,
 				04B28CF2226CDEFA005CB922 /* LaunchScreen.storyboard */,
 				04B28CF5226CDEFA005CB922 /* Info.plist */,
 				0401AC902287AA50009FE8D8 /* Project2-Bridging-Header.h */,
 				0495999722885752000AD6EA /* Extensions.swift */,
+				04606F42229498AB0078CF82 /* ProfileViewController.swift */,
+				04606F462295769F0078CF82 /* FilterViewController.swift */,
+				04606F472295769F0078CF82 /* FilterViewController.xib */,
 			);
 			path = Project2;
 			sourceTree = "<group>";
@@ -214,7 +261,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				04606F492295769F0078CF82 /* FilterViewController.xib in Resources */,
+				04606F30229492EF0078CF82 /* LoginScreenViewController.xib in Resources */,
 				04B28CF4226CDEFA005CB922 /* LaunchScreen.storyboard in Resources */,
+				04606F33229492EF0078CF82 /* SignUpViewController.xib in Resources */,
 				04B28CF1226CDEFA005CB922 /* Assets.xcassets in Resources */,
 				04B28CEF226CDEF8005CB922 /* Main.storyboard in Resources */,
 				04B28D06226CE1F4005CB922 /* TimeCafeTableViewCell.xib in Resources */,
@@ -278,18 +328,28 @@
 			buildActionMask = 2147483647;
 			files = (
 				049599A0228ACAFB000AD6EA /* TimeCafeDetailController.swift in Sources */,
+				04606F3F229493410078CF82 /* UITextField.swift in Sources */,
 				043EA5CB228C439300A52834 /* TimeCafeDetailView.swift in Sources */,
 				049599A2228B0091000AD6EA /* TimeCafeImagesController.swift in Sources */,
 				0495999A22888186000AD6EA /* TimeCafeMapInfo.swift in Sources */,
+				04606F43229498AB0078CF82 /* ProfileViewController.swift in Sources */,
 				0495999E228A1800000AD6EA /* TimeCafeMarkerModel.swift in Sources */,
 				04446C6622878CD900018809 /* SearchViewController.swift in Sources */,
 				04B28D05226CE1F4005CB922 /* TimeCafeTableViewCell.swift in Sources */,
+				04606F2F229492EF0078CF82 /* LoginScreenViewController.swift in Sources */,
+				04606F3D229493410078CF82 /* UIColor.swift in Sources */,
 				04B28CEC226CDEF8005CB922 /* TimeCafesTableViewController.swift in Sources */,
 				04446C64228774EB00018809 /* LocationManager.swift in Sources */,
 				04B28CEA226CDEF8005CB922 /* AppDelegate.swift in Sources */,
 				043EA5CD228C446400A52834 /* TimeCafeDetailRoundedImageCell.swift in Sources */,
 				0495999C228A17A8000AD6EA /* CustomTimeCafeMarker.swift in Sources */,
 				04B28D08226D137E005CB922 /* TimeCafe.swift in Sources */,
+				04606F45229563E30078CF82 /* UIViewControlle.swift in Sources */,
+				04606F482295769F0078CF82 /* FilterViewController.swift in Sources */,
+				04606F31229492EF0078CF82 /* SignUpViewController.swift in Sources */,
+				04606F41229493410078CF82 /* UIImage.swift in Sources */,
+				04606F40229493410078CF82 /* UIButton.swift in Sources */,
+				04606F3C229493410078CF82 /* ATCTextField.swift in Sources */,
 				0495999822885752000AD6EA /* Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
