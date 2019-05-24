@@ -7,7 +7,17 @@
 //
 
 import Foundation
-// associated value 
+// associated value
+struct User {
+    let username: String
+    let email: String
+
+    init(username: String, email: String) {
+        self.username = username
+        self.email = email
+    }
+}
+
 enum FeatureType: String, Codable {
     case playstation = "playstation"
     case board_games = "board_games"

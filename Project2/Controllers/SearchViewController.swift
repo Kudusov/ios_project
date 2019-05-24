@@ -17,7 +17,6 @@ class SearchViewController: UIViewController, GMSMapViewDelegate{
     private var newManager = LocationManager(handler: {(location: CLLocation) -> Void in }, distanceFilter: 1)
     private var currentLocation: CLLocation = CLLocation(latitude: +55.75578600, longitude: +37.61763300)
     private var all_cafes: [TimeCafeJson] = []
-    private var currentLocationMarker = GMSMarker(position: CLLocationCoordinate2D(latitude: +55.75578600, longitude: +37.61763300))
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,10 +27,11 @@ class SearchViewController: UIViewController, GMSMapViewDelegate{
 
         let camera = GMSCameraPosition.camera(withLatitude: currentLocation.coordinate.latitude, longitude: currentLocation.coordinate.longitude, zoom: 10)
         mapView = GMSMapView.map(withFrame: CGRect.zero, camera: camera)
+        mapView?.isMyLocationEnabled = true
+        mapView?.settings.myLocationButton = true
+        mapView?.padding = UIEdgeInsets(top: 0, left: 0, bottom: 100, right: 0)
         view = mapView
 
-        currentLocationMarker.iconView = getUserLocationView()
-        currentLocationMarker.map = mapView
         let iconGenerator = GMUDefaultClusterIconGenerator()
         let algorithm = GMUNonHierarchicalDistanceBasedAlgorithm()
         let renderer = GMUDefaultClusterRenderer(mapView: mapView!, clusterIconGenerator: iconGenerator)
@@ -78,7 +78,7 @@ class SearchViewController: UIViewController, GMSMapViewDelegate{
 
     func updateTableAfterLocationChanging(_ location: CLLocation) -> Void {
         self.currentLocation = location
-        updateCurrentLocation()
+//        updateCurrentLocation()
     }
 
     private func uploadCafes() {
@@ -119,8 +119,8 @@ class SearchViewController: UIViewController, GMSMapViewDelegate{
 
     private func updateCurrentLocation() {
         print("update")
-        self.currentLocationMarker.position.latitude = currentLocation.coordinate.latitude
-        self.currentLocationMarker.position.longitude = currentLocation.coordinate.longitude
+//        self.currentLocationMarker.position.latitude = currentLocation.coordinate.latitude
+//        self.currentLocationMarker.position.longitude = currentLocation.coordinate.longitude
     }
 
 

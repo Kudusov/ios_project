@@ -7,31 +7,19 @@
 //
 
 import UIKit
+import Alamofire
+import SwiftyJSON
+
 
 class FirebaseAuthManager {
 
     func createUser(email: String, password: String, completionBlock: @escaping (_ success: Bool) -> Void) {
         completionBlock(true)
-        //        Auth.auth().createUser(withEmail: email, password: password) {(authResult, error) in
-        //            if let user = authResult?.user {
-        //                print(user)
-        //                completionBlock(true)
-        //            } else {
-        //                completionBlock(true)
-        //            }
-        //        }
+
     }
 
     func signIn(email: String, pass: String, completionBlock: @escaping (_ success: Bool) -> Void) {
         completionBlock(true)
-        //        Auth.auth().signIn(withEmail: email, password: pass) { (result, error) in
-        //            if let error = error, let _ = AuthErrorCode(rawValue: error._code) {
-        //                completionBlock(false)
-        //            } else {
-        //                print(result)
-        //                completionBlock(true)
-        //            }
-        //        }
     }
 }
 
@@ -123,19 +111,28 @@ class LoginScreenViewController: UIViewController {
     }
 
     @objc func didTapLoginButton() {
-        let loginManager = FirebaseAuthManager()
-        guard let email = contactPointTextField.text, let password = passwordTextField.text else { return }
-        loginManager.signIn(email: email, pass: password) {[weak self] (success) in
-            guard let `self` = self else { return }
-            var message: String = ""
-            if (success) {
-                message = "User was sucessfully logged in."
-            } else {
-                message = "There was an error."
+        self.view.isUserInteractionEnabled = false
+        let signUpManager = MyAuthManager()
+
+        if let email = contactPointTextField.text, let password = passwordTextField.text {
+            signUpManager.login(email: email, password: password) {[weak self] (errorCode) in
+                guard let `self` = self else { return }
+                self.view.isUserInteractionEnabled = true
+
+                var message: String = ""
+                if (errorCode == .success) {
+                    self.navigationController?.popViewController(animated: true)
+                    return
+                } else if (errorCode == AuthError.incorrectCredentials){
+                    message = "Incorrect email or password"
+                } else {
+                    message = "Sorry! Some Error:("
+                }
+
+                let alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+                alertController.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+                self.display(alertController: alertController)
             }
-            let alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
-            alertController.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-            self.display(alertController: alertController)
         }
     }
 

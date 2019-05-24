@@ -100,16 +100,24 @@ class SignUpViewController: UIViewController {
     }
 
     @objc func didTapSignUpButton() {
-        let signUpManager = FirebaseAuthManager()
-        if let email = emailTextField.text, let password = passwordTextField.text {
-            signUpManager.createUser(email: email, password: password) {[weak self] (success) in
+        self.view.isUserInteractionEnabled = false
+        let signUpManager = MyAuthManager()
+
+        if let email = emailTextField.text, let password = passwordTextField.text, let login = nameTextField.text {
+            signUpManager.signup2(email: email, fullname: login, password: password) {[weak self] (errorCode) in
                 guard let `self` = self else { return }
+                self.view.isUserInteractionEnabled = true
+
                 var message: String = ""
-                if (success) {
-                    message = "User was sucessfully created."
+                if (errorCode == .success) {
+                    self.navigationController?.popViewController(animated: true)
+                    return
+                } else if (errorCode == AuthError.emailConflict){
+                    message = "User with this email already exists"
                 } else {
-                    message = "There was an error."
+                    message = "Sorry! Some Error:("
                 }
+
                 let alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
                 alertController.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
                 self.display(alertController: alertController)

@@ -25,23 +25,60 @@ class ProfileViewController: UIViewController {
     private let buttonFont = UIFont.boldSystemFont(ofSize: 24)
 
     override func viewWillAppear(_ animated: Bool) {
+        print("viewWillAppear")
         setupConstraints()
-        if (Int.random(in: 1...2)) == 1 {
-
-            self.signupBtn.alpha = 1
-            self.loginBtn.isHidden = true
-            self.nameLabel.isHidden = false
-            self.emailLabel.isHidden = false
-            self.imageView.alpha = 1
+        let userInfoManager = UserInfoManager()
+        let credentials = AuthBearer.getCredentials()
+        if (credentials.accessToken == "" || credentials.refreshToken == "") {
+            print("makeViewLikeAuth")
+            makeViewLikeAuth()
         } else {
-            self.imageView.alpha = 0
-            self.nameLabel.text = "Вы не авторизованы"
-            self.emailLabel.isHidden = true
-            self.signupBtn.isHidden = false
-            self.loginBtn.isHidden = false
+            print("makeView")
+//            makeViewLikeUserProfile()
+            userInfoManager.getUserInfo() { [weak self] (error, user) in
+                guard let `self` = self else { return }
+                if (error != .success) {
+                    self.makeViewLikeAuth()
+                } else {
+                    self.makeViewLikeUserProfile(user: user)
+                }
+            }
         }
+//        UserInfoManager.isUserAuthorized(T##UserInfoManager)
+//        if (Int.random(in: 1...2)) == 1 {
+//
+//            self.signupBtn.alpha = 1
+//            self.loginBtn.isHidden = true
+//            self.nameLabel.isHidden = false
+//            self.emailLabel.isHidden = false
+//            self.imageView.alpha = 1
+//        } else {
+//            self.imageView.alpha = 0
+//            self.nameLabel.text = "Вы не авторизованы"
+//            self.emailLabel.isHidden = true
+//            self.signupBtn.isHidden = false
+//            self.loginBtn.isHidden = false
+//        }
+    }
+
+    func makeViewLikeAuth() {
+        self.signupBtn.isHidden = false
+        self.loginBtn.isHidden = false
+        self.nameLabel.isHidden = false
+        self.emailLabel.isHidden = true
+        self.nameLabel.text = "Вы не авторизованы"
+    }
+
+    func makeViewLikeUserProfile(user: User) {
+        self.signupBtn.isHidden = true
+        self.loginBtn.isHidden = true
+        self.nameLabel.isHidden = false
+        self.emailLabel.isHidden = false
+        self.nameLabel.text = user.username
+        self.emailLabel.text = user.email
     }
     override func viewDidLoad() {
+        print("viewDidLoad")
         super.viewDidLoad()
         loginBtn.setTitle("Войти", for: .normal)
         loginBtn.addTarget(self, action: #selector(didTapLoginButton), for: .touchUpInside)
@@ -77,7 +114,7 @@ class ProfileViewController: UIViewController {
     func setupConstraints() {
         print("setupConstraints")
         self.imageView.image = UIImage(named: "logo")
-        self.nameLabel.text = "sldkfjdsklfjds sdlkfjlsdkjf skdlfjsd"
+        self.nameLabel.text = "Mahmud Kudusov"
 
     }
 }

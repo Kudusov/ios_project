@@ -22,6 +22,8 @@ target 'Project2' do
     pod 'Google-Maps-iOS-Utils'
     pod 'GoogleMaps'
     pod 'SDWebImage'
+    pod 'Alamofire'
+    pod 'SwiftyJSON',  '~> 4.2.0'
 end
 
 

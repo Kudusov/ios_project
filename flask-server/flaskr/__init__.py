@@ -16,7 +16,7 @@ from . import db
 
 parser = reqparse.RequestParser()
 parser.add_argument('email', help = 'This field cannot be blank', required = True)
-parser.add_argument('username', help = 'This field cannot be blank', required = True)
+parser.add_argument('username', help = 'This field cannot be blank', required = False)
 parser.add_argument('password', help = 'This field cannot be blank', required = True)
 
 class TimeCafe:
@@ -120,9 +120,9 @@ class UserModel:
                 db_con.close()
 
     @staticmethod
-    def find_by_username(username):
+    def find_by_email_without_pass(email):
         db_con = db.get_db()
-        res = db_con.execute("Select * from user where username = ?", (username,))
+        res = db_con.execute("Select username, email from user where email = ?", (email,))
         items = [dict(zip([key[0] for key in res.description], [r for r in row])) for row in res]
         # db_con.close()
         if len(items) == 0:
@@ -131,8 +131,7 @@ class UserModel:
         else:
             return items[0]
         
-        
-
+    
     @staticmethod
     def find_by_email(email):
         db_con = db.get_db()
@@ -153,15 +152,15 @@ class UserModel:
     def verify_hash(password, hash):
         return sha256.verify(password, hash)
 
-    
+
+        
 class UserRegistration(MethodView):
     def post(self):
         data = parser.parse_args()
         
-        if UserModel.find_by_username(data['username']):
-            print("да ты заебал")
-            resp = make_response(jsonify({'message': 'User {} already exists'.format(data['username'])}))
-            resp.status_code = 200
+        if UserModel.find_by_email(data['email']):
+            resp = make_response(jsonify({'message': 'User {} already exists'.format(data['email'])}))
+            resp.status_code = 409
             return resp
 
 
@@ -173,10 +172,10 @@ class UserRegistration(MethodView):
 
         
         new_user.save_to_db()
-        access_token = create_access_token(identity = data['username'])
-        refresh_token = create_refresh_token(identity = data['username'])
+        access_token = create_access_token(identity = data['email'])
+        refresh_token = create_refresh_token(identity = data['email'])
         resp = make_response(jsonify({
-            'message': 'User {} was created'.format(data['username']),
+            'message': 'User {} was created'.format(data['email']),
             'access_token': access_token,
             'refresh_token': refresh_token
             }))
@@ -190,25 +189,28 @@ class UserRegistration(MethodView):
 
 class UserLogin(MethodView):
     def post(self):
+        print(request)
         data = parser.parse_args()
-        current_user = UserModel.find_by_username(data['username'])
+        current_user = UserModel.find_by_email(data['email'])
 
         if not current_user:
-            return {'message': 'User {} doesn\'t exist'.format(data['username'])}
+            resp = make_response({'message': 'User {} doesn\'t exist'.format(data['email'])})
+            resp.status_code = 401
+            return resp
 
         if UserModel.verify_hash(data['password'], current_user['password']):
-            access_token = create_access_token(identity = data['username'])
-            refresh_token = create_refresh_token(identity = data['username'])
+            access_token = create_access_token(identity = data['email'])
+            refresh_token = create_refresh_token(identity = data['email'])
             resp = make_response(jsonify({
-                'message': 'Logged in as {}'.format(current_user['username']),
+                'message': 'Logged in as {}'.format(current_user['email']),
                 'access_token': access_token,
                 'refresh_token': refresh_token
                 }))
-            resp.status_code = 201
+            resp.status_code = 200
             return resp
         else:
             resp = make_response(jsonify({'message': 'Wrong credentials'}))
-            resp.status_code = 301
+            resp.status_code = 401
             return resp
 
 
@@ -227,7 +229,9 @@ class TokenRefresh(MethodView):
     def post(self):
         current_user = get_jwt_identity()
         access_token = create_access_token(identity = current_user)
-        return {'access_token': access_token}
+        resp = make_response(jsonify({'access_token': access_token}))
+        resp.status_code = 200
+        return resp
 
 
 class AllUsers(MethodView):
@@ -245,6 +249,14 @@ class SecretResource(MethodView):
             'answer': 42
         }
 
+class UserInfo(MethodView):
+    @jwt_required
+    def get(self):
+        user_email = get_jwt_identity()
+        current_user = UserModel.find_by_email_without_pass(user_email)
+        resp = make_response(jsonify(current_user))
+        resp.status_code = 200
+        return resp
 '''
 class UserModel(db.Model):
     __tablename__ = 'users'
@@ -341,11 +353,14 @@ def create_app(test_config=None):
     reg_view = UserRegistration.as_view('reg_api') 
     log_view = UserLogin.as_view('log_api')
     token_refresh_view = TokenRefresh.as_view('tok_api')
+    user_view = UserInfo.as_view('user_info_api')
     # api.add_resourse(TimeCafeAPI, '/api/cafes')
     app.add_url_rule('/api/cafes/', defaults={'cafe_id': None}, view_func=cafe_view, methods=['GET'])
     app.add_url_rule('/api/cafes/<int:cafe_id>', view_func=cafe_view, methods=['GET'])
     app.add_url_rule('/api/registration', view_func = reg_view, methods = ['POST'])
     app.add_url_rule('/api/login', view_func = log_view, methods = ['POST'])
     app.add_url_rule('/api/refresh', view_func = token_refresh_view, methods = ['POST'])
+    app.add_url_rule('/api/me', view_func = user_view, methods = ['GET'])
+
     
     return app

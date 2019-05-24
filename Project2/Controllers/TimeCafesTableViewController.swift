@@ -7,8 +7,37 @@
 //
 
 import UIKit
+import Alamofire
+import SwiftyJSON
 //import SDWebImage
 
+struct AuthBearer {
+
+    static let (accessTokenKey, refreshTokenKey) = ("accessToken", "refreshToken")
+    static let userSessionKey = "usersession"
+
+    struct Model {
+        var accessToken: String
+        var refreshToken: String
+
+        init(_ json: [String: String]) {
+            self.accessToken = json[accessTokenKey] ?? ""
+            self.refreshToken = json[refreshTokenKey] ?? ""
+        }
+    }
+
+    static func save(_ accessToken: String, _ refreshToken: String){
+        UserDefaults.standard.set([accessTokenKey: accessToken, refreshTokenKey: refreshToken], forKey: userSessionKey)
+    }
+
+    static func getCredentials()-> Model {
+        return Model((UserDefaults.standard.value(forKey: userSessionKey) as? [String: String]) ?? [:])
+    }
+
+    static func clearUserData(){
+        UserDefaults.standard.removeObject(forKey: userSessionKey)
+    }
+}
 
 import CoreLocation
 var baseUrl: String = "http://localhost:5000"
@@ -42,6 +71,7 @@ class TimeCafesTableViewController: UIViewController, UITableViewDataSource, UIT
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        AuthBearer.clearUserData()
         searchbar.delegate = self
         newManager = LocationManager(handler: self.updateTableAfterLocationChanging)
         currentLocation = newManager.getCurrentLocation()
@@ -54,14 +84,53 @@ class TimeCafesTableViewController: UIViewController, UITableViewDataSource, UIT
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(UINib.init(nibName: cellIdentifier, bundle: nil), forCellReuseIdentifier: cellIdentifier)
-        uploadCafes()
+//        uploadCafes()
+        uploadCafes2()
     }
 
     @objc func filterBtnTapHandler(_ sender: UIButton) {
         print("hello wrold")
+        print("Auth Bearer")
+//        AuthBearer.save("someAccessToken", "someRefreshToken")
+        print("access Token = " + AuthBearer.getCredentials().accessToken)
+        print("refresh Token = " + AuthBearer.getCredentials().refreshToken)
         let destinationVC = FilterViewController(nibName: "FilterViewController", bundle: nil)
 
         navigationController?.pushViewController(destinationVC, animated: true)
+    }
+
+    // test with Alamofire
+    private func uploadCafes2() {
+        guard let url = URL(string: baseUrl + "/api/cafes") else {
+            return
+        }
+
+        Alamofire.request(url, method: .get, parameters: nil).response { (data) in
+            if let json = try? JSON(data: data.data!) {
+                for item in json.arrayValue {
+                    print(item["name"].stringValue)
+                }
+            }
+            guard let jsonData = data.data else {
+                guard let error = data.error else {
+                    return
+                }
+                print(error)
+                return
+            }
+
+            let decoder = JSONDecoder()
+            guard let timecafes: [TimeCafeJson] = try? decoder.decode([TimeCafeJson].self, from: jsonData) else {
+                print("error")
+
+                return
+            }
+
+            DispatchQueue.main.async { [weak self] in
+                self?.all_cafes = timecafes
+                self?.tableView.reloadData()
+            }
+        }
     }
 
     // TODO: Повторяющаяся функция в двух контроллерах. Выделить в отдельный класс
@@ -137,7 +206,7 @@ class TimeCafesTableViewController: UIViewController, UITableViewDataSource, UIT
 extension TimeCafesTableViewController: UISearchBarDelegate {
 
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+
         self.uploadCafes(searchByName: searchText)
-//        print("searchBartextDidChange " + searchText)
     }
 }

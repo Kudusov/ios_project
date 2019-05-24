@@ -24,6 +24,7 @@
 		04606F45229563E30078CF82 /* UIViewControlle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04606F44229563E30078CF82 /* UIViewControlle.swift */; };
 		04606F482295769F0078CF82 /* FilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04606F462295769F0078CF82 /* FilterViewController.swift */; };
 		04606F492295769F0078CF82 /* FilterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04606F472295769F0078CF82 /* FilterViewController.xib */; };
+		0487562D22975D2600D5E48A /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0487562C22975D2600D5E48A /* AuthManager.swift */; };
 		0495999822885752000AD6EA /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0495999722885752000AD6EA /* Extensions.swift */; };
 		0495999A22888186000AD6EA /* TimeCafeMapInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0495999922888186000AD6EA /* TimeCafeMapInfo.swift */; };
 		0495999C228A17A8000AD6EA /* CustomTimeCafeMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0495999B228A17A8000AD6EA /* CustomTimeCafeMarker.swift */; };
@@ -61,6 +62,7 @@
 		04606F44229563E30078CF82 /* UIViewControlle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControlle.swift; sourceTree = "<group>"; };
 		04606F462295769F0078CF82 /* FilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterViewController.swift; sourceTree = "<group>"; };
 		04606F472295769F0078CF82 /* FilterViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FilterViewController.xib; sourceTree = "<group>"; };
+		0487562C22975D2600D5E48A /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
 		0495999722885752000AD6EA /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		0495999922888186000AD6EA /* TimeCafeMapInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeCafeMapInfo.swift; sourceTree = "<group>"; };
 		0495999B228A17A8000AD6EA /* CustomTimeCafeMarker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTimeCafeMarker.swift; sourceTree = "<group>"; };
@@ -179,6 +181,7 @@
 				04606F42229498AB0078CF82 /* ProfileViewController.swift */,
 				04606F462295769F0078CF82 /* FilterViewController.swift */,
 				04606F472295769F0078CF82 /* FilterViewController.xib */,
+				0487562C22975D2600D5E48A /* AuthManager.swift */,
 			);
 			path = Project2;
 			sourceTree = "<group>";
@@ -351,6 +354,7 @@
 				04606F40229493410078CF82 /* UIButton.swift in Sources */,
 				04606F3C229493410078CF82 /* ATCTextField.swift in Sources */,
 				0495999822885752000AD6EA /* Extensions.swift in Sources */,
+				0487562D22975D2600D5E48A /* AuthManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
