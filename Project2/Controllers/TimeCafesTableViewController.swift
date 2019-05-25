@@ -42,6 +42,7 @@ struct AuthBearer {
 import CoreLocation
 var baseUrl: String = "http://localhost:5000"
 
+
 class TimeCafesTableViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     var searchbar: UISearchBar = {
@@ -64,6 +65,7 @@ class TimeCafesTableViewController: UIViewController, UITableViewDataSource, UIT
 
     @IBOutlet weak var tableView: UITableView!
     private var all_cafes: [TimeCafeJson] = []
+    private var cellHeight = 140
     let cellIdentifier = "TimeCafeTableViewCell"
     var newManager = LocationManager(handler: {(location: CLLocation) -> Void in })
     // Координаты центра Москвы
@@ -71,7 +73,7 @@ class TimeCafesTableViewController: UIViewController, UITableViewDataSource, UIT
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        AuthBearer.clearUserData()
+        self.cellHeight = self.cellHeight + calculateLogoSize() - 30
         searchbar.delegate = self
         newManager = LocationManager(handler: self.updateTableAfterLocationChanging)
         currentLocation = newManager.getCurrentLocation()
@@ -84,16 +86,11 @@ class TimeCafesTableViewController: UIViewController, UITableViewDataSource, UIT
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(UINib.init(nibName: cellIdentifier, bundle: nil), forCellReuseIdentifier: cellIdentifier)
-//        uploadCafes()
+
         uploadCafes2()
     }
 
     @objc func filterBtnTapHandler(_ sender: UIButton) {
-        print("hello wrold")
-        print("Auth Bearer")
-//        AuthBearer.save("someAccessToken", "someRefreshToken")
-        print("access Token = " + AuthBearer.getCredentials().accessToken)
-        print("refresh Token = " + AuthBearer.getCredentials().refreshToken)
         let destinationVC = FilterViewController(nibName: "FilterViewController", bundle: nil)
 
         navigationController?.pushViewController(destinationVC, animated: true)
@@ -106,11 +103,6 @@ class TimeCafesTableViewController: UIViewController, UITableViewDataSource, UIT
         }
 
         Alamofire.request(url, method: .get, parameters: nil).response { (data) in
-            if let json = try? JSON(data: data.data!) {
-                for item in json.arrayValue {
-                    print(item["name"].stringValue)
-                }
-            }
             guard let jsonData = data.data else {
                 guard let error = data.error else {
                     return
@@ -165,6 +157,21 @@ class TimeCafesTableViewController: UIViewController, UITableViewDataSource, UIT
  
     }
 
+    func calculateLogoSize() -> Int {
+        let maxWidth: Float = 42.0
+        let maxLogoCount: Float = 5.0
+        let screenWidth = UIScreen.main.bounds.width
+        let logoContentSize = screenWidth - 182
+
+        var logoSize = Float(logoContentSize) / Float(maxLogoCount)
+        if (logoSize > maxWidth) {
+            logoSize = maxWidth
+        }
+
+        let logoImageSize = Int(logoSize * 2.5 / 3.5)
+        return logoImageSize
+    }
+
     func updateTableAfterLocationChanging(_ location: CLLocation) -> Void {
         self.currentLocation = location
         updateTable()
@@ -188,7 +195,7 @@ class TimeCafesTableViewController: UIViewController, UITableViewDataSource, UIT
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 140
+        return CGFloat(self.cellHeight)
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

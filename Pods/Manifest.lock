@@ -1,5 +1,6 @@
 PODS:
   - Alamofire (4.8.2)
+  - Cosmos (19.0.3)
   - Google-Maps-iOS-Utils (2.1.0):
     - Google-Maps-iOS-Utils/Clustering (= 2.1.0)
     - Google-Maps-iOS-Utils/Geometry (= 2.1.0)
@@ -30,6 +31,7 @@ PODS:
 
 DEPENDENCIES:
   - Alamofire
+  - Cosmos (~> 19.0)
   - Google-Maps-iOS-Utils
   - GoogleMaps
   - GooglePlaces
@@ -39,6 +41,7 @@ DEPENDENCIES:
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - Alamofire
+    - Cosmos
     - Google-Maps-iOS-Utils
     - GoogleMaps
     - GooglePlaces
@@ -47,12 +50,13 @@ SPEC REPOS:
 
 SPEC CHECKSUMS:
   Alamofire: ae5c501addb7afdbb13687d7f2f722c78734c2d3
+  Cosmos: a6fb17284281fa12cf4c85c2efecd440a215ec44
   Google-Maps-iOS-Utils: c32891ff472eaaa1fca032beedafa1a013af7875
   GoogleMaps: 5c13302e6fe6bb6e686b267196586b91cd594225
   GooglePlaces: e874db179f2675c4f3eeda0b686b540273a578b0
   SDWebImage: 6764b5fa0f73c203728052955dbefa2bf1f33282
   SwiftyJSON: c4bcba26dd9ec7a027fc8eade48e2c911f229e96
 
-PODFILE CHECKSUM: 7ea7ce2f21dc1b9e48510e02c8bd5adbdc62d1b1
+PODFILE CHECKSUM: c01f00c0b76692171c02d3f12f811caec1c84289
 
 COCOAPODS: 1.6.1

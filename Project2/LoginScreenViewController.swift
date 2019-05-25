@@ -29,8 +29,7 @@ class LoginScreenViewController: UIViewController {
     @IBOutlet var passwordTextField: ATCTextField!
     @IBOutlet var contactPointTextField: ATCTextField!
     @IBOutlet var loginButton: UIButton!
-    @IBOutlet var separatorLabel: UILabel!
-    @IBOutlet var facebookButton: UIButton!
+
     @IBOutlet var backButton: UIButton!
 
     private let backgroundColor: UIColor = .white
@@ -42,9 +41,6 @@ class LoginScreenViewController: UIViewController {
     private let textFieldFont = UIFont.systemFont(ofSize: 16)
     private let textFieldColor = UIColor(hexString: "#B0B3C6")
     private let textFieldBorderColor = UIColor(hexString: "#B0B3C6")
-
-    private let separatorFont = UIFont.boldSystemFont(ofSize: 14)
-    private let separatorTextColor = UIColor(hexString: "#464646")
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -77,10 +73,6 @@ class LoginScreenViewController: UIViewController {
         passwordTextField.textContentType = .emailAddress
         passwordTextField.clipsToBounds = true
 
-        separatorLabel.font = separatorFont
-        separatorLabel.textColor = separatorTextColor
-        separatorLabel.text = "OR"
-
         loginButton.setTitle("Log In", for: .normal)
         loginButton.addTarget(self, action: #selector(didTapLoginButton), for: .touchUpInside)
         loginButton.configure(color: backgroundColor,
@@ -88,12 +80,6 @@ class LoginScreenViewController: UIViewController {
                               cornerRadius: 55/2,
                               backgroundColor: tintColor)
 
-        facebookButton.setTitle("Facebook Login", for: .normal)
-        facebookButton.addTarget(self, action: #selector(didTapFacebookButton), for: .touchUpInside)
-        facebookButton.configure(color: backgroundColor,
-                                 font: buttonFont,
-                                 cornerRadius: 55/2,
-                                 backgroundColor: UIColor(hexString: "#334D92"))
         self.hideKeyboardWhenTappedAround()
     }
 
@@ -136,8 +122,6 @@ class LoginScreenViewController: UIViewController {
         }
     }
 
-    @objc func didTapFacebookButton() {
-    }
 
     func display(alertController: UIAlertController) {
         self.present(alertController, animated: true, completion: nil)

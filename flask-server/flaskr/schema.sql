@@ -4,6 +4,7 @@ DROP TABLE IF EXISTS timecafe;
 DROP TABLE IF EXISTS timecafe_image;
 DROP TABLE IF EXISTS feature;
 DROP TABLE IF EXISTS timecafe_feature;
+DROP TABLE IF EXISTS mark;
 
 
 CREATE TABLE user (
@@ -54,9 +55,21 @@ CREATE TABLE feature (
 CREATE TABLE timecafe_feature (
   timecafe_id INTEGER,
   feature_id INTEGER,
+  description TEXT DEFAULT "", 
   FOREIGN KEY(timecafe_id) REFERENCES timecafe(id),
   FOREIGN KEY(feature_id) REFERENCES feature(id)
 );
+
+CREATE TABLE mark (
+  user_id INTEGER NOT NULL,
+  timecafe_id INTEGER NOT NULL,
+  rating FLOAT DEFAULT 0,
+  review TEXT DEFAULT 0,
+  UNIQUE(user_id, timecafe_id),
+  FOREIGN KEY(user_id) REFERENCES user(id),
+  FOREIGN KEY(timecafe_id) REFERENCES timecafe(id)
+);
+
 
 INSERT INTO timecafe (name, lower_name, main_image_url, latitude, longtitude, address, station, price, price_type, website, phone_number, working_time, extended_price) VALUES 
                      ("Local Time", "local time", "/static/img/local_time_0.jpg", 55.7728362, 37.6689673, "Новорязанская ул. 29с4", "Бауманская", 2.5, 1, "http://localtime.su", "+7 (965) 276-67-66", "|9:00 - 22:00|9:00 - 22:00|9:00 - 22:00|9:00 - 22:00|9:00 - 22:00|9:00 - 01:00|9:00 - 01:00|", "|1-ый час|250р|Со 2-го часа|2р/мин|Стопчек|500р|"),
@@ -140,15 +153,15 @@ INSERT INTO feature(name) VALUES ("playstation"), ("rooms"), ("board_games"), ("
 
 
 
-INSERT INTO timecafe_feature(timecafe_id, feature_id) VALUES (1, 1), (1, 2), 
-                                                                (2, 3), (2, 4),
-                                                                (3, 1), (3, 2), (3, 3),
-                                                                (4, 1), (4, 2), (4, 3), (4, 4),
-                                                                (5, 1), (5, 2), (5, 3), (5, 4), (5, 5), (5, 6),
-                                                                (6, 4), (6, 5), (6, 6),
-                                                                (7, 5), (7, 6),
-                                                                (8, 3), (8, 4),
-                                                                (9, 4), (9, 5), (9, 6),
-                                                                (10, 3), (10, 4);
+INSERT INTO timecafe_feature(timecafe_id, feature_id, description) VALUES (1, 1, "Sony Playstation 4"), (1, 2, "some description2"), 
+                                                                (2, 3, "Коллекция настольных игр"), (2, 4, "some description4"),
+                                                                (3, 1, "Sony Playstation 4, XBox One S"), (3, 2, "some description5"), (3, 3, "Коллекция настольных игр"),
+                                                                (4, 1, "Sony Playstation 4, XBox One"), (4, 2, "some description2"), (4, 3, "Коллекция настольных игр"), (4, 4, "some description4"),
+                                                                (5, 1, "Sony Playstation 4, XBox One"), (5, 2, "some description2"), (5, 3, "Коллекция настольных игр"), (5, 4, "some description4"), (5, 5, "some description5"), (5, 6, "some description6"),
+                                                                (6, 4, "some description1"), (6, 5, "some description2"), (6, 6, "some description3"),
+                                                                (7, 5, "some description1"), (7, 6, "some description2"),
+                                                                (8, 3, "Коллекция настольных игр"), (8, 4, "some description2"),
+                                                                (9, 4, "some description1"), (9, 5, "some description2"), (9, 6, "some description3"),
+                                                                (10, 3, "Коллекция настольных игр"), (10, 4, "some description2");
 
 

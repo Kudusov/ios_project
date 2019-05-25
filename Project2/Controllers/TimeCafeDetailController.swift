@@ -33,6 +33,8 @@ class TimeCafeDetailController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+//        makeCall(phoneNumber: "8 (985) 138-64-66")
+        
         newCollection.delegate = self
         newCollection.dataSource = self
         newCollection.register(TimeCafeDetailRoundedImageCell.self, forCellWithReuseIdentifier: cellId)
@@ -45,14 +47,23 @@ class TimeCafeDetailController: UIViewController {
         scrollView.contentSize = CGSize(width: view.frame.width, height: view.frame.height + 1000)
         cafeView.frame = CGRect(x: 0, y: 300, width: view.frame.width, height: view.frame.height - 300)
         fillCafeView()
-
+//        signupBtn.addTarget(self, action: #selector(didTapSignUpButton), for: .touchUpInside)
+        cafeView.estimatebtn.addTarget(self, action: #selector(estimatebtnDidTap), for: .touchUpInside)
         scrollView.addSubview(cafeView)
         setupCollection()
+    }
+
+    @objc func estimatebtnDidTap() {
+        let storyB = UIStoryboard(name: "Main", bundle: nil)
+        let secondViewController = storyB.instantiateViewController(withIdentifier: "RatingViewController") as! RatingViewController
+        secondViewController.cafeId = self.timeCafeJson.id
+        self.present(secondViewController, animated: true, completion: nil)
     }
 
     private func fillCafeView() {
         self.cafeView.addressLabel.text = timeCafeJson.address
         self.cafeView.stationLabel.text = timeCafeJson.station
+        self.cafeView.addFeatures(features: timeCafeJson.features!)
 
     }
     func setupScrollView() {
@@ -105,5 +116,42 @@ extension TimeCafeDetailController: UICollectionViewDataSource, UICollectionView
         destinationVC.imagesCount = 10
         destinationVC.timeCafeJson = timeCafeJson
         navigationController?.pushViewController(destinationVC, animated: true)
+    }
+
+    func openWebPage(urlString: String) {
+        if urlString.hasPrefix("https://") || urlString.hasPrefix("http://"){
+            let url = URL(string: urlString)!
+            if #available(iOS 10, *) {
+                UIApplication.shared.open(url as URL, options: [:], completionHandler:
+                    nil)
+            } else {
+                UIApplication.shared.openURL(url as URL)
+            }
+        }else {
+            let correctedURL = "https://\(urlString)"
+            let url = URL(string: correctedURL)!
+            if #available(iOS 10, *) {
+                UIApplication.shared.open(url as URL, options: [:], completionHandler:
+                    nil)
+            } else {
+                UIApplication.shared.openURL(url as URL)
+            }
+        }
+    }
+
+    func makeCall(phoneNumber: String) {
+
+//        let formattedNumber = phoneNumber.components(separatedBy:
+//            NSCharacterSet.decimalDigits.inverted).joined(separator: "")
+//        print(formattedNumber)
+//        let phoneUrl = "tel://\(formattedNumber)"
+//        let url:NSURL = NSURL(string: phoneUrl)!
+//
+//        if #available(iOS 10, *) {
+//            UIApplication.shared.open(url as URL, options: [:], completionHandler:
+//                nil)
+//        } else {
+//            UIApplication.shared.openURL(url as URL)
+//        }
     }
 }

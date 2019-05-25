@@ -97,6 +97,11 @@ class ProfileViewController: UIViewController {
                                backgroundColor: .white,
                                borderWidth: 1)
         signupBtn.addTarget(self, action: #selector(didTapSignUpButton), for: .touchUpInside)
+
+        self.signupBtn.isHidden = true
+        self.loginBtn.isHidden = true
+        self.nameLabel.isHidden = true
+        self.emailLabel.isHidden = false
     }
 
     @objc func didTapLoginButton() {

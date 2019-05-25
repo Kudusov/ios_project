@@ -36,21 +36,44 @@ class TimeCafe:
                   'rating': self.rating, 'latitude': self.latitude, 'longtitude': self.longtitude, 
                    'address': self.address, 'station': self.station, 'price': self.price }
 
+class Feature:
+    def __init__(self, feature, description):
+        self.feature = feature
+        self.description = description
+    
+    def __eq__(self, other):
+        return self.feature == other.feature and self.description == other.description
+
 class TimeCafeAPI(MethodView):
     def get(self, cafe_id):
         db_con = db.get_db()
         search_text = request.args.get("search")
         if cafe_id is None and search_text is None:
             res = db_con.execute("Select t.id, t.name, t.main_image_url, t.rating, t.latitude, t.longtitude, t.address,  \
-                                  t.station, t.price, t.price_type, t.website, t.phone_number, group_concat(ti.image_url) as images, t.working_time, t.extended_price, group_concat(f.name) as features \
+                                  t.station, t.price, t.price_type, t.website, t.phone_number, group_concat(ti.image_url) as images, t.working_time, t.extended_price, group_concat(f.name) as features, group_concat(tf.description, '|') as description\
                                   from timecafe t join timecafe_image ti on t.id = ti.timecafe_id \
                                   join timecafe_feature tf on t.id = tf.timecafe_id join feature f on tf.feature_id = f.id     \
                                   group by t.id")         
             items = [dict(zip([key[0] for key in res.description], [r for r in row])) for row in res]
             for item in items:
                 features_str = item["features"]
-                features = list(set(features_str.split(',')))
-                item["features"] = [{"feature" : feature} for feature in features]
+                features = features_str.split(',')
+
+                description_str = item["description"]
+                descriptions = description_str.split('|')
+
+                feat_desr = []
+                for i in range(len(features)):
+                    feat = Feature(feature=features[i], description=descriptions[i])
+                    if feat not in feat_desr:
+                        feat_desr.append(feat)
+                
+                # if len(features) > len(descriptions):
+                #     features = features[:len(descriptions)]
+                # elif len(descriptions) > len(features):
+                #     descriptions = descriptions[:len(features)]
+
+                item["features"] = [{"feature" : feat_desr[i].feature, "description": feat_desr[i].description} for i, _ in enumerate(feat_desr)]
 
                 images_str = item["images"]
                 images = list(set(images_str.split(',')))
@@ -63,15 +86,30 @@ class TimeCafeAPI(MethodView):
         
         elif cafe_id is None and search_text:
             res = db_con.execute("Select t.id, t.name, t.main_image_url, t.rating, t.latitude, t.longtitude, t.address,  \
-                                  t.station, t.price, t.price_type, t.website, t.phone_number, group_concat(ti.image_url) as images, t.working_time, t.extended_price, group_concat(f.name) as features \
+                                  t.station, t.price, t.price_type, t.website, t.phone_number, group_concat(ti.image_url) as images, t.working_time, t.extended_price, group_concat(f.name) as features, group_concat(tf.description, '|') as description\
                                   from timecafe t join timecafe_image ti on t.id = ti.timecafe_id \
-                                  join timecafe_feature tf on t.id = tf.timecafe_id join feature f on tf.feature_id = f.id  where t.lower_name LIKE ?   \
+                                  join timecafe_feature tf on t.id = tf.timecafe_id join feature f on tf.feature_id = f.id   where t.lower_name LIKE ?   \
                                   group by t.id", ('%' + search_text.lower() + '%',))         
             items = [dict(zip([key[0] for key in res.description], [r for r in row])) for row in res]
             for item in items:
                 features_str = item["features"]
-                features = list(set(features_str.split(',')))
-                item["features"] = [{"feature" : feature} for feature in features]
+                features = features_str.split(',')
+
+                description_str = item["description"]
+                descriptions = description_str.split('|')
+
+                feat_desr = []
+                for i in range(len(features)):
+                    feat = Feature(feature=features[i], description=descriptions[i])
+                    if feat not in feat_desr:
+                        feat_desr.append(feat)
+                
+                # if len(features) > len(descriptions):
+                #     features = features[:len(descriptions)]
+                # elif len(descriptions) > len(features):
+                #     descriptions = descriptions[:len(features)]
+
+                item["features"] = [{"feature" : feat_desr[i].feature, "description": feat_desr[i].description} for i, _ in enumerate(feat_desr)]
 
                 images_str = item["images"]
                 images = list(set(images_str.split(',')))
@@ -103,6 +141,26 @@ class TimeCafeAPI(MethodView):
             return resp
         db_con.close()
 
+class RatingApi(MethodView):
+    @jwt_required
+    def put(self):
+        # insert or replace into mark (user_id, timecafe_id, rating, review) values(1, 1, 3, "some updating review")
+        db_con = db.get_db()
+        params = request.get_json()
+        cafe_id = params['cafe_id']
+        rating = params['rating']
+        review = params['review'] or ''
+        useremail = get_jwt_identity()
+        db_con.execute("insert or replace into mark (user_id, timecafe_id, rating, review) values((Select id from user where email = ?), ?, ?, ?)", (useremail, cafe_id, rating, review, ))
+        db_con.commit()
+        print('cafe_id = ', cafe_id)
+        print("Posted data : {}".format(request.get_json()))
+        # print(request.form['username'])
+        resp = make_response(jsonify({
+            'message': "all_ok"
+            }))
+        resp.status_code = 200
+        return resp
 
 class UserModel:
     def __init__(self, username, email, password):
@@ -354,6 +412,7 @@ def create_app(test_config=None):
     log_view = UserLogin.as_view('log_api')
     token_refresh_view = TokenRefresh.as_view('tok_api')
     user_view = UserInfo.as_view('user_info_api')
+    rating_view = RatingApi.as_view('rating_api')
     # api.add_resourse(TimeCafeAPI, '/api/cafes')
     app.add_url_rule('/api/cafes/', defaults={'cafe_id': None}, view_func=cafe_view, methods=['GET'])
     app.add_url_rule('/api/cafes/<int:cafe_id>', view_func=cafe_view, methods=['GET'])
@@ -361,6 +420,7 @@ def create_app(test_config=None):
     app.add_url_rule('/api/login', view_func = log_view, methods = ['POST'])
     app.add_url_rule('/api/refresh', view_func = token_refresh_view, methods = ['POST'])
     app.add_url_rule('/api/me', view_func = user_view, methods = ['GET'])
+    app.add_url_rule('/api/marks/', view_func = rating_view, methods = ['PUT'])
 
     
     return app

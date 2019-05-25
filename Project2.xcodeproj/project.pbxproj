@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		041A9E9B2299601500414E42 /* PopUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041A9E9A2299601500414E42 /* PopUpViewController.swift */; };
+		041A9E9D2299707800414E42 /* RatingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041A9E9C2299707800414E42 /* RatingViewController.swift */; };
 		043EA5CB228C439300A52834 /* TimeCafeDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043EA5CA228C439300A52834 /* TimeCafeDetailView.swift */; };
 		043EA5CD228C446400A52834 /* TimeCafeDetailRoundedImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043EA5CC228C446400A52834 /* TimeCafeDetailRoundedImageCell.swift */; };
 		04446C64228774EB00018809 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04446C63228774EB00018809 /* LocationManager.swift */; };
@@ -45,6 +47,8 @@
 /* Begin PBXFileReference section */
 		0148033AB35D30E7580E9AB4 /* libPods-Project2.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Project2.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0401AC902287AA50009FE8D8 /* Project2-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Project2-Bridging-Header.h"; sourceTree = "<group>"; };
+		041A9E9A2299601500414E42 /* PopUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopUpViewController.swift; sourceTree = "<group>"; };
+		041A9E9C2299707800414E42 /* RatingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingViewController.swift; sourceTree = "<group>"; };
 		043EA5CA228C439300A52834 /* TimeCafeDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeCafeDetailView.swift; sourceTree = "<group>"; };
 		043EA5CC228C446400A52834 /* TimeCafeDetailRoundedImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeCafeDetailRoundedImageCell.swift; sourceTree = "<group>"; };
 		04446C63228774EB00018809 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
@@ -121,8 +125,8 @@
 			isa = PBXGroup;
 			children = (
 				04B28D04226CE1F4005CB922 /* TimeCafeTableViewCell.xib */,
-				0495999B228A17A8000AD6EA /* CustomTimeCafeMarker.swift */,
 				04B28D03226CE1F4005CB922 /* TimeCafeTableViewCell.swift */,
+				0495999B228A17A8000AD6EA /* CustomTimeCafeMarker.swift */,
 				0495999922888186000AD6EA /* TimeCafeMapInfo.swift */,
 				043EA5CA228C439300A52834 /* TimeCafeDetailView.swift */,
 				043EA5CC228C446400A52834 /* TimeCafeDetailRoundedImageCell.swift */,
@@ -182,6 +186,8 @@
 				04606F462295769F0078CF82 /* FilterViewController.swift */,
 				04606F472295769F0078CF82 /* FilterViewController.xib */,
 				0487562C22975D2600D5E48A /* AuthManager.swift */,
+				041A9E9A2299601500414E42 /* PopUpViewController.swift */,
+				041A9E9C2299707800414E42 /* RatingViewController.swift */,
 			);
 			path = Project2;
 			sourceTree = "<group>";
@@ -337,6 +343,7 @@
 				0495999A22888186000AD6EA /* TimeCafeMapInfo.swift in Sources */,
 				04606F43229498AB0078CF82 /* ProfileViewController.swift in Sources */,
 				0495999E228A1800000AD6EA /* TimeCafeMarkerModel.swift in Sources */,
+				041A9E9B2299601500414E42 /* PopUpViewController.swift in Sources */,
 				04446C6622878CD900018809 /* SearchViewController.swift in Sources */,
 				04B28D05226CE1F4005CB922 /* TimeCafeTableViewCell.swift in Sources */,
 				04606F2F229492EF0078CF82 /* LoginScreenViewController.swift in Sources */,
@@ -353,6 +360,7 @@
 				04606F41229493410078CF82 /* UIImage.swift in Sources */,
 				04606F40229493410078CF82 /* UIButton.swift in Sources */,
 				04606F3C229493410078CF82 /* ATCTextField.swift in Sources */,
+				041A9E9D2299707800414E42 /* RatingViewController.swift in Sources */,
 				0495999822885752000AD6EA /* Extensions.swift in Sources */,
 				0487562D22975D2600D5E48A /* AuthManager.swift in Sources */,
 			);

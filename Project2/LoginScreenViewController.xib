@@ -13,10 +13,8 @@
             <connections>
                 <outlet property="backButton" destination="8NB-UE-ekP" id="9OE-QV-wHf"/>
                 <outlet property="contactPointTextField" destination="LlF-qr-eCs" id="CkI-vx-Ntb"/>
-                <outlet property="facebookButton" destination="7ZH-en-wyc" id="CAb-cY-8rA"/>
                 <outlet property="loginButton" destination="Wyk-3M-06P" id="JqD-mQ-Q8h"/>
                 <outlet property="passwordTextField" destination="Sln-s1-Z9D" id="i2y-QV-mlH"/>
-                <outlet property="separatorLabel" destination="nxb-la-YM8" id="qEc-lk-wpS"/>
                 <outlet property="titleLabel" destination="1Kl-jQ-2Bx" id="S39-pV-jbr"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -42,7 +40,7 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="LlF-qr-eCs" userLabel="Contact Point Text Field" customClass="ATCTextField" customModule="Project2" customModuleProvider="target">
-                                            <rect key="frame" x="25" y="146" width="325" height="55"/>
+                                            <rect key="frame" x="25" y="151" width="325" height="55"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="55" id="T8T-xu-bck"/>
                                             </constraints>
@@ -51,7 +49,7 @@
                                             <textInputTraits key="textInputTraits"/>
                                         </textField>
                                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Sln-s1-Z9D" userLabel="Password Text Field" customClass="ATCTextField" customModule="Project2" customModuleProvider="target">
-                                            <rect key="frame" x="25" y="225" width="325" height="55"/>
+                                            <rect key="frame" x="25" y="230" width="325" height="55"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="55" id="9y5-Vm-CUp"/>
                                             </constraints>
@@ -60,27 +58,14 @@
                                             <textInputTraits key="textInputTraits"/>
                                         </textField>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wyk-3M-06P" userLabel="Login Button">
-                                            <rect key="frame" x="50" y="310" width="275" height="55"/>
+                                            <rect key="frame" x="50" y="315" width="275" height="55"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="55" id="brA-zM-51a"/>
                                             </constraints>
                                             <state key="normal" title="Button"/>
                                         </button>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nxb-la-YM8" userLabel="Separator Label">
-                                            <rect key="frame" x="166.5" y="420" width="42" height="21"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <nil key="textColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7ZH-en-wyc" userLabel="Facebook Button">
-                                            <rect key="frame" x="50" y="479" width="275" height="55"/>
-                                            <constraints>
-                                                <constraint firstAttribute="height" constant="55" id="ZkJ-5X-SEV"/>
-                                            </constraints>
-                                            <state key="normal" title="Button"/>
-                                        </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8NB-UE-ekP" userLabel="Back Button">
-                                            <rect key="frame" x="8" y="10" width="25" height="25"/>
+                                            <rect key="frame" x="8" y="15" width="25" height="25"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="25" id="98M-8G-rrs"/>
                                                 <constraint firstAttribute="height" constant="25" id="Kww-Wq-WXV"/>
@@ -90,18 +75,13 @@
                                     </subviews>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <constraints>
-                                        <constraint firstItem="7ZH-en-wyc" firstAttribute="leading" secondItem="5iq-Hr-UY2" secondAttribute="leading" constant="50" id="5oc-7e-j1w"/>
-                                        <constraint firstAttribute="trailing" secondItem="7ZH-en-wyc" secondAttribute="trailing" constant="50" id="95a-Vs-IJg"/>
                                         <constraint firstAttribute="trailing" secondItem="Sln-s1-Z9D" secondAttribute="trailing" constant="25" id="Fo8-9o-1xC"/>
-                                        <constraint firstItem="nxb-la-YM8" firstAttribute="centerX" secondItem="5iq-Hr-UY2" secondAttribute="centerX" id="KpA-Po-jN9"/>
                                         <constraint firstItem="1Kl-jQ-2Bx" firstAttribute="top" secondItem="8NB-UE-ekP" secondAttribute="bottom" constant="50" id="Kuo-jJ-zys"/>
                                         <constraint firstItem="Sln-s1-Z9D" firstAttribute="top" secondItem="LlF-qr-eCs" secondAttribute="bottom" constant="24" id="Kxs-jm-Rmm"/>
                                         <constraint firstItem="LlF-qr-eCs" firstAttribute="top" secondItem="1Kl-jQ-2Bx" secondAttribute="bottom" constant="40.5" id="MB8-tL-H2X"/>
-                                        <constraint firstItem="nxb-la-YM8" firstAttribute="top" secondItem="Wyk-3M-06P" secondAttribute="bottom" constant="55" id="Mg8-VI-PGg"/>
                                         <constraint firstAttribute="trailing" secondItem="LlF-qr-eCs" secondAttribute="trailing" constant="25" id="PfL-Ll-vVn"/>
-                                        <constraint firstItem="7ZH-en-wyc" firstAttribute="top" secondItem="nxb-la-YM8" secondAttribute="bottom" constant="38" id="Uz8-pB-lvb"/>
                                         <constraint firstItem="Wyk-3M-06P" firstAttribute="leading" secondItem="5iq-Hr-UY2" secondAttribute="leading" constant="50" id="WkF-oK-d3j"/>
-                                        <constraint firstItem="8NB-UE-ekP" firstAttribute="top" secondItem="5iq-Hr-UY2" secondAttribute="top" constant="10" id="gJD-XN-DWm"/>
+                                        <constraint firstItem="8NB-UE-ekP" firstAttribute="top" secondItem="5iq-Hr-UY2" secondAttribute="top" constant="15" id="gJD-XN-DWm"/>
                                         <constraint firstItem="Sln-s1-Z9D" firstAttribute="leading" secondItem="5iq-Hr-UY2" secondAttribute="leading" constant="25" id="hMK-n5-ora"/>
                                         <constraint firstItem="1Kl-jQ-2Bx" firstAttribute="leading" secondItem="5iq-Hr-UY2" secondAttribute="leading" constant="20" id="kN1-XN-uVV"/>
                                         <constraint firstItem="8NB-UE-ekP" firstAttribute="leading" secondItem="5iq-Hr-UY2" secondAttribute="leading" constant="8" id="ocu-o4-UHI"/>

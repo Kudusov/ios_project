@@ -20,8 +20,28 @@ class TimeCafeTableViewCell: UITableViewCell {
     @IBOutlet weak var priceLabel: UILabel!
     @IBOutlet var collectionOfFeatureLogos: Array<UIImageView>!
     
+    @IBOutlet var FeatureLogosSizeConstraints: [NSLayoutConstraint]!
+
+    @IBOutlet var logosLeadingConstraints: [NSLayoutConstraint]!
     override func awakeFromNib() {
+
         super.awakeFromNib()
+        let logoSizeConstraints = calculateLogoSize()
+        print("logoSize")
+        print(logoSizeConstraints.width)
+        print(logoSizeConstraints.height)
+        print(FeatureLogosSizeConstraints.count)
+        for logoSize in FeatureLogosSizeConstraints {
+            logoSize.constant = logoSizeConstraints.width
+        }
+
+        for logoSizeConstants in logosLeadingConstraints {
+            logoSizeConstants.constant = logoSizeConstraints.height
+        }
+
+        print(UIScreen.main.bounds.width)
+        print(frame.width)
+        print(priceLabel.frame.width)
         self.mainImage.layer.cornerRadius = 10
         self.mainImage.layer.masksToBounds = true
         self.ratingLabel.layer.cornerRadius = 10
@@ -31,10 +51,27 @@ class TimeCafeTableViewCell: UITableViewCell {
         self.ratingLabel.textColor = .black
     }
 
+    func calculateLogoSize() -> CGSize {
+        let maxWidth: Float = 42.0
+        let maxLogoCount: Float = 5.0
+        let screenWidth = UIScreen.main.bounds.width
+        let logoContentSize = screenWidth - 10 - mainImage.frame.width - priceLabel.frame.width - 25
+
+        var logoSize = Float(logoContentSize) / Float(maxLogoCount)
+        if (logoSize > maxWidth) {
+            logoSize = maxWidth
+        }
+
+        let logoImageSize = Int(logoSize * 2.5 / 3.5)
+        let logoContrainSize = Int(logoSize) - logoImageSize
+        return CGSize(width: logoImageSize, height: logoContrainSize)
+    }
+
     class func instanceFromNib() -> UIView {
         return UINib(nibName: "MapInfoWindowView", bundle: nil).instantiate(withOwner: self, options: nil).first as! UIView
     }
-    
+
+
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
@@ -52,10 +89,6 @@ class TimeCafeTableViewCell: UITableViewCell {
         if (cafe.price_type == 1) {
             price_type = " ₽/мин"
         }
-        print(cafeLocation)
-        print(currentLocation)
-        print("distance")
-        print(distance)
 
         var destinationType = " км"
         var destination = String(format: "%.1f", distance / 1000.0)
@@ -102,8 +135,10 @@ class TimeCafeTableViewCell: UITableViewCell {
             return nil
         }
     }
-    func setUpFeatureLogos(features: [Feature]) {
 
+    func setUpFeatureLogos(features: [Feature]) {
+        print("setupFeature " + nameLabel.text!)
+        print(features.count)
         var feature_count = 0
         for feature in featureOrder {
             if feature_count == collectionOfFeatureLogos.count {
@@ -119,8 +154,17 @@ class TimeCafeTableViewCell: UITableViewCell {
             }
         }
 
+        print(self.nameLabel)
+        print("featureCount = " + String(feature_count))
+        for i in 0...feature_count-1 {
+            print(i)
+            collectionOfFeatureLogos[i].isHidden = false
+        }
         if feature_count != collectionOfFeatureLogos.count {
+
+            print("hidden")
             for i in feature_count...(collectionOfFeatureLogos.count - 1) {
+                print(i)
                 collectionOfFeatureLogos[i].isHidden = true
             }
         }

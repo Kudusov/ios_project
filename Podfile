@@ -24,6 +24,7 @@ target 'Project2' do
     pod 'SDWebImage'
     pod 'Alamofire'
     pod 'SwiftyJSON',  '~> 4.2.0'
+    pod 'Cosmos', '~> 19.0'
 end
 
 

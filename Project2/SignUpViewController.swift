@@ -13,7 +13,6 @@ class SignUpViewController: UIViewController {
     @IBOutlet var containerView: UIView!
     @IBOutlet var backButton: UIButton!
     @IBOutlet var nameTextField: ATCTextField!
-    @IBOutlet var phoneNumberTextField: ATCTextField!
     @IBOutlet var passwordTextField: ATCTextField!
     @IBOutlet var emailTextField: ATCTextField!
     @IBOutlet var errorLabel: UILabel!
@@ -57,14 +56,6 @@ class SignUpViewController: UIViewController {
         emailTextField.placeholder = "E-mail Address"
         emailTextField.clipsToBounds = true
 
-        phoneNumberTextField.configure(color: textFieldColor,
-                                       font: textFieldFont,
-                                       cornerRadius: 40/2,
-                                       borderColor: textFieldBorderColor,
-            backgroundColor: backgroundColor,
-            borderWidth: 1.0)
-        phoneNumberTextField.placeholder = "Phone Number"
-        phoneNumberTextField.clipsToBounds = true
 
         passwordTextField.configure(color: textFieldColor,
                                     font: textFieldFont,

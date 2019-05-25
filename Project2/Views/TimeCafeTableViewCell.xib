@@ -18,7 +18,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="405" height="137.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Time Club Гнездо" translatesAutoresizingMaskIntoConstraints="NO" id="3Lz-6c-0T5">
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Time Club Гнездо" translatesAutoresizingMaskIntoConstraints="NO" id="3Lz-6c-0T5">
                         <rect key="frame" x="10" y="10" width="80" height="80"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="80" id="3NY-Ug-HoP"/>
@@ -94,7 +94,7 @@
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="170 р/час" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="H2m-KU-bg6">
-                        <rect key="frame" x="308" y="103" width="67" height="18"/>
+                        <rect key="frame" x="308" y="104" width="67" height="18"/>
                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
@@ -117,7 +117,7 @@
                     <constraint firstItem="h8U-9D-js6" firstAttribute="leading" secondItem="3Lz-6c-0T5" secondAttribute="trailing" constant="10" id="Oae-Tk-4qi"/>
                     <constraint firstItem="lOO-3B-o59" firstAttribute="top" secondItem="h8U-9D-js6" secondAttribute="bottom" constant="2" id="QeE-tm-RL0"/>
                     <constraint firstAttribute="trailingMargin" secondItem="N6Q-28-zO0" secondAttribute="trailing" constant="10" id="S0q-yh-nHd"/>
-                    <constraint firstAttribute="bottomMargin" secondItem="H2m-KU-bg6" secondAttribute="bottom" constant="6" id="ZBd-B1-Fd8"/>
+                    <constraint firstItem="H2m-KU-bg6" firstAttribute="centerY" secondItem="deF-6K-AKC" secondAttribute="centerY" id="VOr-L7-kma"/>
                     <constraint firstItem="lOO-3B-o59" firstAttribute="leading" secondItem="3Lz-6c-0T5" secondAttribute="trailing" constant="10" id="f3h-SD-zpA"/>
                     <constraint firstItem="deF-6K-AKC" firstAttribute="top" secondItem="N6Q-28-zO0" secondAttribute="bottom" constant="8" id="iLJ-8W-dsK"/>
                     <constraint firstItem="pJz-Qc-IRH" firstAttribute="top" secondItem="N6Q-28-zO0" secondAttribute="bottom" constant="8" id="kWD-ID-eQS"/>
@@ -145,6 +145,20 @@
                 <outletCollection property="collectionOfFeatureLogos" destination="IUb-Za-fe8" collectionClass="NSMutableArray" id="PG5-3N-Kml"/>
                 <outletCollection property="collectionOfFeatureLogos" destination="pJz-Qc-IRH" collectionClass="NSMutableArray" id="ICy-9Y-33r"/>
                 <outletCollection property="collectionOfFeatureLogos" destination="deF-6K-AKC" collectionClass="NSMutableArray" id="VfF-pR-Rdc"/>
+                <outletCollection property="FeatureLogosSizeConstraints" destination="z8E-Nt-Lvr" collectionClass="NSMutableArray" id="MwS-3b-7lw"/>
+                <outletCollection property="FeatureLogosSizeConstraints" destination="AU3-QY-Pyf" collectionClass="NSMutableArray" id="xGG-H7-IdD"/>
+                <outletCollection property="FeatureLogosSizeConstraints" destination="bWJ-yc-N4M" collectionClass="NSMutableArray" id="QSS-MQ-HKC"/>
+                <outletCollection property="FeatureLogosSizeConstraints" destination="qIW-pB-Mpy" collectionClass="NSMutableArray" id="yMf-wr-4NK"/>
+                <outletCollection property="FeatureLogosSizeConstraints" destination="G9F-EZ-1g6" collectionClass="NSMutableArray" id="bbT-hU-fuk"/>
+                <outletCollection property="FeatureLogosSizeConstraints" destination="b1i-9c-Eg7" collectionClass="NSMutableArray" id="68e-p1-2f1"/>
+                <outletCollection property="FeatureLogosSizeConstraints" destination="6ST-Rp-a09" collectionClass="NSMutableArray" id="B1I-ja-XW2"/>
+                <outletCollection property="FeatureLogosSizeConstraints" destination="wAO-RV-Wna" collectionClass="NSMutableArray" id="NK3-An-tWI"/>
+                <outletCollection property="FeatureLogosSizeConstraints" destination="DH1-gh-xls" collectionClass="NSMutableArray" id="73k-FT-zqi"/>
+                <outletCollection property="FeatureLogosSizeConstraints" destination="E99-sy-ROd" collectionClass="NSMutableArray" id="mao-0Q-7MZ"/>
+                <outletCollection property="logosLeadingConstraints" destination="shW-XN-SgR" collectionClass="NSMutableArray" id="Ufg-6b-eop"/>
+                <outletCollection property="logosLeadingConstraints" destination="2AM-qx-t7H" collectionClass="NSMutableArray" id="tmv-bH-A8f"/>
+                <outletCollection property="logosLeadingConstraints" destination="2kp-9u-1hL" collectionClass="NSMutableArray" id="GTM-Ou-DC0"/>
+                <outletCollection property="logosLeadingConstraints" destination="DMy-5Z-HoQ" collectionClass="NSMutableArray" id="uaL-Ei-530"/>
             </connections>
             <point key="canvasLocation" x="-858" y="155"/>
         </tableViewCell>

@@ -30,13 +30,34 @@ enum FeatureType: String, Codable {
 
 struct Feature: Codable {
     let feature: FeatureType
+    let description: String
+
+    static func getFeatureLogoPath(featureType: FeatureType) -> String? {
+        switch featureType {
+        case .playstation:
+            return "gamepad"
+        case .ping_pong:
+            return "ping-pong"
+        case .musical_instrument:
+            return "acoustic-guitar"
+        case .rooms:
+            return "rooms"
+        case .board_games:
+            return "board-games"
+        case .hookah:
+            return "hookah"
+        default:
+            return nil
+        }
+    }
+    
 }
 
 struct Image: Codable {
     let image: String
 }
 
-let featureOrder:[Feature] = [Feature(feature: .playstation), Feature(feature: .rooms), Feature(feature: .board_games), Feature(feature: .ping_pong), Feature(feature: .musical_instrument), Feature(feature: .hookah)]
+let featureOrder:[Feature] = [Feature(feature: .playstation, description: ""), Feature(feature: .rooms, description: ""), Feature(feature: .board_games, description: ""), Feature(feature: .ping_pong, description: ""), Feature(feature: .musical_instrument, description: ""), Feature(feature: .hookah, description: "")]
 
 struct TimeCafeJson: Codable {
     let id: Int

@@ -197,6 +197,7 @@ class TimeCafeMapInfoLauncher: NSObject {
 
     func showSettings(timeCafeInfo: TimeCafeJson, userLocation: CLLocation) {
         if let window = UIApplication.shared.keyWindow {
+
             myView.backgroundColor = .white
             myView.nameLabel.text = timeCafeInfo.name
             myView.nameLabel.textColor = .black
