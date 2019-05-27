@@ -26,6 +26,9 @@
 		04606F45229563E30078CF82 /* UIViewControlle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04606F44229563E30078CF82 /* UIViewControlle.swift */; };
 		04606F482295769F0078CF82 /* FilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04606F462295769F0078CF82 /* FilterViewController.swift */; };
 		04606F492295769F0078CF82 /* FilterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04606F472295769F0078CF82 /* FilterViewController.xib */; };
+		046A2BCA229AA64F00DDC897 /* EstimateTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046A2BC8229AA64F00DDC897 /* EstimateTableViewCell.swift */; };
+		046A2BCB229AA64F00DDC897 /* EstimateTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 046A2BC9229AA64F00DDC897 /* EstimateTableViewCell.xib */; };
+		046A2BCF229AB4AE00DDC897 /* EstimatesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046A2BCE229AB4AE00DDC897 /* EstimatesController.swift */; };
 		0487562D22975D2600D5E48A /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0487562C22975D2600D5E48A /* AuthManager.swift */; };
 		0495999822885752000AD6EA /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0495999722885752000AD6EA /* Extensions.swift */; };
 		0495999A22888186000AD6EA /* TimeCafeMapInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0495999922888186000AD6EA /* TimeCafeMapInfo.swift */; };
@@ -66,6 +69,9 @@
 		04606F44229563E30078CF82 /* UIViewControlle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControlle.swift; sourceTree = "<group>"; };
 		04606F462295769F0078CF82 /* FilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterViewController.swift; sourceTree = "<group>"; };
 		04606F472295769F0078CF82 /* FilterViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FilterViewController.xib; sourceTree = "<group>"; };
+		046A2BC8229AA64F00DDC897 /* EstimateTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EstimateTableViewCell.swift; sourceTree = "<group>"; };
+		046A2BC9229AA64F00DDC897 /* EstimateTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EstimateTableViewCell.xib; sourceTree = "<group>"; };
+		046A2BCE229AB4AE00DDC897 /* EstimatesController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EstimatesController.swift; sourceTree = "<group>"; };
 		0487562C22975D2600D5E48A /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
 		0495999722885752000AD6EA /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		0495999922888186000AD6EA /* TimeCafeMapInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeCafeMapInfo.swift; sourceTree = "<group>"; };
@@ -130,6 +136,8 @@
 				0495999922888186000AD6EA /* TimeCafeMapInfo.swift */,
 				043EA5CA228C439300A52834 /* TimeCafeDetailView.swift */,
 				043EA5CC228C446400A52834 /* TimeCafeDetailRoundedImageCell.swift */,
+				046A2BC8229AA64F00DDC897 /* EstimateTableViewCell.swift */,
+				046A2BC9229AA64F00DDC897 /* EstimateTableViewCell.xib */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -188,6 +196,7 @@
 				0487562C22975D2600D5E48A /* AuthManager.swift */,
 				041A9E9A2299601500414E42 /* PopUpViewController.swift */,
 				041A9E9C2299707800414E42 /* RatingViewController.swift */,
+				046A2BCE229AB4AE00DDC897 /* EstimatesController.swift */,
 			);
 			path = Project2;
 			sourceTree = "<group>";
@@ -271,6 +280,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				04606F492295769F0078CF82 /* FilterViewController.xib in Resources */,
+				046A2BCB229AA64F00DDC897 /* EstimateTableViewCell.xib in Resources */,
 				04606F30229492EF0078CF82 /* LoginScreenViewController.xib in Resources */,
 				04B28CF4226CDEFA005CB922 /* LaunchScreen.storyboard in Resources */,
 				04606F33229492EF0078CF82 /* SignUpViewController.xib in Resources */,
@@ -349,10 +359,12 @@
 				04606F2F229492EF0078CF82 /* LoginScreenViewController.swift in Sources */,
 				04606F3D229493410078CF82 /* UIColor.swift in Sources */,
 				04B28CEC226CDEF8005CB922 /* TimeCafesTableViewController.swift in Sources */,
+				046A2BCA229AA64F00DDC897 /* EstimateTableViewCell.swift in Sources */,
 				04446C64228774EB00018809 /* LocationManager.swift in Sources */,
 				04B28CEA226CDEF8005CB922 /* AppDelegate.swift in Sources */,
 				043EA5CD228C446400A52834 /* TimeCafeDetailRoundedImageCell.swift in Sources */,
 				0495999C228A17A8000AD6EA /* CustomTimeCafeMarker.swift in Sources */,
+				046A2BCF229AB4AE00DDC897 /* EstimatesController.swift in Sources */,
 				04B28D08226D137E005CB922 /* TimeCafe.swift in Sources */,
 				04606F45229563E30078CF82 /* UIViewControlle.swift in Sources */,
 				04606F482295769F0078CF82 /* FilterViewController.swift in Sources */,

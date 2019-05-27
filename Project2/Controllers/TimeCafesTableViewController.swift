@@ -9,8 +9,14 @@
 import UIKit
 import Alamofire
 import SwiftyJSON
-//import SDWebImage
 
+// TODO
+// Парсить время и цену
+// Получить реальный рейтинг + 
+// Добаить иконку личной страницы в tabbar
+// Реализовать фильтры поиска
+// Добавить изображение с пользователем
+// заполныить страницу кафе данными и бд
 struct AuthBearer {
 
     static let (accessTokenKey, refreshTokenKey) = ("accessToken", "refreshToken")
@@ -72,6 +78,7 @@ class TimeCafesTableViewController: UIViewController, UITableViewDataSource, UIT
     var currentLocation: CLLocation = CLLocation(latitude: +55.75578600, longitude: +37.61763300)
 
     override func viewDidLoad() {
+        AuthBearer.clearUserData()
         super.viewDidLoad()
         self.cellHeight = self.cellHeight + calculateLogoSize() - 30
         searchbar.delegate = self
@@ -85,10 +92,14 @@ class TimeCafesTableViewController: UIViewController, UITableViewDataSource, UIT
         navigationItem.rightBarButtonItem = barButton
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.register(UINib.init(nibName: cellIdentifier, bundle: nil), forCellReuseIdentifier: cellIdentifier)
 
+        tableView.register(UINib.init(nibName: cellIdentifier, bundle: nil), forCellReuseIdentifier: cellIdentifier)
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.estimatedRowHeight = UITableView.automaticDimension
         uploadCafes2()
     }
+
+
 
     @objc func filterBtnTapHandler(_ sender: UIButton) {
         let destinationVC = FilterViewController(nibName: "FilterViewController", bundle: nil)

@@ -12,6 +12,8 @@ class TimeCafeDetailController: UIViewController {
     var cafeView = TimeCafeDetailView(frame: CGRect(x: 0, y: 400, width: 100, height: 100))
     let cellId = "cellId"
     var timeCafeJson: TimeCafeJson!
+    private var myTableView: UITableView!
+
     let newCollection: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         let collection = UICollectionView(frame: CGRect(x: 0, y: 0, width: 0, height: 0), collectionViewLayout: layout)
@@ -25,6 +27,7 @@ class TimeCafeDetailController: UIViewController {
 
     let scrollView: UIScrollView = {
         let v = UIScrollView()
+
         v.translatesAutoresizingMaskIntoConstraints = false
         v.backgroundColor = .white
         return v
@@ -42,15 +45,22 @@ class TimeCafeDetailController: UIViewController {
         self.navigationController!.navigationBar.topItem!.title = ""
 
         view.addSubview(scrollView)
+
         setupScrollView()
         scrollView.addSubview(newCollection)
-        scrollView.contentSize = CGSize(width: view.frame.width, height: view.frame.height + 1000)
-        cafeView.frame = CGRect(x: 0, y: 300, width: view.frame.width, height: view.frame.height - 300)
+        print("height = ")
+        print(calculateCollectionViewCellHeight())
+        scrollView.contentSize = CGSize(width: view.frame.width, height: 470 + calculateCollectionViewCellHeight() + CGFloat(timeCafeJson.features!.count * 26))
+        cafeView.frame = CGRect(x: 0, y: calculateCollectionViewCellHeight() + 20, width: view.frame.width, height: view.frame.height - calculateCollectionViewCellHeight() - 20)
+
         fillCafeView()
-//        signupBtn.addTarget(self, action: #selector(didTapSignUpButton), for: .touchUpInside)
+
+
         cafeView.estimatebtn.addTarget(self, action: #selector(estimatebtnDidTap), for: .touchUpInside)
+        cafeView.reviewbtn.addTarget(self, action: #selector(reviewbtnDidTap), for: .touchUpInside)
         scrollView.addSubview(cafeView)
         setupCollection()
+
     }
 
     @objc func estimatebtnDidTap() {
@@ -60,12 +70,17 @@ class TimeCafeDetailController: UIViewController {
         self.present(secondViewController, animated: true, completion: nil)
     }
 
-    private func fillCafeView() {
-        self.cafeView.addressLabel.text = timeCafeJson.address
-        self.cafeView.stationLabel.text = timeCafeJson.station
-        self.cafeView.addFeatures(features: timeCafeJson.features!)
-
+    @objc func reviewbtnDidTap() {
+        let storyB = UIStoryboard(name: "Main", bundle: nil)
+        let secondViewController = storyB.instantiateViewController(withIdentifier: "EstimatesController") as! EstimatesController
+        secondViewController.cafeId = self.timeCafeJson.id
+        self.navigationController?.pushViewController(secondViewController, animated: true)
     }
+
+    private func fillCafeView() {
+        cafeView.fillFromModel(cafe: timeCafeJson)
+    }
+    
     func setupScrollView() {
         scrollView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0).isActive = true
         scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0).isActive = true
@@ -73,8 +88,25 @@ class TimeCafeDetailController: UIViewController {
         scrollView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 0).isActive = true
     }
 
+    private func calculateCollectionViewCellHeight() -> CGFloat {
+        var height = view.frame.height / 3
+        if height > 250 {
+            height = 250
+        }
+        return height
+    }
+
+    private func calculateCollectionViewCellWidth() ->CGFloat {
+        var width = view.frame.width
+        if width > 350 {
+            width = 350
+        }
+        return width
+    }
+
     func setupCollection() {
-        newCollection.heightAnchor.constraint(equalToConstant: 260  ).isActive = true
+        let height = calculateCollectionViewCellHeight()
+        newCollection.heightAnchor.constraint(equalToConstant: height).isActive = true
         newCollection.widthAnchor.constraint(equalToConstant: view.frame.width).isActive = true
 
     }
@@ -102,7 +134,10 @@ extension TimeCafeDetailController: UICollectionViewDataSource, UICollectionView
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: view.frame.width - 20, height: 250)
+        let width = calculateCollectionViewCellWidth()
+        let height = calculateCollectionViewCellHeight()
+
+        return CGSize(width: width - 20, height: height - 10)
     }
 
 

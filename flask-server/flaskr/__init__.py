@@ -152,6 +152,7 @@ class RatingApi(MethodView):
         review = params['review'] or ''
         useremail = get_jwt_identity()
         db_con.execute("insert or replace into mark (user_id, timecafe_id, rating, review) values((Select id from user where email = ?), ?, ?, ?)", (useremail, cafe_id, rating, review, ))
+        db_con.execute("update timecafe set rating = (select sum(rating)/count(rating) as rating from mark where timecafe_id = ? group by timecafe_id) where id = ?", (cafe_id, cafe_id, ))
         db_con.commit()
         print('cafe_id = ', cafe_id)
         print("Posted data : {}".format(request.get_json()))
@@ -161,6 +162,15 @@ class RatingApi(MethodView):
             }))
         resp.status_code = 200
         return resp
+    
+    def get(self, cafe_id):
+        db_con = db.get_db()
+        res = db_con.execute("select u.username, m.rating, m.review from user u join mark m on u.id = m.user_id where m.timecafe_id = ? and m.review <> \"\"", (cafe_id,))
+        items = [dict(zip([key[0] for key in res.description], [r for r in row])) for row in res]
+        resp = make_response(jsonify(items))
+        resp.status_code = 200
+        return resp
+
 
 class UserModel:
     def __init__(self, username, email, password):
@@ -386,6 +396,7 @@ def create_app(test_config=None):
         DATABASE=os.path.join(app.instance_path, 'flaskr.sqlite'),
     )
     app.config['JWT_SECRET_KEY'] = 'jwt-secret-string'
+    app.config['JWT_ACCESS_TOKEN_EXPIRES'] = 60 * 60 * 24
     jwt = JWTManager(app)
     if test_config is None:
         app.config.from_pyfile('config.py', silent=True)
@@ -421,6 +432,7 @@ def create_app(test_config=None):
     app.add_url_rule('/api/refresh', view_func = token_refresh_view, methods = ['POST'])
     app.add_url_rule('/api/me', view_func = user_view, methods = ['GET'])
     app.add_url_rule('/api/marks/', view_func = rating_view, methods = ['PUT'])
+    app.add_url_rule('/api/marks/<int:cafe_id>', view_func = rating_view, methods = ['GET'])
 
     
     return app

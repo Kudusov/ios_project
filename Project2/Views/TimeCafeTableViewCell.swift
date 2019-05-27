@@ -39,12 +39,9 @@ class TimeCafeTableViewCell: UITableViewCell {
             logoSizeConstants.constant = logoSizeConstraints.height
         }
 
-        print(UIScreen.main.bounds.width)
-        print(frame.width)
-        print(priceLabel.frame.width)
         self.mainImage.layer.cornerRadius = 10
         self.mainImage.layer.masksToBounds = true
-        self.ratingLabel.layer.cornerRadius = 10
+        self.ratingLabel.layer.cornerRadius = 5
         self.ratingLabel.layer.masksToBounds = true
 
         self.ratingLabel.backgroundColor = UIColor.init(displayP3Red: 0.3, green: 0.8, blue: 1, alpha: 1)
@@ -108,7 +105,7 @@ class TimeCafeTableViewCell: UITableViewCell {
         }
 
         self.priceLabel.text = price + price_type
-        self.ratingLabel.text = String(cafe.rating)
+        self.ratingLabel.text = String.localizedStringWithFormat("%.1f", cafe.rating)
         self.addressLabel.text = cafe.address
         self.stationLabel.text = cafe.station
         addIconToLabel(label: stationLabel, icon: "metro_logo")

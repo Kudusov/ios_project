@@ -59,6 +59,12 @@ struct Image: Codable {
 
 let featureOrder:[Feature] = [Feature(feature: .playstation, description: ""), Feature(feature: .rooms, description: ""), Feature(feature: .board_games, description: ""), Feature(feature: .ping_pong, description: ""), Feature(feature: .musical_instrument, description: ""), Feature(feature: .hookah, description: "")]
 
+struct Review: Codable {
+    let username: String
+    let rating: Float
+    let review: String
+}
+
 struct TimeCafeJson: Codable {
     let id: Int
     let main_image_url: String
@@ -88,15 +94,40 @@ struct Price {
     }
 }
 
+struct WorkTime {
+    let time: String
+    let date: String
+    init(time: String, date: String) {
+        self.time = time
+        self.date = date
+    }
+}
 
 extension TimeCafeJson {
-    func getWorkingTimeByDays() -> [String] {
+    func getWorkingTimeByDays() -> [WorkTime] {
         if self.working_time == "" {
-            return [String]()
+            return [WorkTime]()
         }
-
+        print(self.working_time)
         let arr = self.working_time.components(separatedBy: "|")
-        return arr
+
+        var times = [WorkTime]()
+        var time = ""
+        var date = ""
+        var index = 0
+        for item in arr {
+            if item != "" {
+                if index % 2 == 0 {
+                    time = item
+                } else {
+                    date = item
+                    times.append(WorkTime(time: time, date: date))
+                }
+                index += 1
+            }
+        }
+        print(times)
+        return times
     }
 
     func getPrices() -> [Price] {

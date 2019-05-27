@@ -11,10 +11,31 @@ import UIKit
 class TimeCafeDetailView: UIView {
 
     var lastFeatureView = UIView()
+    var lastTimeLabel = UIView()
+    var lastPriceLabel = UIView()
+    var prices = [Price]()
+    var workTimes = [WorkTime]()
+
     override init(frame: CGRect) {
         super.init(frame: frame)
+//        setupViews()
+//        setupConstraints()
+    }
+
+    func fillFromModel(cafe: TimeCafeJson) {
+        self.prices = cafe.getPrices()
+        self.workTimes = cafe.getWorkingTimeByDays()
         setupViews()
+        self.addressLabel.text = cafe.address
+        self.stationLabel.text = cafe.station
+        self.phoneLabel.text = cafe.phone_number
+        self.webLabel.text = cafe.website
+
+//        self.cafeView.addressLabel.text = timeCafeJson.address
+//        self.cafeView.stationLabel.text = timeCafeJson.station
+//        _ = self.cafeView.addFeatures(features: timeCafeJson.features!)
         setupConstraints()
+        lastFeatureView = addFeatures(features: cafe.features!)
     }
 
 
@@ -25,6 +46,7 @@ class TimeCafeDetailView: UIView {
 
     func setupViews() {
         addSubview(estimatebtn)
+        addSubview(reviewbtn)
         addSubview(separatorLine1)
         addSubview(separatorLine2)
         addSubview(separatorLine3)
@@ -51,9 +73,10 @@ class TimeCafeDetailView: UIView {
         addSubview(stationLogoImageView)
         addSubview(distanceLogoImageView)
         addSubview(distanceLabel)
-        addSubview(timeLabel)
+//        addSubview(timeLabel)
         addSubview(timeLogoImageView)
-        addSubview(priceLabel)
+//        addSubview(priceLabel)
+
         addSubview(priceLogoImageView)
         addSubview(phoneLogoImageView)
         addSubview(phoneLabel)
@@ -89,9 +112,14 @@ class TimeCafeDetailView: UIView {
         estimatebtn.topAnchor.constraint(equalTo: ratingLabel.bottomAnchor, constant: 10).isActive = true
         estimatebtn.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 10).isActive = true
 
-//        estimatebtn.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -10).isActive = true
+
         estimatebtn.heightAnchor.constraint(equalToConstant: 25).isActive = true
-        estimatebtn.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width / 2).isActive = true
+        estimatebtn.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width / 2 - 15).isActive = true
+
+        reviewbtn.topAnchor.constraint(equalTo: ratingLabel.bottomAnchor, constant: 10).isActive = true
+        reviewbtn.leftAnchor.constraint(equalTo: estimatebtn.rightAnchor, constant: 10).isActive = true
+        reviewbtn.heightAnchor.constraint(equalToConstant: 25).isActive = true
+        reviewbtn.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width / 2 - 15).isActive = true
 
         separatorLine2.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 10).isActive = true
         separatorLine2.topAnchor.constraint(equalTo: self.estimatebtn.bottomAnchor, constant: 15).isActive = true
@@ -154,12 +182,15 @@ class TimeCafeDetailView: UIView {
         timeLogoImageView.heightAnchor.constraint(equalToConstant: CGFloat(18)).isActive = true
         timeLogoImageView.widthAnchor.constraint(equalToConstant: CGFloat(18)).isActive = true
 
-        timeLabel.leftAnchor.constraint(equalTo: timeLogoImageView.rightAnchor, constant: 5).isActive = true
-        timeLabel.rightAnchor.constraint(equalTo: self.rightAnchor, constant: 10).isActive = true
-        timeLabel.topAnchor.constraint(equalTo: timeTitleLabel.bottomAnchor, constant: 10).isActive = true
+
+//        timeLabel.leftAnchor.constraint(equalTo: timeLogoImageView.rightAnchor, constant: 5).isActive = true
+//        timeLabel.rightAnchor.constraint(equalTo: self.rightAnchor, constant: 10).isActive = true
+//        timeLabel.topAnchor.constraint(equalTo: timeTitleLabel.bottomAnchor, constant: 10).isActive = true
+
+        lastTimeLabel = addWorkingTimes(workingTimes: workTimes)
 
         separatorLine7.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 10).isActive = true
-        separatorLine7.topAnchor.constraint(equalTo: self.timeLabel.bottomAnchor, constant: 15).isActive = true
+        separatorLine7.topAnchor.constraint(equalTo: self.lastTimeLabel.bottomAnchor, constant: 15).isActive = true
         separatorLine7.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width / 2 - 30).isActive = true
         separatorLine7.heightAnchor.constraint(equalToConstant: 1).isActive = true
 
@@ -173,16 +204,16 @@ class TimeCafeDetailView: UIView {
         separatorLine8.heightAnchor.constraint(equalToConstant: 1).isActive = true
 
         priceLogoImageView.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 10).isActive = true
-        priceLogoImageView.topAnchor.constraint(equalTo: priceTitleLabel.bottomAnchor, constant: 10).isActive = true
+        priceLogoImageView.topAnchor.constraint(equalTo: priceTitleLabel.bottomAnchor, constant: 6).isActive = true
         priceLogoImageView.heightAnchor.constraint(equalToConstant: CGFloat(18)).isActive = true
         priceLogoImageView.widthAnchor.constraint(equalToConstant: CGFloat(18)).isActive = true
 
-        priceLabel.leftAnchor.constraint(equalTo: priceLogoImageView.rightAnchor, constant: 5).isActive = true
-        priceLabel.rightAnchor.constraint(equalTo: self.rightAnchor, constant: 10).isActive = true
-        priceLabel.topAnchor.constraint(equalTo: priceTitleLabel.bottomAnchor, constant: 10).isActive = true
-
+//        priceLabel.leftAnchor.constraint(equalTo: priceLogoImageView.rightAnchor, constant: 5).isActive = true
+//        priceLabel.rightAnchor.constraint(equalTo: self.rightAnchor, constant: 10).isActive = true
+//        priceLabel.topAnchor.constraint(equalTo: priceTitleLabel.bottomAnchor, constant: 10).isActive = true
+        lastPriceLabel = addPricec(prices: self.prices)
         separatorLine9.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 10).isActive = true
-        separatorLine9.topAnchor.constraint(equalTo: self.priceLabel.bottomAnchor, constant: 15).isActive = true
+        separatorLine9.topAnchor.constraint(equalTo: self.lastPriceLabel.bottomAnchor, constant: 15).isActive = true
         separatorLine9.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width / 2 - 48).isActive = true
         separatorLine9.heightAnchor.constraint(equalToConstant: 1).isActive = true
 
@@ -274,6 +305,97 @@ class TimeCafeDetailView: UIView {
         return label
 
     }
+
+    func addWorkingTimes(workingTimes: [WorkTime]) -> UIView {
+        var lastView = UIView()
+        for (index, workingTime) in workingTimes.enumerated() {
+            if index == 0 {
+                lastView = addWorkingTime(workingTime: workingTime, prevLabelView: timeTitleLabel)
+            } else {
+                lastView = addWorkingTime(workingTime: workingTime, prevLabelView: lastView)
+            }
+        }
+        return lastView
+    }
+
+    func addWorkingTime(workingTime: WorkTime, prevLabelView: UIView) -> UIView {
+        let labelTime: UILabel = {
+            let label = UILabel()
+            label.translatesAutoresizingMaskIntoConstraints = false
+            label.text = workingTime.time
+            label.numberOfLines = 1
+            return label
+        }()
+
+        let labelDate: UILabel = {
+            let label = UILabel()
+            label.translatesAutoresizingMaskIntoConstraints = false
+            label.text = workingTime.date
+            label.numberOfLines = 1
+            return label
+        }()
+
+        addSubview(labelTime)
+        addSubview(labelDate)
+
+        labelTime.heightAnchor.constraint(equalToConstant: 18).isActive = true
+        labelDate.heightAnchor.constraint(equalToConstant: 18).isActive = true
+        labelDate.widthAnchor.constraint(equalToConstant: 70).isActive = true
+        labelTime.topAnchor.constraint(equalTo: prevLabelView.bottomAnchor, constant: 6).isActive = true
+        labelTime.leftAnchor.constraint(equalTo: priceLogoImageView.rightAnchor, constant: 6).isActive = true
+        labelTime.rightAnchor.constraint(equalTo: labelDate.leftAnchor, constant: 5).isActive = true
+
+        labelDate.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -10).isActive = true
+        labelDate.centerYAnchor.constraint(equalToSystemSpacingBelow: labelTime.centerYAnchor, multiplier: 0).isActive = true
+        return labelTime
+    }
+
+    func addPricec(prices: [Price]) -> UIView {
+        var lastView = UIView()
+        for (index, price) in prices.enumerated() {
+            if index == 0 {
+                lastView = addPrice(price: price, prevLabelView: priceTitleLabel)
+            } else {
+                lastView = addPrice(price: price, prevLabelView: lastView)
+            }
+        }
+        return lastView
+    }
+
+    func addPrice(price: Price, prevLabelView: UIView) -> UIView {
+        let labelTime: UILabel = {
+            let label = UILabel()
+            label.translatesAutoresizingMaskIntoConstraints = false
+            label.text = price.description
+            label.numberOfLines = 1
+            return label
+        }()
+
+        let labelDate: UILabel = {
+            let label = UILabel()
+            label.translatesAutoresizingMaskIntoConstraints = false
+            label.text = price.price
+//            label.textAlignment = .right
+            label.numberOfLines = 1
+            return label
+        }()
+
+        addSubview(labelTime)
+        addSubview(labelDate)
+
+        labelTime.heightAnchor.constraint(equalToConstant: 18).isActive = true
+        labelDate.heightAnchor.constraint(equalToConstant: 18).isActive = true
+        labelDate.widthAnchor.constraint(equalToConstant: 70).isActive = true
+        labelTime.topAnchor.constraint(equalTo: prevLabelView.bottomAnchor, constant: 6).isActive = true
+        labelTime.leftAnchor.constraint(equalTo: priceLogoImageView.rightAnchor, constant: 6).isActive = true
+        labelTime.rightAnchor.constraint(equalTo: labelDate.leftAnchor, constant: 5).isActive = true
+//        labelDate.leftAnchor.constraint(equalTo: labelTime.rightAnchor, constant: 0).isActive = true
+
+        labelDate.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -10).isActive = true
+        labelDate.centerYAnchor.constraint(equalToSystemSpacingBelow: labelTime.centerYAnchor, multiplier: 0).isActive = true
+        return labelTime
+    }
+
     static func getSeparatorLine() -> UIView {
         let lineView = UIView()
         lineView.translatesAutoresizingMaskIntoConstraints = false
@@ -404,13 +526,13 @@ class TimeCafeDetailView: UIView {
         return imageView
     }()
 
-    var timeLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "9:00 - 22:00                                            (пн-пт)\n9:00 - 2:00                                              (сб-вс)"
-        label.numberOfLines = 0
-        return label
-    }()
+//    var timeLabel: UILabel = {
+//        let label = UILabel()
+//        label.translatesAutoresizingMaskIntoConstraints = false
+//        label.text = "9:00 - 22:00                                            (пн-пт)\n9:00 - 2:00                                              (сб-вс)"
+//        label.numberOfLines = 0
+//        return label
+//    }()
 
     var priceTitleLabel: UILabel = {
         let label = UILabel()
@@ -436,18 +558,30 @@ class TimeCafeDetailView: UIView {
         return imageView
     }()
 
-    var priceLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "1-й час                                                      200р\nCo 2-го часа                                            2р/мин\nСтопчек                                                    500р"
-        label.numberOfLines = 0
-        return label
-    }()
+//    var priceLabel: UILabel = {
+//        let label = UILabel()
+//        label.translatesAutoresizingMaskIntoConstraints = false
+//        label.text = "1-й час                                                      200р\nCo 2-го часа                                            2р/мин\nСтопчек                                                    500р"
+//        label.numberOfLines = 0
+//        return label
+//    }()
 
     var estimatebtn: UIButton = {
         let btn = UIButton()
-        btn.backgroundColor = UIColor.green
+        btn.backgroundColor = UIColor(hexString: "#ff5a66")
+        btn.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
         btn.setTitle("Оценить", for: .normal)
+
+        btn.translatesAutoresizingMaskIntoConstraints = false
+        btn.layer.cornerRadius = 25.0 / 2.0
+        return btn
+    }()
+
+    var reviewbtn: UIButton = {
+        let btn = UIButton()
+        btn.backgroundColor = UIColor(hexString: "#ff5a66")
+        btn.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
+        btn.setTitle("Отзывы", for: .normal)
         btn.translatesAutoresizingMaskIntoConstraints = false
         btn.layer.cornerRadius = 25.0 / 2.0
         return btn

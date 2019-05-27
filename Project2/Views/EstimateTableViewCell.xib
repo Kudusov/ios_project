@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="99" id="KGk-i7-Jjw" customClass="EstimateTableViewCell" customModule="Project2" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="350" height="99"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="350" height="98.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="beliy_list" translatesAutoresizingMaskIntoConstraints="NO" id="hgD-Ul-UnB">
+                        <rect key="frame" x="10" y="8" width="50" height="50"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="50" id="AUO-kH-k4F"/>
+                            <constraint firstAttribute="width" constant="50" id="gSY-I0-bdo"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Иван Иванов" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ccg-vo-fjw">
+                        <rect key="frame" x="70" y="8" width="272" height="21"/>
+                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="5,0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bs0-d5-tqH">
+                        <rect key="frame" x="70" y="32" width="32" height="21"/>
+                        <color key="backgroundColor" red="0.0" green="0.58980089430000004" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="21" id="ErX-jh-P7R"/>
+                            <constraint firstAttribute="width" constant="32" id="duJ-ga-PpT"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="17"/>
+                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="17 мая 2019" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="z0d-1v-GU1">
+                        <rect key="frame" x="112" y="34.5" width="232" height="16"/>
+                        <fontDescription key="fontDescription" type="system" weight="ultraLight" pointSize="13"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Какой то отзыв" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="x2b-td-Wfk">
+                        <rect key="frame" x="10" y="66" width="330" height="24.5"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="z0d-1v-GU1" firstAttribute="leading" secondItem="Bs0-d5-tqH" secondAttribute="trailing" constant="10" id="1P8-Vh-YcE"/>
+                    <constraint firstAttribute="bottom" secondItem="x2b-td-Wfk" secondAttribute="bottom" constant="8" id="4lE-mH-HEV"/>
+                    <constraint firstItem="z0d-1v-GU1" firstAttribute="centerY" secondItem="Bs0-d5-tqH" secondAttribute="centerY" id="A6g-Jg-z9n"/>
+                    <constraint firstItem="Ccg-vo-fjw" firstAttribute="leading" secondItem="hgD-Ul-UnB" secondAttribute="trailing" constant="10" id="EU4-s0-uZw"/>
+                    <constraint firstItem="hgD-Ul-UnB" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="GoY-lN-BRA"/>
+                    <constraint firstItem="x2b-td-Wfk" firstAttribute="top" secondItem="hgD-Ul-UnB" secondAttribute="bottom" constant="8" id="KkC-Cu-cO8"/>
+                    <constraint firstItem="z0d-1v-GU1" firstAttribute="trailing" secondItem="H2p-sc-9uM" secondAttribute="trailingMargin" constant="10" id="ScM-RZ-vgD"/>
+                    <constraint firstItem="Bs0-d5-tqH" firstAttribute="leading" secondItem="Ccg-vo-fjw" secondAttribute="leading" id="ZgP-1A-Mc5"/>
+                    <constraint firstItem="Ccg-vo-fjw" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="8" id="bhw-xc-Lr5"/>
+                    <constraint firstItem="x2b-td-Wfk" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="fXY-Az-Gg6"/>
+                    <constraint firstItem="hgD-Ul-UnB" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="8" id="ht3-W1-9ND"/>
+                    <constraint firstItem="Bs0-d5-tqH" firstAttribute="top" secondItem="Ccg-vo-fjw" secondAttribute="bottom" constant="3" id="mVZ-VB-BM2"/>
+                    <constraint firstAttribute="trailing" secondItem="Ccg-vo-fjw" secondAttribute="trailing" constant="8" id="oan-40-OXp"/>
+                    <constraint firstAttribute="trailing" secondItem="x2b-td-Wfk" secondAttribute="trailing" constant="10" id="uWr-Oy-2KH"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <connections>
+                <outlet property="dataLabel" destination="z0d-1v-GU1" id="bXZ-Pb-K3a"/>
+                <outlet property="mainImage" destination="hgD-Ul-UnB" id="12G-gQ-J6d"/>
+                <outlet property="nameLabel" destination="Ccg-vo-fjw" id="d9J-g5-fhz"/>
+                <outlet property="ratingLabel" destination="Bs0-d5-tqH" id="RA8-sL-ejw"/>
+                <outlet property="reviewLabel" destination="x2b-td-Wfk" id="UFp-zp-pmb"/>
+            </connections>
+            <point key="canvasLocation" x="-147.19999999999999" y="172.26386806596702"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="beliy_list" width="510" height="272"/>
+    </resources>
+</document>
