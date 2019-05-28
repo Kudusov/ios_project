@@ -48,7 +48,7 @@ class TimeCafeTableViewCell: UITableViewCell {
         let maxWidth: Float = 42.0
         let maxLogoCount: Float = 5.0
         let screenWidth = UIScreen.main.bounds.width
-        let logoContentSize = screenWidth - 10 - mainImage.frame.width - priceLabel.frame.width - 25
+        let logoContentSize = screenWidth - 10 - mainImage.frame.width - priceLabel.frame.width - 30
 
         var logoSize = Float(logoContentSize) / Float(maxLogoCount)
         if (logoSize > maxWidth) {
@@ -110,25 +110,6 @@ class TimeCafeTableViewCell: UITableViewCell {
         setUpFeatureLogos(features: cafe.features ?? [])
     }
 
-    func getFeatureLogoPath(featureType: FeatureType) -> String? {
-        switch featureType {
-        case .playstation:
-            return "gamepad"
-        case .ping_pong:
-            return "ping-pong"
-        case .musical_instrument:
-            return "acoustic-guitar"
-        case .rooms:
-            return "rooms"
-        case .board_games:
-            return "board-games"
-        case .hookah:
-            return "hookah"
-        default:
-            return nil
-        }
-    }
-
     func setUpFeatureLogos(features: [Feature]) {
         var feature_count = 0
         for feature in featureOrder {
@@ -137,7 +118,7 @@ class TimeCafeTableViewCell: UITableViewCell {
             }
             if features.contains(where: {$0.feature==feature.feature}) {
 
-                guard let path = getFeatureLogoPath(featureType: feature.feature) else {
+                guard let path = Feature.getFeatureLogoPath(featureType: feature.feature) else {
                     continue
                 }
                 collectionOfFeatureLogos[feature_count].image = UIImage(named: path)

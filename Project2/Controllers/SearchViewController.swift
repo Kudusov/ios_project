@@ -193,7 +193,7 @@ class TimeCafeMapInfoLauncher: NSObject {
         return view
     }()
 
-    var myView = MyView(frame: CGRect(x: 40, y: 40, width: 350, height: 300))
+    var myView = MyView(frame: CGRect(x: 40, y: 40, width: 350, height: 270))
 
     func showSettings(timeCafeInfo: TimeCafeJson, userLocation: CLLocation) {
         if let window = UIApplication.shared.keyWindow {
@@ -219,12 +219,17 @@ class TimeCafeMapInfoLauncher: NSObject {
             myView.addressLabel.text = timeCafeInfo.address
             myView.timeLabel.text = "10:00 - 22:00"
             myView.phoneNumber.text = timeCafeInfo.phone_number
-            for feature in timeCafeInfo.features ?? [Feature]() {
+            let maxIcon = Int(myView.frame.height / 50) - 1
+
+            for (i, feature) in timeCafeInfo.features?.enumerated() ?? [Feature]().enumerated() {
+                if i > maxIcon {
+                    break
+                }
                 myView.addFeatureIcon(feature: feature.feature)
             }
             window.addSubview(myView)
 
-            let height: CGFloat = 300
+            let height: CGFloat = 270
             let y = window.frame.height - height
             myView.frame = CGRect(x: 0, y: window.frame.height, width: window.frame.width, height: height)
 

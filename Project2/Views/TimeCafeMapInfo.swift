@@ -79,8 +79,8 @@ class MyView: UIView {
             imageView.heightAnchor.constraint(equalToConstant: CGFloat(40)).isActive = true
             imageView.widthAnchor.constraint(equalToConstant: CGFloat(40)).isActive = true
         }
-        print("feature logo path" + getFeatureLogoPath(featureType: feature)!)
-        imageView.image = UIImage(named: getFeatureLogoPath(featureType: feature) ?? "gamepad")
+        print("feature logo path" + Feature.getFeatureLogoPath(featureType: feature)!)
+        imageView.image = UIImage(named: Feature.getFeatureLogoPath(featureType: feature) ?? "gamepad")
         lastImageView = imageView
     }
     

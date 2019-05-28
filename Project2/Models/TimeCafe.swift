@@ -25,6 +25,10 @@ enum FeatureType: String, Codable {
     case ping_pong = "ping_pong"
     case hookah = "hookah"
     case musical_instrument = "musical_instrument"
+    case wifi = "wifi"
+    case tea_and_coffee = "tea_and_coffee"
+    case projector = "projector"
+    case eat = "eat"
 };
 
 
@@ -46,8 +50,16 @@ struct Feature: Codable {
             return "board-games"
         case .hookah:
             return "hookah"
+        case .projector:
+            return "projector"
+        case .tea_and_coffee:
+            return "coffee_and_tea"
+        case .wifi:
+            return "wifi"
+        case .eat:
+            return "eat"
         default:
-            return nil
+            return "gamepad"
         }
     }
     
@@ -57,7 +69,7 @@ struct Image: Codable {
     let image: String
 }
 
-let featureOrder:[Feature] = [Feature(feature: .playstation, description: ""), Feature(feature: .rooms, description: ""), Feature(feature: .board_games, description: ""), Feature(feature: .ping_pong, description: ""), Feature(feature: .musical_instrument, description: ""), Feature(feature: .hookah, description: "")]
+let featureOrder:[Feature] = [Feature(feature: .playstation, description: ""), Feature(feature: .rooms, description: ""), Feature(feature: .board_games, description: ""), Feature(feature: .ping_pong, description: ""), Feature(feature: .musical_instrument, description: ""), Feature(feature: .hookah, description: ""), Feature(feature: .tea_and_coffee, description: ""), Feature(feature: .wifi, description: ""), Feature(feature: .eat, description: "")]
 
 struct Review: Codable {
     let username: String

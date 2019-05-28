@@ -15,12 +15,17 @@ class TimeCafeDetailView: UIView {
     var lastPriceLabel = UIView()
     var prices = [Price]()
     var workTimes = [WorkTime]()
+    var featureViews = [UIView]()
+    var priceLabels = [UIView]()
+    var timeLabels = [UIView]()
+    var subpriceCount = 0
 
     override init(frame: CGRect) {
         super.init(frame: frame)
 //        setupViews()
 //        setupConstraints()
     }
+    
 
     func fillFromModel(cafe: TimeCafeJson) {
         self.prices = cafe.getPrices()
@@ -192,7 +197,7 @@ class TimeCafeDetailView: UIView {
         separatorLine6.heightAnchor.constraint(equalToConstant: 1).isActive = true
 
         timeLogoImageView.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 10).isActive = true
-        timeLogoImageView.topAnchor.constraint(equalTo: timeTitleLabel.bottomAnchor, constant: 10).isActive = true
+        timeLogoImageView.topAnchor.constraint(equalTo: timeTitleLabel.bottomAnchor, constant: 6).isActive = true
         timeLogoImageView.heightAnchor.constraint(equalToConstant: CGFloat(18)).isActive = true
         timeLogoImageView.widthAnchor.constraint(equalToConstant: CGFloat(18)).isActive = true
 
@@ -260,7 +265,7 @@ class TimeCafeDetailView: UIView {
 
         separatorLine11.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 10).isActive = true
         separatorLine11.topAnchor.constraint(equalTo: self.webLabel.bottomAnchor, constant: 15).isActive = true
-        separatorLine11.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width / 2 - 48).isActive = true
+        separatorLine11.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width / 2 - 38).isActive = true
         separatorLine11.heightAnchor.constraint(equalToConstant: 1).isActive = true
 
         featureTitleLabel.leftAnchor.constraint(equalTo: self.separatorLine11.rightAnchor, constant: 0).isActive = true
@@ -269,7 +274,7 @@ class TimeCafeDetailView: UIView {
         separatorLine12.leftAnchor.constraint(equalTo: self.featureTitleLabel.rightAnchor).isActive = true
         separatorLine12.centerYAnchor.constraint(equalTo: self.featureTitleLabel.centerYAnchor).isActive = true
         separatorLine12.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -10).isActive = true
-        separatorLine12.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width / 2 - 48).isActive = true
+        separatorLine12.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width / 2 - 38).isActive = true
         separatorLine12.heightAnchor.constraint(equalToConstant: 1).isActive = true
 
     }
@@ -308,14 +313,14 @@ class TimeCafeDetailView: UIView {
         addSubview(label)
 
         logoImageView.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 10).isActive = true
-        logoImageView.topAnchor.constraint(equalTo: prevLabelView.bottomAnchor, constant: 6).isActive = true
+        logoImageView.topAnchor.constraint(equalTo: prevLabelView.bottomAnchor, constant: 10).isActive = true
         logoImageView.heightAnchor.constraint(equalToConstant: CGFloat(20)).isActive = true
         logoImageView.widthAnchor.constraint(equalToConstant: CGFloat(18)).isActive = true
 
         label.leftAnchor.constraint(equalTo: logoImageView.rightAnchor, constant: 5).isActive = true
         label.rightAnchor.constraint(equalTo: self.rightAnchor, constant: 10).isActive = true
-        label.topAnchor.constraint(equalTo: prevLabelView.bottomAnchor, constant: 6).isActive = true
-
+        label.topAnchor.constraint(equalTo: prevLabelView.bottomAnchor, constant: 10).isActive = true
+        featureViews.append(label)
         return label
 
     }
@@ -329,6 +334,7 @@ class TimeCafeDetailView: UIView {
                 lastView = addWorkingTime(workingTime: workingTime, prevLabelView: lastView)
             }
         }
+
         return lastView
     }
 
@@ -354,13 +360,15 @@ class TimeCafeDetailView: UIView {
 
         labelTime.heightAnchor.constraint(equalToConstant: 18).isActive = true
         labelDate.heightAnchor.constraint(equalToConstant: 18).isActive = true
-        labelDate.widthAnchor.constraint(equalToConstant: 70).isActive = true
+        labelDate.widthAnchor.constraint(equalToConstant: 90).isActive = true
         labelTime.topAnchor.constraint(equalTo: prevLabelView.bottomAnchor, constant: 6).isActive = true
         labelTime.leftAnchor.constraint(equalTo: priceLogoImageView.rightAnchor, constant: 6).isActive = true
         labelTime.rightAnchor.constraint(equalTo: labelDate.leftAnchor, constant: 5).isActive = true
 
         labelDate.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -10).isActive = true
         labelDate.centerYAnchor.constraint(equalToSystemSpacingBelow: labelTime.centerYAnchor, multiplier: 0).isActive = true
+
+        timeLabels.append(labelTime)
         return labelTime
     }
 
@@ -381,6 +389,11 @@ class TimeCafeDetailView: UIView {
             let label = UILabel()
             label.translatesAutoresizingMaskIntoConstraints = false
             label.text = price.description
+            if price.price == "" || price.price == " " {
+//                label.textAlignment = .center
+                label.font = UIFont(name: "PingFangSC-Semibold", size: 17)
+            }
+//            label.font = UIFont(name: "PingFangHK-Semibold", size: 21)
             label.numberOfLines = 1
             return label
         }()
@@ -399,14 +412,26 @@ class TimeCafeDetailView: UIView {
 
         labelTime.heightAnchor.constraint(equalToConstant: 18).isActive = true
         labelDate.heightAnchor.constraint(equalToConstant: 18).isActive = true
-        labelDate.widthAnchor.constraint(equalToConstant: 70).isActive = true
-        labelTime.topAnchor.constraint(equalTo: prevLabelView.bottomAnchor, constant: 6).isActive = true
+        if price.price == "" || price.price == " " {
+            labelDate.widthAnchor.constraint(equalToConstant: 0).isActive = true
+        } else {
+            labelDate.widthAnchor.constraint(equalToConstant: 90).isActive = true
+        }
+
+
+        if price.price == " " && prevLabelView != priceTitleLabel {
+            labelTime.topAnchor.constraint(equalTo: prevLabelView.bottomAnchor, constant: 16).isActive = true
+            subpriceCount = subpriceCount + 1
+        } else {
+             labelTime.topAnchor.constraint(equalTo: prevLabelView.bottomAnchor, constant: 6).isActive = true
+        }
         labelTime.leftAnchor.constraint(equalTo: priceLogoImageView.rightAnchor, constant: 6).isActive = true
         labelTime.rightAnchor.constraint(equalTo: labelDate.leftAnchor, constant: 5).isActive = true
 //        labelDate.leftAnchor.constraint(equalTo: labelTime.rightAnchor, constant: 0).isActive = true
 
         labelDate.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -10).isActive = true
         labelDate.centerYAnchor.constraint(equalToSystemSpacingBelow: labelTime.centerYAnchor, multiplier: 0).isActive = true
+        priceLabels.append(labelTime)
         return labelTime
     }
 

@@ -51,8 +51,6 @@ class TimeCafeDetailController: UIViewController, RatingUpdateProtocol {
 
         setupScrollView()
         scrollView.addSubview(newCollection)
-        print("height = ")
-        print(calculateCollectionViewCellHeight())
         scrollView.contentSize = CGSize(width: view.frame.width, height: 470 + calculateCollectionViewCellHeight() + CGFloat(timeCafeJson.features!.count * 26))
         cafeView.frame = CGRect(x: 0, y: calculateCollectionViewCellHeight() + 20, width: view.frame.width, height: view.frame.height - calculateCollectionViewCellHeight() - 20)
 
@@ -64,6 +62,28 @@ class TimeCafeDetailController: UIViewController, RatingUpdateProtocol {
         setupCollection()
 
     }
+
+    override func viewDidAppear(_ animated: Bool) {
+        print("height2 = ")
+        var height = CGFloat(0)
+        for view in cafeView.featureViews{
+            height = height + view.frame.height + 10
+            print(view.frame.height)
+        }
+
+        for view in cafeView.priceLabels {
+            print(view.frame.height)
+            height = height + view.frame.height + 6
+        }
+        height = height + CGFloat(cafeView.subpriceCount * 10)
+        for view in cafeView.timeLabels {
+            print(view.frame.height)
+            height = height + view.frame.height + 6
+        }
+
+        scrollView.contentSize = CGSize(width: view.frame.width, height: calculateCollectionViewCellHeight() + height + 350)
+    }
+
     func ratingUpdated() {
         if ratingUpdateDelegate != nil {
             ratingUpdateDelegate!.ratingUpdated()
