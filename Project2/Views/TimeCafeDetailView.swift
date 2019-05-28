@@ -30,14 +30,28 @@ class TimeCafeDetailView: UIView {
         self.stationLabel.text = cafe.station
         self.phoneLabel.text = cafe.phone_number
         self.webLabel.text = cafe.website
-
-//        self.cafeView.addressLabel.text = timeCafeJson.address
-//        self.cafeView.stationLabel.text = timeCafeJson.station
-//        _ = self.cafeView.addFeatures(features: timeCafeJson.features!)
+        self.ratingLabel.text = "Рейтинг " + String.localizedStringWithFormat("%.1f", cafe.rating) + " из 5"
+        self.setDistance(distance: cafe.distance!)
+//        self.distanceLabel.text = "~" + 
         setupConstraints()
         lastFeatureView = addFeatures(features: cafe.features!)
     }
+    func setDistance(distance: Double) {
+        var destinationType = " км"
+        var destination = String(format: "%.1f", distance / 1000.0)
+        if (distance > 10000) {
+            destination = String(format: "%.0f", distance / 1000.0)
+        }
+        if (distance < 1000) {
+            destination = String(format: "%.0f", floor(distance))
+            destinationType = " м"
+        }
+        self.distanceLabel.text = "~" + destination + destinationType + " от вас"
+    }
 
+    func updateRating(rating: Float) {
+        self.ratingLabel.text = "Рейтинг " + String.localizedStringWithFormat("%.1f", rating) + " из 5"
+    }
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

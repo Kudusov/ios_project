@@ -1,8 +1,9 @@
 import sqlite3
-
+# from . import UserModel
 import click
 from flask import current_app, g
 from flask.cli import with_appcontext
+import requests
 
 
 def get_db():
@@ -36,6 +37,16 @@ def init_db_command():
     init_db()
     click.echo('Initialized the database.')
 
+# @click.command('add-users')
+# @with_appcontext
+# def add_users():
+#     db =  get_db()
+#     res = requests.get("https://randomuser.me/api/?results=100")
+#     users = res.json()["results"]
+
+
+
 def init_app(app):
     app.teardown_appcontext(close_db)
     app.cli.add_command(init_db_command)
+    # app.cli.add_command(add_users)

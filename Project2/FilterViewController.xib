@@ -12,6 +12,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="FilterViewController" customModule="Project2" customModuleProvider="target">
             <connections>
                 <outlet property="buttonBar" destination="Q95-IQ-hPv" id="pf9-qc-N6Q"/>
+                <outlet property="fiterBtn" destination="ENB-vs-52K" id="zg9-GF-j4i"/>
                 <outlet property="sortTypeLablel" destination="fMv-n2-WKh" id="nbU-KV-Wci"/>
                 <outlet property="sortTypeSegmentControl" destination="1pW-Mb-Jy6" id="679-pg-kDa"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
@@ -41,17 +42,23 @@
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Q95-IQ-hPv">
+                        <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Q95-IQ-hPv">
                             <rect key="frame" x="67" y="107" width="240" height="12"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         </view>
+                        <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ENB-vs-52K">
+                            <rect key="frame" x="166" y="254" width="44" height="30"/>
+                            <state key="normal" title="Button"/>
+                        </button>
                     </subviews>
                     <constraints>
+                        <constraint firstItem="ENB-vs-52K" firstAttribute="centerX" secondItem="oSh-0t-Cer" secondAttribute="centerX" id="9hW-vh-ljV"/>
                         <constraint firstItem="fMv-n2-WKh" firstAttribute="top" secondItem="oSh-0t-Cer" secondAttribute="top" constant="30" id="aKR-q8-2Re"/>
                         <constraint firstItem="1pW-Mb-Jy6" firstAttribute="centerX" secondItem="oSh-0t-Cer" secondAttribute="centerX" id="cRb-ts-n7z"/>
                         <constraint firstItem="fMv-n2-WKh" firstAttribute="centerX" secondItem="oSh-0t-Cer" secondAttribute="centerX" id="cep-4R-poN"/>
                         <constraint firstItem="fMv-n2-WKh" firstAttribute="leading" secondItem="oSh-0t-Cer" secondAttribute="leading" constant="30" id="fZk-Bs-2g4"/>
+                        <constraint firstItem="ENB-vs-52K" firstAttribute="width" secondItem="1pW-Mb-Jy6" secondAttribute="width" id="j68-Id-mX1"/>
+                        <constraint firstItem="ENB-vs-52K" firstAttribute="top" secondItem="Q95-IQ-hPv" secondAttribute="bottom" constant="60" id="m3M-gD-BRt"/>
                         <constraint firstAttribute="trailing" secondItem="fMv-n2-WKh" secondAttribute="trailing" constant="30" id="qaD-39-9vG"/>
                         <constraint firstItem="1pW-Mb-Jy6" firstAttribute="top" secondItem="fMv-n2-WKh" secondAttribute="bottom" constant="20" id="vhb-0q-qgd"/>
                     </constraints>

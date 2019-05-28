@@ -18,6 +18,35 @@ enum AuthError {
     case someError
 }
 
+struct AuthBearer {
+
+    static let (accessTokenKey, refreshTokenKey) = ("accessToken", "refreshToken")
+    static let userSessionKey = "usersession"
+
+    struct Model {
+        var accessToken: String
+        var refreshToken: String
+
+        init(_ json: [String: String]) {
+            self.accessToken = json[accessTokenKey] ?? ""
+            self.refreshToken = json[refreshTokenKey] ?? ""
+        }
+    }
+
+    static func save(_ accessToken: String, _ refreshToken: String){
+        UserDefaults.standard.set([accessTokenKey: accessToken, refreshTokenKey: refreshToken], forKey: userSessionKey)
+    }
+
+    static func getCredentials()-> Model {
+        return Model((UserDefaults.standard.value(forKey: userSessionKey) as? [String: String]) ?? [:])
+    }
+
+    static func clearUserData(){
+        UserDefaults.standard.removeObject(forKey: userSessionKey)
+    }
+}
+
+
 class MyAuthManager {
     func signup(email: String, fullname: String, password: String, completionBlock: @escaping (_ success: Bool) -> Void) {
         guard let url = URL(string: baseUrl + "/api/registration") else {
@@ -125,33 +154,17 @@ class MyAuthManager {
 class UserInfoManager {
 
     
-    func isUserAuthorized(completionBlock: @escaping (_ success: Bool) -> Void) {
-        guard let url = URL(string: baseUrl + "/api/me") else {
-            completionBlock(false)
-            return
-        }
-        let credentials = AuthBearer.getCredentials()
-        if (credentials.refreshToken == "") {
-            completionBlock(false)
-            return
-        }
-        Alamofire.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: ["Authorization": "Bearer" + "token"]).response { (dataResponse) in
-            guard let resp = dataResponse.response else {
+    static func isUserAuthorized(completionBlock: @escaping (_ success: Bool) -> Void) {
+        let manager = UserInfoManager()
+        manager.getUserInfo() { (error, _) in
+            if error == .success {
+                completionBlock(true)
+            } else {
                 completionBlock(false)
-                return;
             }
 
-            if resp.statusCode == 200 {
-                if let json = try? JSON(data: dataResponse.data!) {
-                    print("accessToken" + json["access_token"].stringValue)
-                    print("refreshToken" + json["refresh_token"].stringValue)
-                    AuthBearer.save(json["access_token"].stringValue, json["refresh_token"].stringValue)
-                    completionBlock(true)
-                }
-            } else if resp.statusCode == 401 {
-                completionBlock(false)
-            }
         }
+
     }
 
     private func getUserInfoWithoutTokenUpdating(completionBlock: @escaping (_ success: AuthError, _ user: User) -> Void) {

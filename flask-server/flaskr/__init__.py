@@ -10,6 +10,9 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_jwt_extended import JWTManager
 from flask_restful import Resource, reqparse
 from flask_jwt_extended import (create_access_token, create_refresh_token, jwt_required, jwt_refresh_token_required, get_jwt_identity, get_raw_jwt)
+import requests
+import random
+from faker import Faker
 
 
 from . import db
@@ -122,25 +125,54 @@ class TimeCafeAPI(MethodView):
 
         else:
             res = db_con.execute("Select t.id, t.name, t.main_image_url, t.rating, t.latitude, t.longtitude, t.address,  \
-                                  t.station, t.price, t.price_type, t.website, t.phone_number, group_concat(ti.image_url) as images, t.working_time, t.extended_price, group_concat(f.name) as features \
+                                  t.station, t.price, t.price_type, t.website, t.phone_number, group_concat(ti.image_url) as images, t.working_time, t.extended_price, group_concat(f.name) as features, group_concat(tf.description, '|') as description\
                                   from timecafe t join timecafe_image ti on t.id = ti.timecafe_id \
                                   join timecafe_feature tf on t.id = tf.timecafe_id join feature f on tf.feature_id = f.id     \
                                   where t.id = ? group by t.id", (cafe_id,))
             res_line = res.fetchone()
-            res_dict = dict(zip([key[0] for key in res.description], [r for r in res_line]))
-            images_str = res_dict["images"]
+            item = dict(zip([key[0] for key in res.description], [r for r in res_line]))
+            features_str = item["features"]
+            features = features_str.split(',')
+
+            description_str = item["description"]
+            descriptions = description_str.split('|')
+
+            feat_desr = []
+            for i in range(len(features)):
+                feat = Feature(feature=features[i], description=descriptions[i])
+                if feat not in feat_desr:
+                    feat_desr.append(feat)
+            
+            # if len(features) > len(descriptions):
+            #     features = features[:len(descriptions)]
+            # elif len(descriptions) > len(features):
+            #     descriptions = descriptions[:len(features)]
+
+            item["features"] = [{"feature" : feat_desr[i].feature, "description": feat_desr[i].description} for i, _ in enumerate(feat_desr)]
+
+            images_str = item["images"]
             images = list(set(images_str.split(',')))
-
-            res_dict["images"] = [{"image": image} for image in images]
-
-            features_str = res_dict["features"]
-            features = list(set(features_str.split(',')))
-            res_dict["features"] = [{"feature" : feature} for feature in features]
-            resp = make_response(jsonify(res_dict))
+            item["images"] = [{"image": image} for image in images]
+            resp = make_response(jsonify(item))
             resp.status_code = 200
             return resp
         db_con.close()
 
+class RatingUser(MethodView):
+    @jwt_required
+    def get(self, cafe_id):
+        db_con = db.get_db()
+        useremail = get_jwt_identity()
+        user = UserModel.find_by_email(useremail)
+        res = db_con.execute("select * from mark where user_id = ? and timecafe_id = ?", (user['id'], cafe_id,))
+        items = [dict(zip([key[0] for key in res.description], [r for r in row])) for row in res]
+        for item in items:
+            item['username'] = "username"
+        resp = make_response(jsonify(items))
+        resp.status_code = 200
+        return resp
+
+    
 class RatingApi(MethodView):
     @jwt_required
     def put(self):
@@ -156,21 +188,57 @@ class RatingApi(MethodView):
         db_con.commit()
         print('cafe_id = ', cafe_id)
         print("Posted data : {}".format(request.get_json()))
-        # print(request.form['username'])
         resp = make_response(jsonify({
             'message': "all_ok"
             }))
         resp.status_code = 200
         return resp
-    
-    def get(self, cafe_id):
+
+    def bin2text(self, s): 
+        return "".join([chr(int(s[i:i+8],2)) for i in range(0,len(s),8)])
+
+    def post(self):
+        faker = Faker('ru')
+        users = []
+        for _ in range(10):
+            users.append(UserModel(username=faker.name(), email=faker.email(), password=faker.password()))
+        # res = requests.get("https://randomuser.me/api/?results=100&nat=us")
+        # users = res.json()["results"]
         db_con = db.get_db()
-        res = db_con.execute("select u.username, m.rating, m.review from user u join mark m on u.id = m.user_id where m.timecafe_id = ? and m.review <> \"\"", (cafe_id,))
+        for user in users:
+            user.save_to_db()
+            
+            # db_con.execute("insert or replace into mark (user_id, timecafe_id, rating, review) values((Select id from user where email = ?), ?, ?, ?)", (useremail, cafe_id, rating, review, ))
+            # db_con.execute("update timecafe set rating = (select sum(rating)/count(rating) as rating from mark where timecafe_id = ? group by timecafe_id) where id = ?", (cafe_id, cafe_id, ))
+        res = db_con.execute("select id from timecafe")
         items = [dict(zip([key[0] for key in res.description], [r for r in row])) for row in res]
-        resp = make_response(jsonify(items))
+        for cafe in items:
+            for user in users:
+                rating = (random.uniform(3, 5))
+                db_con.execute("insert or replace into mark (user_id, timecafe_id, rating, review) values((Select id from user where email = ?), ?, ?, ?)", (user.email, cafe["id"], rating, faker.text(), ))
+            db_con.execute("update timecafe set rating = (select sum(rating)/count(rating) as rating from mark where timecafe_id = ? group by timecafe_id) where id = ?", (cafe["id"], cafe["id"], ))
+        db_con.commit()
+        resp = make_response(jsonify({
+            'message': "all_ok"
+            }))
         resp.status_code = 200
         return resp
 
+    def get(self, cafe_id):
+        db_con = db.get_db()
+        user_id = request.args.get("user_id")
+        if user_id is None:
+            res = db_con.execute("select u.username, m.rating, m.review from user u join mark m on u.id = m.user_id where m.timecafe_id = ? and m.review <> \"\"", (cafe_id,))
+            items = [dict(zip([key[0] for key in res.description], [r for r in row])) for row in res]
+            resp = make_response(jsonify(items))
+            resp.status_code = 200
+            return resp
+        elif user_id:
+            res = db_con.execute("select * from mark where user_id = ? and timecafe_id = ?", (user_id, cafe_id,))
+            items = [dict(zip([key[0] for key in res.description], [r for r in row])) for row in res]
+            resp = make_response(jsonify(items))
+            resp.status_code = 200
+            return resp
 
 class UserModel:
     def __init__(self, username, email, password):
@@ -179,13 +247,13 @@ class UserModel:
         self.password = password
 
     def save_to_db(self):
-        try:
-            db_con = db.get_db()
-            db_con.execute("Insert into user (username, email, password) Values(?, ?, ?)", (self.username, self.email, self.password,))
-            db_con.commit()
-        finally:
-            if db_con:
-                db_con.close()
+        # try:
+        db_con = db.get_db()
+        db_con.execute("Insert into user (username, email, password) Values(?, ?, ?)", (self.username, self.email, self.password,))
+        db_con.commit()
+        # finally:
+        #     if db_con:
+        #         db_con.close()
 
     @staticmethod
     def find_by_email_without_pass(email):
@@ -322,71 +390,49 @@ class UserInfo(MethodView):
     def get(self):
         user_email = get_jwt_identity()
         current_user = UserModel.find_by_email_without_pass(user_email)
+        if current_user is None:
+            resp = make_response(jsonify({"message" : "Unauthorized"}))
+            resp.status_code = 401
+            return resp
         resp = make_response(jsonify(current_user))
         resp.status_code = 200
         return resp
-'''
-class UserModel(db.Model):
-    __tablename__ = 'users'
 
-    id = db.Column(db.Integer, primary_key = True)
-    username = db.Column(db.String(120), unique = True, nullable = False)
-    password = db.Column(db.String(120), nullable = False)
-    
-    def save_to_db(self):
-        db.session.add(self)
-        db.session.commit()
-    
-    @classmethod
-    def find_by_username(cls, username):
-        return cls.query.filter_by(username = username).first()
-    
-    @classmethod
-    def return_all(cls):
-        def to_json(x):
-            return {
-                'username': x.username,
-                'password': x.password
-            }
-        return {'users': list(map(lambda x: to_json(x), UserModel.query.all()))}
+# def get_cafes():
+#     db_con = db.get_db()
+#     res = db_con.execute("select id from timecefe")
+#     items = [dict(zip([key[0] for key in res.description], [r for r in row])) for row in res]
+#     return items
 
-    @classmethod
-    def delete_all(cls):
-        try:
-            num_rows_deleted = db.session.query(cls).delete()
-            db.session.commit()
-            return {'message': '{} row(s) deleted'.format(num_rows_deleted)}
-        except:
-            return {'message': 'Something went wrong'}
-
-    @staticmethod
-    def generate_hash(password):
-        return sha256.hash(password)
-    
-    @staticmethod
-    def verify_hash(password, hash):
-        return sha256.verify(password, hash)
-
-class RevokedTokenModel(db.Model):
-    __tablename__ = 'revoked_tokens'
-    id = db.Column(db.Integer, primary_key = True)
-    jti = db.Column(db.String(120))
-    
-    def add(self):
-        db.session.add(self)
-        db.session.commit()
-    
-    @classmethod
-    def is_jti_blacklisted(cls, jti):
-        query = cls.query.filter_by(jti = jti).first()
-        return bool(query)
-'''
+def add_users():
+    res = requests.get("https://randomuser.me/api/?results=100&nat=us")
+    users = res.json()["results"]
+    db_con = db.get_db()
+    for user in users:
+        u = UserModel(username=user["name"]["first"].capitalize() + " " +  user["name"]["last"].capitalize(),
+                        email= user["email"], password=user["login"]["password"])
+        u.save_to_db()
+        db_con = db.get_db()
+        # db_con.execute("insert or replace into mark (user_id, timecafe_id, rating, review) values((Select id from user where email = ?), ?, ?, ?)", (useremail, cafe_id, rating, review, ))
+        # db_con.execute("update timecafe set rating = (select sum(rating)/count(rating) as rating from mark where timecafe_id = ? group by timecafe_id) where id = ?", (cafe_id, cafe_id, ))
+        res = db_con.execute("select id from timecefe")
+        items = [dict(zip([key[0] for key in res.description], [r for r in row])) for row in res]
+        for cafe in items:
+            for user in users:
+                sentences_list = get_sentences(1)
+                rating = (random.uniform(1, 5))
+                db_con.execute("insert or replace into mark (user_id, timecafe_id, rating, review) values((Select id from user where email = ?), ?, ?, ?)", (user.email, cafe["id"], rating, sentences_list[0], ))
+            db_con.execute("update timecafe set rating = (select sum(rating)/count(rating) as rating from mark where timecafe_id = ? group by timecafe_id) where id = ?", (cafe["id"], cafe["id"], ))
+        db_con.commit()
+        # print(u.username)
+        
 
 def dict_factory(cursor, row):
     d = {}
     for idx, col in enumerate(cursor.description):
         d[col[0]] = row[idx]
     return d
+
 
 def create_app(test_config=None):
     # create and configure the app
@@ -409,6 +455,7 @@ def create_app(test_config=None):
         pass
 
     db.init_app(app)
+    # add_users()
     @app.route('/hello')
     def hello():
         return "Hello world"
@@ -424,6 +471,7 @@ def create_app(test_config=None):
     token_refresh_view = TokenRefresh.as_view('tok_api')
     user_view = UserInfo.as_view('user_info_api')
     rating_view = RatingApi.as_view('rating_api')
+    rating_user_view = RatingUser.as_view('rating_user_api')
     # api.add_resourse(TimeCafeAPI, '/api/cafes')
     app.add_url_rule('/api/cafes/', defaults={'cafe_id': None}, view_func=cafe_view, methods=['GET'])
     app.add_url_rule('/api/cafes/<int:cafe_id>', view_func=cafe_view, methods=['GET'])
@@ -431,7 +479,9 @@ def create_app(test_config=None):
     app.add_url_rule('/api/login', view_func = log_view, methods = ['POST'])
     app.add_url_rule('/api/refresh', view_func = token_refresh_view, methods = ['POST'])
     app.add_url_rule('/api/me', view_func = user_view, methods = ['GET'])
+    app.add_url_rule('/api/me/marks/<int:cafe_id>', view_func = rating_user_view, methods = ['GET'])
     app.add_url_rule('/api/marks/', view_func = rating_view, methods = ['PUT'])
+    app.add_url_rule('/api/marks/', view_func = rating_view, methods = ['POST'])
     app.add_url_rule('/api/marks/<int:cafe_id>', view_func = rating_view, methods = ['GET'])
 
     

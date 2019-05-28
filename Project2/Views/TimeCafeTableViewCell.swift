@@ -27,10 +27,6 @@ class TimeCafeTableViewCell: UITableViewCell {
 
         super.awakeFromNib()
         let logoSizeConstraints = calculateLogoSize()
-        print("logoSize")
-        print(logoSizeConstraints.width)
-        print(logoSizeConstraints.height)
-        print(FeatureLogosSizeConstraints.count)
         for logoSize in FeatureLogosSizeConstraints {
             logoSize.constant = logoSizeConstraints.width
         }
@@ -134,8 +130,6 @@ class TimeCafeTableViewCell: UITableViewCell {
     }
 
     func setUpFeatureLogos(features: [Feature]) {
-        print("setupFeature " + nameLabel.text!)
-        print(features.count)
         var feature_count = 0
         for feature in featureOrder {
             if feature_count == collectionOfFeatureLogos.count {
@@ -151,17 +145,12 @@ class TimeCafeTableViewCell: UITableViewCell {
             }
         }
 
-        print(self.nameLabel)
-        print("featureCount = " + String(feature_count))
         for i in 0...feature_count-1 {
-            print(i)
             collectionOfFeatureLogos[i].isHidden = false
         }
         if feature_count != collectionOfFeatureLogos.count {
 
-            print("hidden")
             for i in feature_count...(collectionOfFeatureLogos.count - 1) {
-                print(i)
                 collectionOfFeatureLogos[i].isHidden = true
             }
         }

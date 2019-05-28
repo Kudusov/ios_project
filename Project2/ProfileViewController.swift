@@ -29,21 +29,36 @@ class ProfileViewController: UIViewController {
         setupConstraints()
         let userInfoManager = UserInfoManager()
         let credentials = AuthBearer.getCredentials()
-        if (credentials.accessToken == "" || credentials.refreshToken == "") {
-            print("makeViewLikeAuth")
-            makeViewLikeAuth()
-        } else {
-            print("makeView")
-//            makeViewLikeUserProfile()
-            userInfoManager.getUserInfo() { [weak self] (error, user) in
-                guard let `self` = self else { return }
-                if (error != .success) {
-                    self.makeViewLikeAuth()
-                } else {
-                    self.makeViewLikeUserProfile(user: user)
+        UserInfoManager.isUserAuthorized() { state in
+            if state == false {
+                self.makeViewLikeAuth()
+            } else {
+                userInfoManager.getUserInfo() { [weak self] (error, user) in
+                    guard let `self` = self else { return }
+                    if (error != .success) {
+                        self.makeViewLikeAuth()
+                    } else {
+                        self.makeViewLikeUserProfile(user: user)
+                    }
                 }
             }
+
         }
+//        if (credentials.accessToken == "" || credentials.refreshToken == "") {
+//            print("makeViewLikeAuth")
+//            makeViewLikeAuth()
+//        } else {
+//            print("makeView")
+////            makeViewLikeUserProfile()
+//            userInfoManager.getUserInfo() { [weak self] (error, user) in
+//                guard let `self` = self else { return }
+//                if (error != .success) {
+//                    self.makeViewLikeAuth()
+//                } else {
+//                    self.makeViewLikeUserProfile(user: user)
+//                }
+//            }
+//        }
 //        UserInfoManager.isUserAuthorized(T##UserInfoManager)
 //        if (Int.random(in: 1...2)) == 1 {
 //
@@ -118,7 +133,7 @@ class ProfileViewController: UIViewController {
 
     func setupConstraints() {
         print("setupConstraints")
-        self.imageView.image = UIImage(named: "logo")
+        self.imageView.image = UIImage(named: "icons8-cat-profile-96")
         self.nameLabel.text = "Mahmud Kudusov"
 
     }

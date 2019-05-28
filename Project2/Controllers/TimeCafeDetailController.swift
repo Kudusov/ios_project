@@ -7,12 +7,15 @@
 //
 
 import UIKit
+import Alamofire
+import SwiftyJSON
 
-class TimeCafeDetailController: UIViewController {
+class TimeCafeDetailController: UIViewController, RatingUpdateProtocol {
     var cafeView = TimeCafeDetailView(frame: CGRect(x: 0, y: 400, width: 100, height: 100))
     let cellId = "cellId"
     var timeCafeJson: TimeCafeJson!
     private var myTableView: UITableView!
+    var ratingUpdateDelegate: RatingUpdateProtocol?
 
     let newCollection: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -55,19 +58,61 @@ class TimeCafeDetailController: UIViewController {
 
         fillCafeView()
 
-
         cafeView.estimatebtn.addTarget(self, action: #selector(estimatebtnDidTap), for: .touchUpInside)
         cafeView.reviewbtn.addTarget(self, action: #selector(reviewbtnDidTap), for: .touchUpInside)
         scrollView.addSubview(cafeView)
         setupCollection()
 
     }
-
+    func ratingUpdated() {
+        if ratingUpdateDelegate != nil {
+            ratingUpdateDelegate!.ratingUpdated()
+            self.uploadCafe()
+        }
+    }
+    
     @objc func estimatebtnDidTap() {
-        let storyB = UIStoryboard(name: "Main", bundle: nil)
-        let secondViewController = storyB.instantiateViewController(withIdentifier: "RatingViewController") as! RatingViewController
-        secondViewController.cafeId = self.timeCafeJson.id
-        self.present(secondViewController, animated: true, completion: nil)
+        UserInfoManager.isUserAuthorized() { state in
+            if state == false {
+                print("Авторизуйтесь пожалуйста")
+                return
+            }
+
+            guard let url = URL(string: baseUrl + "/api/me/marks/" + String(self.timeCafeJson.id)) else {
+                return
+            }
+
+            Alamofire.request(url, method: .get, parameters: nil, headers: ["Authorization": "Bearer " + AuthBearer.getCredentials().accessToken]).response { (data) in
+                guard let jsonData = data.data else {
+                    guard let error = data.error else {
+                        return
+                    }
+                    print(error)
+                    return
+                }
+
+                let decoder = JSONDecoder()
+                guard let respRes: [Review] = try? decoder.decode([Review].self, from: jsonData) else {
+                    print("error")
+
+                    return
+                }
+
+                let storyB = UIStoryboard(name: "Main", bundle: nil)
+                let secondViewController = storyB.instantiateViewController(withIdentifier: "RatingViewController") as! RatingViewController
+                secondViewController.cafeId = self.timeCafeJson.id
+                secondViewController.ratingUpdateDelefate = self
+                if respRes.count > 0 {
+                    secondViewController.userReview = respRes[0]
+                }
+                self.present(secondViewController, animated: true, completion: nil)
+                if self.ratingUpdateDelegate != nil {
+                    self.ratingUpdateDelegate!.ratingUpdated()
+                }
+            }
+
+        }
+
     }
 
     @objc func reviewbtnDidTap() {
@@ -109,6 +154,35 @@ class TimeCafeDetailController: UIViewController {
         newCollection.heightAnchor.constraint(equalToConstant: height).isActive = true
         newCollection.widthAnchor.constraint(equalToConstant: view.frame.width).isActive = true
 
+    }
+    private func uploadCafe() {
+        print("upload cafes")
+        guard let url = URL(string: baseUrl + "/api/cafes/" + String(timeCafeJson!.id)) else {
+            return
+        }
+
+        Alamofire.request(url, method: .get, parameters: nil).response { (data) in
+            guard let jsonData = data.data else {
+                guard let error = data.error else {
+                    return
+                }
+                print(error)
+                return
+            }
+
+            let decoder = JSONDecoder()
+            guard let timecafe: TimeCafeJson = try? decoder.decode(TimeCafeJson.self, from: jsonData) else {
+                print("error")
+
+                return
+            }
+
+            DispatchQueue.main.async { [weak self] in
+                print("tableview update")
+                self?.timeCafeJson.rating = timecafe.rating
+                self?.cafeView.updateRating(rating: timecafe.rating)
+            }
+        }
     }
 }
 

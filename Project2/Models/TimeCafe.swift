@@ -69,10 +69,10 @@ struct TimeCafeJson: Codable {
     let id: Int
     let main_image_url: String
     let name: String
-    let rating: Float
+    var rating: Float
     let latitude: Double
     let longtitude: Double
-    let distance: Double?
+    var distance: Double?
     let price: Float
     let price_type: Int
     let address: String
@@ -155,3 +155,14 @@ extension TimeCafeJson {
     }
 
 }
+
+class Filter {
+    enum SortType {
+        case rating
+        case distance
+        case defaulted
+    }
+
+    var sortType: SortType = .defaulted
+}
+

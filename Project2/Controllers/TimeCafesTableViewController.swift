@@ -10,46 +10,19 @@ import UIKit
 import Alamofire
 import SwiftyJSON
 
-// TODO
-// Парсить время и цену
-// Получить реальный рейтинг + 
-// Добаить иконку личной страницы в tabbar
-// Реализовать фильтры поиска
-// Добавить изображение с пользователем
-// заполныить страницу кафе данными и бд
-struct AuthBearer {
-
-    static let (accessTokenKey, refreshTokenKey) = ("accessToken", "refreshToken")
-    static let userSessionKey = "usersession"
-
-    struct Model {
-        var accessToken: String
-        var refreshToken: String
-
-        init(_ json: [String: String]) {
-            self.accessToken = json[accessTokenKey] ?? ""
-            self.refreshToken = json[refreshTokenKey] ?? ""
-        }
-    }
-
-    static func save(_ accessToken: String, _ refreshToken: String){
-        UserDefaults.standard.set([accessTokenKey: accessToken, refreshTokenKey: refreshToken], forKey: userSessionKey)
-    }
-
-    static func getCredentials()-> Model {
-        return Model((UserDefaults.standard.value(forKey: userSessionKey) as? [String: String]) ?? [:])
-    }
-
-    static func clearUserData(){
-        UserDefaults.standard.removeObject(forKey: userSessionKey)
-    }
-}
-
 import CoreLocation
 var baseUrl: String = "http://localhost:5000"
 
+protocol RatingUpdateProtocol {
+    func ratingUpdated()
+}
 
-class TimeCafesTableViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+protocol FilterDelegateProtocol {
+    func filterUpdated(filter: Filter)
+    func filterReseted()
+}
+
+class TimeCafesTableViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, RatingUpdateProtocol {
 
     var searchbar: UISearchBar = {
         let bar = UISearchBar()
@@ -59,13 +32,7 @@ class TimeCafesTableViewController: UIViewController, UITableViewDataSource, UIT
 
     var filterBtn: UIButton = {
         let button: UIButton = UIButton(type: UIButton.ButtonType.custom)
-        //set image for button
         button.setImage(UIImage(named: "icons8-параметры-сортировки-25"), for: UIControl.State.normal)
-
-        //add function for button
-
-        //set frame
-        //button.frame = CGRect(x: 0, y: 0, width: 53, height: 51)
         return button
     }()
 
@@ -74,11 +41,19 @@ class TimeCafesTableViewController: UIViewController, UITableViewDataSource, UIT
     private var cellHeight = 140
     let cellIdentifier = "TimeCafeTableViewCell"
     var newManager = LocationManager(handler: {(location: CLLocation) -> Void in })
+    var filter = Filter()
+    
     // Координаты центра Москвы
     var currentLocation: CLLocation = CLLocation(latitude: +55.75578600, longitude: +37.61763300)
 
+    func ratingUpdated() {
+        print("rating updated")
+        uploadCafes2()
+    }
+
     override func viewDidLoad() {
-        AuthBearer.clearUserData()
+//        AuthBearer.clearUserData()
+
         super.viewDidLoad()
         self.cellHeight = self.cellHeight + calculateLogoSize() - 30
         searchbar.delegate = self
@@ -103,12 +78,14 @@ class TimeCafesTableViewController: UIViewController, UITableViewDataSource, UIT
 
     @objc func filterBtnTapHandler(_ sender: UIButton) {
         let destinationVC = FilterViewController(nibName: "FilterViewController", bundle: nil)
-
+        destinationVC.filterDelegate = self
+        destinationVC.filter = self.filter
         navigationController?.pushViewController(destinationVC, animated: true)
     }
 
     // test with Alamofire
     private func uploadCafes2() {
+        print("upload cafes")
         guard let url = URL(string: baseUrl + "/api/cafes") else {
             return
         }
@@ -130,7 +107,10 @@ class TimeCafesTableViewController: UIViewController, UITableViewDataSource, UIT
             }
 
             DispatchQueue.main.async { [weak self] in
+                print("tableview update")
                 self?.all_cafes = timecafes
+                self?.calculateDistance()
+                 self?.sortCafes()
                 self?.tableView.reloadData()
             }
         }
@@ -161,6 +141,8 @@ class TimeCafesTableViewController: UIViewController, UITableViewDataSource, UIT
 
             DispatchQueue.main.async { [weak self] in
                 self?.all_cafes = timecafes
+                self?.calculateDistance()
+                self?.sortCafes()
                 self?.tableView.reloadData()
             }
 
@@ -212,12 +194,30 @@ class TimeCafesTableViewController: UIViewController, UITableViewDataSource, UIT
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let destinationVC = TimeCafeDetailController()
         destinationVC.timeCafeJson = all_cafes[indexPath.row]
+        destinationVC.ratingUpdateDelegate = self
         tableView.deselectRow(at: indexPath, animated: false)
         navigationController?.pushViewController(destinationVC, animated: true)
     }
 
     func updateTable() {
         self.tableView.reloadData()
+    }
+
+    func calculateDistance() {
+        for i in 0...(all_cafes.count-1) {
+            let cafeLocation = CLLocation(latitude: all_cafes[i].latitude, longitude: all_cafes[i].longtitude)
+            let distance: Double = currentLocation.distance(from: cafeLocation)
+            all_cafes[i].distance = distance
+        }
+    }
+
+    func sortCafes() {
+        if filter.sortType == .distance {
+            self.all_cafes = self.all_cafes.sorted(by: { $0.distance! < $1.distance! })
+        } else if filter.sortType == .rating {
+            self.all_cafes = self.all_cafes.sorted(by: { $0.rating > $1.rating })
+        }
+
     }
 }
 
@@ -227,4 +227,17 @@ extension TimeCafesTableViewController: UISearchBarDelegate {
 
         self.uploadCafes(searchByName: searchText)
     }
+}
+
+extension TimeCafesTableViewController: FilterDelegateProtocol {
+    func filterUpdated(filter: Filter) {
+        self.filter = filter
+        sortCafes()
+        updateTable()
+    }
+
+    func filterReseted() {
+        filter.sortType = .defaulted
+    }
+
 }

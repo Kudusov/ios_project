@@ -18,7 +18,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="350" height="98.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="beliy_list" translatesAutoresizingMaskIntoConstraints="NO" id="hgD-Ul-UnB">
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icons8-cat-profile-96" translatesAutoresizingMaskIntoConstraints="NO" id="hgD-Ul-UnB">
                         <rect key="frame" x="10" y="8" width="50" height="50"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="50" id="AUO-kH-k4F"/>
@@ -84,6 +84,6 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="beliy_list" width="510" height="272"/>
+        <image name="icons8-cat-profile-96" width="72" height="72"/>
     </resources>
 </document>

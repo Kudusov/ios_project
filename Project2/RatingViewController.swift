@@ -31,6 +31,9 @@ class RatingViewController: UIViewController, UITextViewDelegate {
     @IBOutlet weak var estimateBtn: UIButton!
     @IBOutlet weak var cancelBtn: UIButton!
     var cafeId: Int?
+    var userReview: Review?
+    var ratingUpdateDelefate: RatingUpdateProtocol?
+
     override func viewDidLoad() {
         super.viewDidLoad()
         designView()
@@ -59,14 +62,28 @@ class RatingViewController: UIViewController, UITextViewDelegate {
         ratingStarView.settings.starMargin = 5
         ratingStarView.settings.totalStars = 5
         ratingStarView.settings.minTouchRating = 1
+        ratingStarView.rating = 5
         ratingStarView.didTouchCosmos = { rating in
             self.yourMarkLbl.text = "Ваша оценка: " + String.localizedStringWithFormat("%.1f", rating)
             self.estimateBtn.isEnabled = true
         }
-
-        reviewTextView.text = "Ваш отзыв"
-        reviewTextView.textColor = UIColor.lightGray
         reviewTextView.delegate = self
+        if userReview == nil {
+            reviewTextView.text = "Ваш отзыв"
+            reviewTextView.textColor = UIColor.lightGray
+
+        } else {
+            self.yourMarkLbl.text = "Ваша оценка: " + String.localizedStringWithFormat("%.1f", userReview!.rating)
+            ratingStarView.rating = Double(userReview!.rating)
+            
+            if userReview?.review != ""{
+                reviewTextView.text = userReview?.review
+            } else {
+                reviewTextView.text = "Ваш отзыв"
+                reviewTextView.textColor = UIColor.lightGray
+            }
+        }
+
 
     }
 
@@ -100,6 +117,9 @@ class RatingViewController: UIViewController, UITextViewDelegate {
 
             if error == .success {
                 print("success")
+                if self.ratingUpdateDelefate != nil {
+                    self.ratingUpdateDelefate?.ratingUpdated()
+                }
                 self.dismiss(animated: true, completion: nil)
             } else if error == .incorrectCredentials {
                 let authManager = MyAuthManager()
@@ -111,6 +131,9 @@ class RatingViewController: UIViewController, UITextViewDelegate {
                             if error != .success {
                                 print("some Error")
                             } else {
+                                if self.ratingUpdateDelefate != nil {
+                                    self.ratingUpdateDelefate?.ratingUpdated()
+                                }
                                 self.dismiss(animated: true, completion: nil)
                             }
 

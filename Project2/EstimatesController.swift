@@ -26,6 +26,7 @@ class EstimatesController: UIViewController, UITableViewDataSource, UITableViewD
         super.viewDidLoad()
         tableView.dataSource = self
         tableView.delegate = self
+
         tableView.register(UINib.init(nibName: cellIdentifier, bundle: nil), forCellReuseIdentifier: cellIdentifier)
         uploadReviews()
     }
