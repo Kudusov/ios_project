@@ -328,7 +328,7 @@ class UserLogin(MethodView):
         print(request)
         data = parser.parse_args()
         current_user = UserModel.find_by_email(data['email'])
-
+        
         if not current_user:
             resp = make_response({'message': 'User {} doesn\'t exist'.format(data['email'])})
             resp.status_code = 401

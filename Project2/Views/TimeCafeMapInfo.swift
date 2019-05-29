@@ -37,28 +37,10 @@ class MyView: UIView {
         self.addSubview(priceLabel)
     }
 
-    func getFeatureLogoPath(featureType: FeatureType) -> String? {
-        switch featureType {
-        case .playstation:
-            return "gamepad"
-        case .ping_pong:
-            return "ping-pong"
-        case .musical_instrument:
-            return "acoustic-guitar"
-        case .rooms:
-            return "rooms"
-        case .board_games:
-            return "board-games"
-        case .hookah:
-            return "hookah"
-        default:
-            return nil
-        }
-    }
 
     func addFeatureIcon(feature: FeatureType) {
         print(feature)
-        var imageView: UIImageView = {
+        let imageView: UIImageView = {
             let imageView = UIImageView()
             imageView.image = UIImage(named: "metro_logo")
             imageView.contentMode = .scaleAspectFill

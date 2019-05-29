@@ -17,7 +17,7 @@ class FilterViewController: UIViewController {
     var filterDelegate: FilterDelegateProtocol?
     var filter = Filter()
     private let backgroundColor: UIColor = .white
-    private let tintColor = UIColor(hexString: "#ff5a66")
+    private let tintColor = UIColor(hexString: "#1478f6")
 
     private let titleFont = UIFont.boldSystemFont(ofSize: 30)
     private let buttonFont = UIFont.boldSystemFont(ofSize: 20)
@@ -26,18 +26,19 @@ class FilterViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        logButton = UIBarButtonItem(title: "Сброс", style: UIBarButtonItem.Style.plain, target: self, action: #selector(didTapClearButton))
         sortTypeSegmentControl.tintColor = .clear
         sortTypeSegmentControl.setTitleTextAttributes([
-            NSAttributedString.Key.font : UIFont(name: "DINCondensed-Bold", size: 21)!,
-            NSAttributedString.Key.foregroundColor: UIColor.lightGray
+            NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 17),
+            NSAttributedString.Key.foregroundColor: UIColor(hexString: "#54cff9")
             ], for: .normal)
 
         sortTypeSegmentControl.setTitleTextAttributes([
-            NSAttributedString.Key.font : UIFont(name: "DINCondensed-Bold", size: 21)!,
-            NSAttributedString.Key.foregroundColor: UIColor.orange
+            NSAttributedString.Key.font : UIFont.italicSystemFont(ofSize: 17),
+            NSAttributedString.Key.foregroundColor: UIColor(hexString: "#54cff9")
             ], for: .selected)
         buttonBar.translatesAutoresizingMaskIntoConstraints = false
-        buttonBar.backgroundColor = UIColor.orange
+        buttonBar.backgroundColor = UIColor(hexString: "54cff9")
         buttonBar.topAnchor.constraint(equalTo: sortTypeSegmentControl.bottomAnchor).isActive = true
         buttonBar.heightAnchor.constraint(equalToConstant: 5).isActive = true
 
@@ -86,6 +87,7 @@ class FilterViewController: UIViewController {
     }
 
     @objc func didTapClearButton() {
+        print("Clear")
         self.filter = Filter()
         if filterDelegate != nil {
             filterDelegate?.filterReseted()

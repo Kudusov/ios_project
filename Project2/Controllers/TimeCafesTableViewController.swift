@@ -204,6 +204,10 @@ class TimeCafesTableViewController: UIViewController, UITableViewDataSource, UIT
     }
 
     func calculateDistance() {
+        if (all_cafes.count) <= 0 {
+            return
+        }
+        
         for i in 0...(all_cafes.count-1) {
             let cafeLocation = CLLocation(latitude: all_cafes[i].latitude, longitude: all_cafes[i].longtitude)
             let distance: Double = currentLocation.distance(from: cafeLocation)

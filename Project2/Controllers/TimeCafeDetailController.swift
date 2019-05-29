@@ -91,9 +91,17 @@ class TimeCafeDetailController: UIViewController, RatingUpdateProtocol {
         }
     }
     
+    func display(alertController: UIAlertController) {
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
     @objc func estimatebtnDidTap() {
         UserInfoManager.isUserAuthorized() { state in
             if state == false {
+                let alertController = UIAlertController(title: nil, message: "Вы не авторизованы", preferredStyle: .alert)
+                alertController.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+                self.display(alertController: alertController)
+
                 print("Авторизуйтесь пожалуйста")
                 return
             }

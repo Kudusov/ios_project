@@ -62,7 +62,7 @@ class RatingViewController: UIViewController, UITextViewDelegate {
         ratingStarView.settings.starMargin = 5
         ratingStarView.settings.totalStars = 5
         ratingStarView.settings.minTouchRating = 1
-        ratingStarView.rating = 5
+        ratingStarView.rating = 1
         ratingStarView.didTouchCosmos = { rating in
             self.yourMarkLbl.text = "Ваша оценка: " + String.localizedStringWithFormat("%.1f", rating)
             self.estimateBtn.isEnabled = true

@@ -69,7 +69,7 @@ struct Image: Codable {
     let image: String
 }
 
-let featureOrder:[Feature] = [Feature(feature: .playstation, description: ""), Feature(feature: .rooms, description: ""), Feature(feature: .board_games, description: ""), Feature(feature: .ping_pong, description: ""), Feature(feature: .musical_instrument, description: ""), Feature(feature: .hookah, description: ""), Feature(feature: .tea_and_coffee, description: ""), Feature(feature: .wifi, description: ""), Feature(feature: .eat, description: "")]
+let featureOrder:[Feature] = [Feature(feature: .playstation, description: ""), Feature(feature: .rooms, description: ""), Feature(feature: .board_games, description: ""), Feature(feature: .ping_pong, description: ""), Feature(feature: .musical_instrument, description: ""), Feature(feature: .hookah, description: ""), Feature(feature: .projector, description: ""), Feature(feature: .tea_and_coffee, description: ""), Feature(feature: .wifi, description: ""), Feature(feature: .eat, description: "")]
 
 struct Review: Codable {
     let username: String

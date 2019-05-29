@@ -16,14 +16,14 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var loginBtn: UIButton!
     @IBOutlet weak var signupBtn: UIButton!
 
-    private let tintColor = UIColor(hexString: "#ff5a66")
+    private let tintColor = UIColor(hexString: "#54cff9")
     private let subtitleColor = UIColor(hexString: "#464646")
     private let signUpButtonColor = UIColor(hexString: "#414665")
     private let signUpButtonBorderColor = UIColor(hexString: "#B0B3C6")
     private let titleFont = UIFont.boldSystemFont(ofSize: 30)
     private let subtitleFont = UIFont.boldSystemFont(ofSize: 18)
     private let buttonFont = UIFont.boldSystemFont(ofSize: 24)
-
+    var exitBtn : UIBarButtonItem = UIBarButtonItem(title: "Сброс", style: UIBarButtonItem.Style.plain, target: self, action: #selector(didTapLogoutBtn))
     override func viewWillAppear(_ animated: Bool) {
         print("viewWillAppear")
         setupConstraints()
@@ -82,6 +82,7 @@ class ProfileViewController: UIViewController {
         self.nameLabel.isHidden = false
         self.emailLabel.isHidden = true
         self.nameLabel.text = "Вы не авторизованы"
+        self.exitBtn.isEnabled = false
     }
 
     func makeViewLikeUserProfile(user: User) {
@@ -91,10 +92,15 @@ class ProfileViewController: UIViewController {
         self.emailLabel.isHidden = false
         self.nameLabel.text = user.username
         self.emailLabel.text = user.email
+        self.exitBtn.isEnabled = true
     }
+
     override func viewDidLoad() {
         print("viewDidLoad")
         super.viewDidLoad()
+        exitBtn = UIBarButtonItem(title: "Выйти", style: UIBarButtonItem.Style.plain, target: self, action: #selector(didTapLogoutBtn))
+        navigationItem.rightBarButtonItem = exitBtn
+
         loginBtn.setTitle("Войти", for: .normal)
         loginBtn.addTarget(self, action: #selector(didTapLoginButton), for: .touchUpInside)
         loginBtn.configure(color: .white,
@@ -117,6 +123,11 @@ class ProfileViewController: UIViewController {
         self.loginBtn.isHidden = true
         self.nameLabel.isHidden = true
         self.emailLabel.isHidden = false
+    }
+
+    @objc func didTapLogoutBtn() {
+        AuthBearer.clearUserData()
+        self.makeViewLikeAuth()
     }
 
     @objc func didTapLoginButton() {

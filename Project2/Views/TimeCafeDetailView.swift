@@ -607,7 +607,7 @@ class TimeCafeDetailView: UIView {
 
     var estimatebtn: UIButton = {
         let btn = UIButton()
-        btn.backgroundColor = UIColor(hexString: "#ff5a66")
+        btn.backgroundColor = UIColor(hexString: "#54cff9")
         btn.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
         btn.setTitle("Оценить", for: .normal)
 
@@ -618,7 +618,7 @@ class TimeCafeDetailView: UIView {
 
     var reviewbtn: UIButton = {
         let btn = UIButton()
-        btn.backgroundColor = UIColor(hexString: "#ff5a66")
+        btn.backgroundColor = UIColor(hexString: "#54cff9")
         btn.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
         btn.setTitle("Отзывы", for: .normal)
         btn.translatesAutoresizingMaskIntoConstraints = false

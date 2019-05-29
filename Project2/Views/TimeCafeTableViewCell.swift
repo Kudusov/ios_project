@@ -125,9 +125,11 @@ class TimeCafeTableViewCell: UITableViewCell {
                 feature_count += 1
             }
         }
+        if (feature_count) > 0 {
 
-        for i in 0...feature_count-1 {
-            collectionOfFeatureLogos[i].isHidden = false
+            for i in 0...feature_count-1 {
+                collectionOfFeatureLogos[i].isHidden = false
+            }
         }
         if feature_count != collectionOfFeatureLogos.count {
 

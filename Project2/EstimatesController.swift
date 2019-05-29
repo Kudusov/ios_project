@@ -54,7 +54,7 @@ class EstimatesController: UIViewController, UITableViewDataSource, UITableViewD
             }
 
             DispatchQueue.main.async { [weak self] in
-                self?.reviews = respRes
+                self?.reviews = respRes.reversed()
                 self?.tableView.reloadData()
             }
         }

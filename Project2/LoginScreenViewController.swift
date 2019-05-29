@@ -33,7 +33,7 @@ class LoginScreenViewController: UIViewController {
     @IBOutlet var backButton: UIButton!
 
     private let backgroundColor: UIColor = .white
-    private let tintColor = UIColor(hexString: "#ff5a66")
+    private let tintColor = UIColor(hexString: "#54cff9")
 
     private let titleFont = UIFont.boldSystemFont(ofSize: 30)
     private let buttonFont = UIFont.boldSystemFont(ofSize: 20)
@@ -49,7 +49,7 @@ class LoginScreenViewController: UIViewController {
         backButton.addTarget(self, action: #selector(didTapBackButton), for: .touchUpInside)
 
         titleLabel.font = titleFont
-        titleLabel.text = "Log In"
+        titleLabel.text = "Авторизация"
         titleLabel.textColor = tintColor
 
         contactPointTextField.configure(color: textFieldColor,
@@ -73,7 +73,7 @@ class LoginScreenViewController: UIViewController {
         passwordTextField.textContentType = .emailAddress
         passwordTextField.clipsToBounds = true
 
-        loginButton.setTitle("Log In", for: .normal)
+        loginButton.setTitle("Войти", for: .normal)
         loginButton.addTarget(self, action: #selector(didTapLoginButton), for: .touchUpInside)
         loginButton.configure(color: backgroundColor,
                               font: buttonFont,

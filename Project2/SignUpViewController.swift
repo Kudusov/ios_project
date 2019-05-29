@@ -18,7 +18,7 @@ class SignUpViewController: UIViewController {
     @IBOutlet var errorLabel: UILabel!
     @IBOutlet var signUpButton: UIButton!
 
-    private let tintColor = UIColor(hexString: "#ff5a66")
+    private let tintColor = UIColor(hexString: "#54cff9")
     private let backgroundColor: UIColor = .white
     private let textFieldColor = UIColor(hexString: "#B0B3C6")
     
@@ -35,7 +35,7 @@ class SignUpViewController: UIViewController {
         backButton.addTarget(self, action: #selector(didTapBackButton), for: .touchUpInside)
 
         titleLabel.font = titleFont
-        titleLabel.text = "Sign Up"
+        titleLabel.text = "Регистрация"
         titleLabel.textColor = tintColor
 
         nameTextField.configure(color: textFieldColor,
@@ -67,12 +67,12 @@ class SignUpViewController: UIViewController {
             passwordTextField.isSecureTextEntry = true
             passwordTextField.clipsToBounds = true
 
-        signUpButton.setTitle("Create Account", for: .normal)
+        signUpButton.setTitle("Создать", for: .normal)
         signUpButton.addTarget(self, action: #selector(didTapSignUpButton), for: .touchUpInside)
         signUpButton.configure(color: backgroundColor,
                                font: buttonFont,
                                cornerRadius: 40/2,
-                               backgroundColor: UIColor(hexString: "#334D92"))
+                               backgroundColor: UIColor(hexString: "#54cff9"))
 
         self.hideKeyboardWhenTappedAround()
     }
