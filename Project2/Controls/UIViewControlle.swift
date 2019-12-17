@@ -1,11 +1,3 @@
-//
-//  UIViewControlle.swift
-//  Project2
-//
-//  Created by qwerty on 5/22/19.
-//  Copyright © 2019 Mahmud. All rights reserved.
-//
-
 import Foundation
 
 extension UIViewController {

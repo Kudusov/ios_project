@@ -29,6 +29,10 @@ enum FeatureType: String, Codable {
     case tea_and_coffee = "tea_and_coffee"
     case projector = "projector"
     case eat = "eat"
+    case feature1 = "feature1"
+    case feature2 = "feature2"
+    case feature3 = "feature3"
+    case feature4 = "feature4"
 };
 
 
@@ -75,6 +79,20 @@ struct Review: Codable {
     let username: String
     let rating: Float
     let review: String
+}
+
+struct TimeCafesPagination: Codable {
+    let next: String?
+    let prev: String?
+    let count: Int
+    let timecafes: [TimeCafeJson]?
+
+    enum CodingKeys: String, CodingKey {
+        case next
+        case prev = "previous"
+        case count
+        case timecafes = "results"
+    }
 }
 
 struct TimeCafeJson: Codable {

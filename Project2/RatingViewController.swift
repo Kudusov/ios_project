@@ -1,10 +1,3 @@
-//
-//  RatingViewController.swift
-//  Project2
-//
-//  Created by qwerty on 5/25/19.
-//  Copyright © 2019 Mahmud. All rights reserved.
-//
 
 import UIKit
 import Cosmos
@@ -37,7 +30,7 @@ class RatingViewController: UIViewController, UITextViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         designView()
-
+        self.hideKeyboardWhenTappedAround()
     }
 
     private func designView() {

@@ -1,10 +1,3 @@
-//
-//  EstimatesController.swift
-//  Project2
-//
-//  Created by qwerty on 5/26/19.
-//  Copyright © 2019 Mahmud. All rights reserved.
-//
 
 import UIKit
 import Alamofire

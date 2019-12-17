@@ -1,10 +1,4 @@
-//
-//  AuthManager.swift
-//  Project2
-//
-//  Created by qwerty on 5/24/19.
-//  Copyright © 2019 Mahmud. All rights reserved.
-//
+
 
 import Foundation
 import Alamofire

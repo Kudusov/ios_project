@@ -1,11 +1,3 @@
-//
-//  TimeCafeTableViewCell.swift
-//  Project2
-//
-//  Created by Kudusov Mahmud on 4/21/19.
-//  Copyright © 2019 Mahmud. All rights reserved.
-//
-
 import UIKit
 import CoreLocation
 

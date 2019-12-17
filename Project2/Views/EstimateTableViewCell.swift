@@ -1,11 +1,3 @@
-//
-//  EstimateTableViewCell.swift
-//  Project2
-//
-//  Created by qwerty on 5/26/19.
-//  Copyright © 2019 Mahmud. All rights reserved.
-//
-
 import UIKit
 
 class EstimateTableViewCell: UITableViewCell {
@@ -22,13 +14,11 @@ class EstimateTableViewCell: UITableViewCell {
 
         self.mainImage.layer.masksToBounds = true
         self.mainImage.layer.cornerRadius = self.mainImage.frame.width / 2
-        // Initialization code
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
-        // Configure the view for the selected state
     }
     
 }

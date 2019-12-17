@@ -1,12 +1,3 @@
-//
-//  SearchViewController.swift
-//  Project2
-//
-//  Created by Kudusov Mahmud on 5/12/19.
-//  Copyright © 2019 Mahmud. All rights reserved.
-//
-
-
 import UIKit
 
 extension UIButton {

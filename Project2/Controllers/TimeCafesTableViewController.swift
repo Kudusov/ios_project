@@ -1,17 +1,12 @@
-//
-//  ViewController.swift
-//  Project2
-//
-//  Created by Kudusov Mahmud on 4/21/19.
-//  Copyright © 2019 Mahmud. All rights reserved.
-//
 
 import UIKit
 import Alamofire
 import SwiftyJSON
 
 import CoreLocation
-var baseUrl: String = "http://localhost:5000"
+var baseUrl: String = "http://localhost:8000"
+var baseUrl2: String = "http://localhost:5000"
+//var baseUrl: String = "http://169.254.124.79:5000"
 
 protocol RatingUpdateProtocol {
     func ratingUpdated()
@@ -72,6 +67,8 @@ class TimeCafesTableViewController: UIViewController, UITableViewDataSource, UIT
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = UITableView.automaticDimension
         uploadCafes2()
+        self.hideKeyboardWhenTappedAround()
+        self.searchbar.endEditing(true)
     }
 
 
@@ -86,7 +83,7 @@ class TimeCafesTableViewController: UIViewController, UITableViewDataSource, UIT
     // test with Alamofire
     private func uploadCafes2() {
         print("upload cafes")
-        guard let url = URL(string: baseUrl + "/api/cafes") else {
+        guard let url = URL(string: baseUrl2 + "/api/timecafes") else {
             return
         }
 
@@ -99,16 +96,21 @@ class TimeCafesTableViewController: UIViewController, UITableViewDataSource, UIT
                 return
             }
 
+//            let decoder = JSONDecoder()
+//            guard let timecafes: [TimeCafeJson] = try? decoder.decode([TimeCafeJson].self, from: jsonData) else {
+//                print("error")
+//
+//                return
+//            }
             let decoder = JSONDecoder()
-            guard let timecafes: [TimeCafeJson] = try? decoder.decode([TimeCafeJson].self, from: jsonData) else {
-                print("error")
-
+            guard let timecafesPagination: TimeCafesPagination = try? decoder.decode(TimeCafesPagination.self, from: jsonData) else {
+                print(jsonData)
                 return
             }
-
+            print(timecafesPagination)
             DispatchQueue.main.async { [weak self] in
                 print("tableview update")
-                self?.all_cafes = timecafes
+                self?.all_cafes = timecafesPagination.timecafes ?? [TimeCafeJson]()
                 self?.calculateDistance()
                  self?.sortCafes()
                 self?.tableView.reloadData()
@@ -119,7 +121,7 @@ class TimeCafesTableViewController: UIViewController, UITableViewDataSource, UIT
     // TODO: Повторяющаяся функция в двух контроллерах. Выделить в отдельный класс
     private func uploadCafes(searchByName: String = "") {
         let session = URLSession.shared
-        var urlComponents = URLComponents(string: baseUrl + "/api/cafes")!
+        var urlComponents = URLComponents(string: baseUrl2 + "/api/cafes")!
         if searchByName != "" {
             let searchItem = URLQueryItem(name: "search", value: searchByName)
             urlComponents.queryItems = [searchItem]
@@ -133,14 +135,18 @@ class TimeCafesTableViewController: UIViewController, UITableViewDataSource, UIT
             }
 
             let decoder = JSONDecoder()
-            guard let timecafes: [TimeCafeJson] = try? decoder.decode([TimeCafeJson].self, from: data) else {
+            guard let timecafesPagination: TimeCafesPagination = try? decoder.decode(TimeCafesPagination.self, from: data) else {
                 print("error")
-
                 return
             }
+//            guard let timecafes: [TimeCafeJson] = try? decoder.decode([TimeCafeJson].self, from: data) else {
+//                print("error")
+//
+//                return
+//            }
 
             DispatchQueue.main.async { [weak self] in
-                self?.all_cafes = timecafes
+                self?.all_cafes = timecafesPagination.timecafes ?? [TimeCafeJson]()
                 self?.calculateDistance()
                 self?.sortCafes()
                 self?.tableView.reloadData()
@@ -228,8 +234,43 @@ class TimeCafesTableViewController: UIViewController, UITableViewDataSource, UIT
 extension TimeCafesTableViewController: UISearchBarDelegate {
 
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if searchText != "" {
+            self.uploadCafes(searchByName: searchText)
+        } else {
+            self.uploadCafes2()
+        }
+    }
 
-        self.uploadCafes(searchByName: searchText)
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        self.searchbar.endEditing(true)
+
+    }
+
+
+//    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+//        // Stop doing the search stuff
+//        // and clear the text in the search bar
+//        self.searchbar.text = "hello"
+//        // Hide the cancel button
+//        self.searchbar.showsCancelButton = false
+//        self.searchbar.endEditing(true)
+//        self.tableView.reloadData()
+//        // You could also change the position, frame etc of the searchBar
+//    }
+
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        searchbar.showsCancelButton = true
+    }
+
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searchbar.text = nil
+        searchbar.showsCancelButton = false
+
+        // Remove focus from the search bar.
+        searchbar.endEditing(true)
+        self.uploadCafes2()
+        // Perform any necessary work.  E.g., repopulating a table view
+        // if the search bar performs filtering.
     }
 }
 
